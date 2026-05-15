@@ -1,0 +1,23 @@
+/* templates/minimal-theme.css */
+.minimal-theme {
+  --color-accent: #1a73e8;
+  --font-heading: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --spacing-section: 1.5rem;
+  --max-width: 700px;
+}
+
+.minimal-theme h1 { 
+  font-size: 2.5rem; 
+  color: var(--color-accent); 
+}
+
+.minimal-theme h2 { 
+  font-size: 1.1rem; 
+  border-bottom: 1px solid theme("colors.border"); 
+}
+
+/* Custom bullet styling for printing/templates if necessary */
+.minimal-theme ul.list-disc {
+  list-style-type: disc;
+}
