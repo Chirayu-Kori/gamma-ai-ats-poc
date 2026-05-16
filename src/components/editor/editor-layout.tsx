@@ -198,7 +198,9 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
             blocks.map((block: EditableOutlineBlock) => (
               <Button
                 key={block.sortId}
-                variant={selectedBlockId === block.sortId ? "secondary" : "ghost"}
+                variant={
+                  selectedBlockId === block.sortId ? "secondary" : "ghost"
+                }
                 className={cn(
                   "w-full justify-start text-sm font-medium transition-all",
                   selectedBlockId === block.sortId &&
@@ -209,7 +211,9 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
                 <div className="mr-3 flex size-5 shrink-0 items-center justify-center rounded-md bg-blue-100 text-[10px] font-bold text-blue-700">
                   {block.id}
                 </div>
-                <span className="truncate">{block.title || "Untitled Section"}</span>
+                <span className="truncate">
+                  {block.title || "Untitled Section"}
+                </span>
               </Button>
             ))
           ) : (

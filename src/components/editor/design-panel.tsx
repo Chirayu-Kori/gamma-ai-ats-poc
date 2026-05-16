@@ -82,7 +82,9 @@ function DesignField({
     <div className="space-y-2">
       <div className="flex items-center gap-2 px-1">
         {Icon && <Icon className="size-3.5 text-slate-400" />}
-        <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</span>
+        <span className="text-xs font-semibold tracking-wider text-slate-500 uppercase">
+          {label}
+        </span>
       </div>
       {children}
     </div>
@@ -95,14 +97,8 @@ export function DesignPanel({ phase }: DesignPanelProps) {
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const setTheme = useResumeStore((s) => s.setTheme);
 
-  const {
-    cardCount,
-    format,
-    language,
-    setCardCount,
-    setFormat,
-    setLanguage,
-  } = useGenerateStore();
+  const { cardCount, format, language, setCardCount, setFormat, setLanguage } =
+    useGenerateStore();
 
   const activeAccent = getActiveAccentId(theme);
   const activeFont = getActiveFontId(theme);
@@ -118,7 +114,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
         </div>
         <div className="custom-scrollbar flex-1 space-y-8 overflow-y-auto p-5">
           <DesignField label="Card Count" icon={Hash}>
-             <DesignSelect
+            <DesignSelect
               value={cardCount}
               options={CARD_OPTIONS}
               onChange={(v) => setCardCount(Number(v))}
@@ -135,7 +131,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
           </DesignField>
 
           <DesignField label="Language" icon={Languages}>
-             <DesignSelect
+            <DesignSelect
               value={language}
               options={LANGUAGE_OPTIONS}
               onChange={setLanguage}
@@ -144,9 +140,10 @@ export function DesignPanel({ phase }: DesignPanelProps) {
 
           <Separator className="my-2" />
 
-          <div className="rounded-lg bg-blue-50/50 p-4 text-xs leading-relaxed text-blue-700 border border-blue-100">
-            <p className="font-semibold mb-1">Pro Tip:</p>
-            Choose the number of cards based on your experience level. More cards allow for a more detailed resume.
+          <div className="rounded-lg border border-blue-100 bg-blue-50/50 p-4 text-xs leading-relaxed text-blue-700">
+            <p className="mb-1 font-semibold">Pro Tip:</p>
+            Choose the number of cards based on your experience level. More
+            cards allow for a more detailed resume.
           </div>
         </div>
       </div>
@@ -173,10 +170,10 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                   type="button"
                   onClick={() => setTemplate(tid)}
                   className={cn(
-                    "group relative flex aspect-[1/1.414] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-2 bg-muted/30 p-2 transition-all hover:shadow-sm",
+                    "group bg-muted/30 relative flex aspect-[1/1.414] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-2 p-2 transition-all hover:shadow-sm",
                     selected
                       ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-transparent hover:border-primary/40",
+                      : "hover:border-primary/40 border-transparent",
                   )}
                   aria-pressed={selected}
                 >
@@ -202,7 +199,11 @@ export function DesignPanel({ phase }: DesignPanelProps) {
 
         <div>
           <h3 className="mb-4 text-sm font-semibold">Color Palette</h3>
-          <div className="flex flex-wrap gap-2.5" role="radiogroup" aria-label="Accent color">
+          <div
+            className="flex flex-wrap gap-2.5"
+            role="radiogroup"
+            aria-label="Accent color"
+          >
             {ACCENT_COLORS.map((color) => (
               <button
                 key={color.id}
@@ -215,7 +216,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                   "h-8 w-8 rounded-full border shadow-sm transition-all hover:scale-105",
                   color.className,
                   activeAccent === color.id &&
-                    "ring-primary ring-2 ring-offset-2 ring-offset-background",
+                    "ring-primary ring-offset-background ring-2 ring-offset-2",
                 )}
               />
             ))}

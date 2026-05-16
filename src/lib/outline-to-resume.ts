@@ -1,4 +1,10 @@
-import type { Resume, Experience, Education, SkillGroup, Bullet } from "@/lib/types/resume";
+import type {
+  Resume,
+  Experience,
+  Education,
+  SkillGroup,
+  Bullet,
+} from "@/lib/types/resume";
 import type { EditableOutlineBlock } from "@/lib/outline-utils";
 
 const EMPTY_CONTACT: Resume["contact"] = {
@@ -69,7 +75,7 @@ function parseExperienceBlock(
   const company =
     dashMatch?.[1]?.trim() ??
     (title.replace(/^experience\s*/i, "").trim() || "Company");
-  
+
   const bullets = block.bullets ?? [];
   const paragraph = block.paragraph?.trim();
 
@@ -93,10 +99,10 @@ function parseExperienceBlock(
     end: "Present",
     location: "Remote",
     bullets: toBullets(
-      remainingBullets.length > 0 
-        ? remainingBullets 
-        : ["Describe your impact and achievements..."], 
-      `exp-${index}`
+      remainingBullets.length > 0
+        ? remainingBullets
+        : ["Describe your impact and achievements..."],
+      `exp-${index}`,
     ),
   };
 }
@@ -113,11 +119,14 @@ function parseEducationBullet(bullet: string, index: number): Education {
     degree = dashParts[0].trim();
     const rest = dashParts.slice(1).join(" — ");
     const yearMatch = rest.match(/(\d{4})\s*$/);
-    institution = yearMatch ? rest.slice(0, yearMatch.index).trim() : rest.trim();
+    institution = yearMatch
+      ? rest.slice(0, yearMatch.index).trim()
+      : rest.trim();
     end = yearMatch?.[1] ?? null;
   } else if (commaParts.length >= 2) {
     degree = commaParts[0].trim();
-    institution = commaParts.slice(1, -1).join(", ").trim() || commaParts[1].trim();
+    institution =
+      commaParts.slice(1, -1).join(", ").trim() || commaParts[1].trim();
     const last = commaParts[commaParts.length - 1];
     end = /^\d{4}$/.test(last.trim()) ? last.trim() : null;
   }
@@ -159,12 +168,9 @@ function parseTitleBlock(block: EditableOutlineBlock): {
   // Usually "John Doe Resume" or "John Doe - Senior Developer"
   const nameMatch = title.match(/^(.+?)(?:\s+resume|\s*[-—:]|$)/i);
   const name = nameMatch?.[1]?.trim() || "Your Name";
-  
+
   const withoutResume = title.replace(/\s+resume\s*$/i, "").trim();
-  const headline =
-    block.paragraph?.trim() ||
-    withoutResume ||
-    "Professional";
+  const headline = block.paragraph?.trim() || withoutResume || "Professional";
 
   return {
     name,
@@ -208,7 +214,9 @@ export function outlineBlocksToResume(blocks: EditableOutlineBlock[]): Resume {
     if (isEducationSection(title)) {
       const bullets = block.bullets ?? [];
       if (bullets.length > 0) {
-        bullets.forEach((b, i) => education.push(parseEducationBullet(b, education.length + i)));
+        bullets.forEach((b, i) =>
+          education.push(parseEducationBullet(b, education.length + i)),
+        );
       } else if (block.paragraph) {
         education.push(parseEducationBullet(block.paragraph, education.length));
       }
@@ -231,7 +239,11 @@ export function outlineBlocksToResume(blocks: EditableOutlineBlock[]): Resume {
       return;
     }
 
-    if (isProjectsSection(title) || isLanguagesSection(title) || isAwardsSection(title)) {
+    if (
+      isProjectsSection(title) ||
+      isLanguagesSection(title) ||
+      isAwardsSection(title)
+    ) {
       const bullets = block.bullets ?? [];
       if (bullets.length > 0) {
         bullets.forEach((b) => skills.push(parseSkillBullet(`${title}: ${b}`)));
@@ -265,7 +277,9 @@ export function outlineBlocksToResume(blocks: EditableOutlineBlock[]): Resume {
     name,
     headline,
     contact: { ...EMPTY_CONTACT },
-    summary: summary || "Add a professional summary that highlights your strengths and career goals.",
+    summary:
+      summary ||
+      "Add a professional summary that highlights your strengths and career goals.",
     experience:
       experience.length > 0
         ? experience
@@ -277,7 +291,10 @@ export function outlineBlocksToResume(blocks: EditableOutlineBlock[]): Resume {
               start: "Start Date",
               end: "Present",
               location: null,
-              bullets: toBullets(["Describe your key achievements and metrics..."], "exp-0"),
+              bullets: toBullets(
+                ["Describe your key achievements and metrics..."],
+                "exp-0",
+              ),
             },
           ],
     education:

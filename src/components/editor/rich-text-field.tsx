@@ -113,10 +113,7 @@ export function RichTextField({
 
   return (
     <div
-      className={cn(
-        mode === "inline" ? "inline-block" : "w-full",
-        className,
-      )}
+      className={cn(mode === "inline" ? "inline-block" : "w-full", className)}
     >
       <EditorBubbleMenu editor={editor} mode={mode} />
       <EditorContent editor={editor} />

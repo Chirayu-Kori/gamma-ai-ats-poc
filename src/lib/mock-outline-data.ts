@@ -62,7 +62,8 @@ export function buildMockOutlineBlocks(
     {
       id: 7,
       title: "Certifications",
-      paragraph: "Meta Front-End Developer Professional Certificate, AWS Certified Cloud Practitioner, ICAgile Certified Professional (ICP)",
+      paragraph:
+        "Meta Front-End Developer Professional Certificate, AWS Certified Cloud Practitioner, ICAgile Certified Professional (ICP)",
     },
     {
       id: 8,

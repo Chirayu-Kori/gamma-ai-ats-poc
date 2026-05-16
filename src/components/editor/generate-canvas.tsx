@@ -215,9 +215,7 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
       const next = prev.filter((b) => b.sortId !== sortId);
       return reindexBlocks(next);
     });
-    setSelectedBlockId((current) =>
-      current === sortId ? null : current,
-    );
+    setSelectedBlockId((current) => (current === sortId ? null : current));
   };
 
   const moveBlockUp = (index: number) => {
@@ -260,56 +258,56 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
 
       {(blocks.length > 0 || isGenerating) && (
         <div className="mt-10 space-y-3">
-          <h2 className="text-sm font-medium text-slate-500">Proposed Structure</h2>
+          <h2 className="text-sm font-medium text-slate-500">
+            Proposed Structure
+          </h2>
           <div className="rounded-xl border border-slate-200/60 bg-white/60 px-5 py-3">
-          {isGenerating && blocks.length === 0 ? (
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex gap-3">
-                  <Skeleton className="size-9 shrink-0 rounded-lg" />
-                  <Skeleton className="h-20 flex-1 rounded-xl" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={onDragEnd}
-            >
-              <SortableContext
-                items={blocks.map((b) => b.sortId)}
-                strategy={verticalListSortingStrategy}
+            {isGenerating && blocks.length === 0 ? (
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="flex gap-3">
+                    <Skeleton className="size-9 shrink-0 rounded-lg" />
+                    <Skeleton className="h-20 flex-1 rounded-xl" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={onDragEnd}
               >
-                <div className="flex flex-col gap-1 py-1">
-                  {blocks.map((block, index) => (
-                    <div key={block.sortId} id={block.sortId}>
-                      <div className="py-1">
-                        <SortableOutlineBlockCard
-                          block={block}
-                          selected={selectedBlockId === block.sortId}
-                          onSelect={() => setSelectedBlockId(block.sortId)}
-                          onBlockChange={(patch) =>
-                            updateBlock(block.sortId, patch)
-                          }
-                          onAdd={() => addBlock(index + 1)}
-                          onDelete={() => removeBlock(block.sortId)}
-                          onMoveUp={
-                            index > 0
-                              ? () => moveBlockUp(index)
-                              : undefined
-                          }
-                        />
-                      </div>
+                <SortableContext
+                  items={blocks.map((b) => b.sortId)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="flex flex-col gap-1 py-1">
+                    {blocks.map((block, index) => (
+                      <div key={block.sortId} id={block.sortId}>
+                        <div className="py-1">
+                          <SortableOutlineBlockCard
+                            block={block}
+                            selected={selectedBlockId === block.sortId}
+                            onSelect={() => setSelectedBlockId(block.sortId)}
+                            onBlockChange={(patch) =>
+                              updateBlock(block.sortId, patch)
+                            }
+                            onAdd={() => addBlock(index + 1)}
+                            onDelete={() => removeBlock(block.sortId)}
+                            onMoveUp={
+                              index > 0 ? () => moveBlockUp(index) : undefined
+                            }
+                          />
+                        </div>
 
-                      <AddCardZone onAdd={() => addBlock(index + 1)} />
-                    </div>
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
-          )}
-        </div>
+                        <AddCardZone onAdd={() => addBlock(index + 1)} />
+                      </div>
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            )}
+          </div>
         </div>
       )}
 

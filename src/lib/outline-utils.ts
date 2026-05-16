@@ -48,7 +48,9 @@ export function blockToHtml(
   if (!title && !block.paragraph && !block.bullets?.length) return "";
 
   const titleHtml = title ? `<p>${escapeHtml(title)}</p>` : "";
-  const paraHtml = block.paragraph ? `<p>${escapeHtml(block.paragraph)}</p>` : "";
+  const paraHtml = block.paragraph
+    ? `<p>${escapeHtml(block.paragraph)}</p>`
+    : "";
   if (!block.bullets?.length) return `${titleHtml}${paraHtml}`;
 
   return `${titleHtml}${paraHtml}${bulletsToHtml(block.bullets)}`;
