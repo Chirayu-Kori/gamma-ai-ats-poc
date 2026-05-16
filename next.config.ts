@@ -1,8 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
+  async redirects() {
+    return [
+      {
+        source: "/editor",
+        has: [{ type: "query", key: "id", value: "(?<id>.*)" }],
+        destination: "/resumes/:id",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

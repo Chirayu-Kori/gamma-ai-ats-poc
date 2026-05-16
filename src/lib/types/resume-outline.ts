@@ -2,6 +2,7 @@ export type OutlineBlock = {
   id: number;
   title: string;
   bullets?: string[];
+  paragraph?: string;
 };
 
 export type GenerateOutlineRequest = {

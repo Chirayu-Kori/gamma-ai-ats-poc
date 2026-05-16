@@ -1,10 +1,15 @@
 /* templates/minimal-theme.css */
 .minimal-theme {
-  --color-accent: #1a73e8;
+  --color-accent: #2563eb;
   --font-heading: "Inter", sans-serif;
   --font-body: "Inter", sans-serif;
   --spacing-section: 1.5rem;
   --max-width: 700px;
+  font-family: var(--font-body);
+}
+
+.minimal-theme .font-heading {
+  font-family: var(--font-heading);
 }
 
 .minimal-theme h1 { 
@@ -12,9 +17,11 @@
   color: var(--color-accent); 
 }
 
-.minimal-theme h2 { 
-  font-size: 1.1rem; 
-  border-bottom: 1px solid theme("colors.border"); 
+.minimal-theme h2 {
+  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  color: var(--color-accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 25%, #e5e7eb);
 }
 
 /* Custom list styling for printing/templates */

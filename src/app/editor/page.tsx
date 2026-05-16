@@ -1,15 +1,10 @@
-import { Suspense } from "react";
 import { EditorLayout } from "@/components/editor/editor-layout";
 
 export const metadata = {
-  title: "Editor | Focus Resume",
-  description: "Live interactive resume editing and upgrading",
+  title: "New Resume | Resume Upgrader",
+  description: "Create a new ATS-friendly resume with AI-assisted outline generation",
 };
 
 export default function EditorPage() {
-  return (
-    <Suspense fallback={<div>Loading editor...</div>}>
-      <EditorLayout />
-    </Suspense>
-  );
+  return <EditorLayout />;
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { resumeThemeToCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "../../stores/resumeStore";
 import { EditableText } from "../editor/EditableText";
 import { SortableExperienceList } from "../editor/sortable-experience-list";
@@ -71,6 +72,8 @@ function SkillsRow({ index }: { index: number }) {
 
 export function MinimalTemplate() {
   const resume = useResumeStore((s) => s.resume);
+  const theme = useResumeStore((s) => s.theme);
+  const themeStyle = resumeThemeToCssVars(theme);
 
   if (!resume) {
     return (
@@ -87,7 +90,10 @@ export function MinimalTemplate() {
   }
 
   return (
-    <article className="resume minimal-theme ring-border mx-auto min-h-screen max-w-4xl rounded-sm bg-white p-8 text-black shadow-lg ring-1 sm:p-12">
+    <article
+      className="resume minimal-theme ring-border mx-auto min-h-screen max-w-4xl rounded-sm bg-white p-8 text-black shadow-lg ring-1 sm:p-12"
+      style={themeStyle}
+    >
       <header className="mb-8 shrink-0 text-center">
         <EditableText
           path="name"
@@ -128,6 +134,16 @@ export function MinimalTemplate() {
             {resume.skills.map((_, i) => (
               <SkillsRow key={i} index={i} />
             ))}
+          </Section>
+        )}
+
+        {resume.certifications && resume.certifications.length > 0 && (
+          <Section title="Certifications">
+            <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed">
+              {resume.certifications.map((cert, i) => (
+                <li key={i}>{cert}</li>
+              ))}
+            </ul>
           </Section>
         )}
       </div>

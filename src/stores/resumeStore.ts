@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { subscribeWithSelector } from "zustand/middleware";
+import { DEFAULT_RESUME_THEME } from "../lib/resume-theme";
 import { Resume } from "../lib/types/resume";
 
 export type Status = "idle" | "streaming" | "editing" | "saving" | "error";
@@ -56,7 +57,7 @@ export const useResumeStore = create<ResumeState>()(
 
       status: "idle",
       selectedTemplate: "minimal",
-      theme: {},
+      theme: { ...DEFAULT_RESUME_THEME },
       focusedPath: null,
 
       setResume: (partial) =>

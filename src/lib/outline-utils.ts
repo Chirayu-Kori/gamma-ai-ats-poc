@@ -40,47 +40,55 @@ export function toEditableBlocks(
   }));
 }
 
-/** Single TipTap document: title paragraph + optional bullet list */
+/** Single TipTap document: title paragraph + optional paragraph + optional bullet list */
 export function blockToHtml(
-  block: Pick<OutlineBlock, "title" | "bullets">,
+  block: Pick<OutlineBlock, "title" | "bullets" | "paragraph">,
 ): string {
   const title = block.title.trim();
-  if (!title && !block.bullets?.length) return "";
+  if (!title && !block.paragraph && !block.bullets?.length) return "";
 
   const titleHtml = title ? `<p>${escapeHtml(title)}</p>` : "";
-  if (!block.bullets?.length) return titleHtml;
+  const paraHtml = block.paragraph ? `<p>${escapeHtml(block.paragraph)}</p>` : "";
+  if (!block.bullets?.length) return `${titleHtml}${paraHtml}`;
 
-  return `${titleHtml}${bulletsToHtml(block.bullets)}`;
+  return `${titleHtml}${paraHtml}${bulletsToHtml(block.bullets)}`;
 }
 
 export function htmlToBlock(
   html: string,
-): Pick<OutlineBlock, "title" | "bullets"> {
+): Pick<OutlineBlock, "title" | "paragraph" | "bullets"> {
   if (typeof document === "undefined") {
-    return { title: "", bullets: undefined };
+    return { title: "", paragraph: undefined, bullets: undefined };
   }
 
   const normalized = html.trim();
   if (!normalized || normalized === "<p></p>") {
-    return { title: "", bullets: undefined };
+    return { title: "", paragraph: undefined, bullets: undefined };
   }
 
   const div = document.createElement("div");
   div.innerHTML = normalized;
 
+  // 1. Extract UL if present
   const ul = div.querySelector("ul");
   const bullets = ul
     ? Array.from(ul.querySelectorAll("li"))
         .map((li) => li.textContent?.trim() ?? "")
         .filter(Boolean)
     : undefined;
-
   if (ul) ul.remove();
 
-  const title = div.textContent?.trim().replace(/\s+/g, " ") ?? "";
+  // 2. Extract P tags
+  const pTags = Array.from(div.querySelectorAll("p"))
+    .map((p) => p.textContent?.trim() ?? "")
+    .filter(Boolean);
+
+  const title = pTags[0] ?? "";
+  const paragraph = pTags.length > 1 ? pTags.slice(1).join("\n") : undefined;
 
   return {
     title,
+    paragraph,
     bullets: bullets?.length ? bullets : undefined,
   };
 }

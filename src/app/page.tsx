@@ -68,7 +68,7 @@ export default function Home() {
             {resumes.map((resume) => (
               <Link
                 key={resume.id}
-                href={`/editor?id=${resume.id}`}
+                href={`/resumes/${resume.id}`}
                 className="group relative flex min-h-56 flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10"
               >
                 {/* Decorative background glow */}

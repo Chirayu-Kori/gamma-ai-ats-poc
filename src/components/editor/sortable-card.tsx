@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { GripVertical, Plus, ArrowUp, Trash2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -12,6 +14,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+const DRAG_CLICK_THRESHOLD_PX = 8;
 
 type SortableCardProps = {
   id: string;
@@ -67,7 +71,7 @@ export function SortableCard({
         onOpenChange={setOpen}
         isDragging={isDragging}
         attributes={attributes}
-        listeners={listeners}
+        listeners={open ? undefined : listeners}
         onAdd={onAdd}
         onDelete={onDelete}
         onMoveUp={onMoveUp}
@@ -106,8 +110,8 @@ interface CardActionsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isDragging: boolean;
-  attributes: any;
-  listeners: any;
+  attributes: DraggableAttributes;
+  listeners?: SyntheticListenerMap;
   onAdd?: () => void;
   onDelete?: () => void;
   onMoveUp?: () => void;
@@ -123,27 +127,102 @@ function CardActions({
   onDelete,
   onMoveUp,
 }: CardActionsProps) {
+  const dragIntentRef = useRef(false);
+
+  useEffect(() => {
+    if (isDragging) dragIntentRef.current = true;
+  }, [isDragging]);
+
+  const trackDragIntent = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (e.button !== 0) return;
+      dragIntentRef.current = false;
+      const startX = e.clientX;
+      const startY = e.clientY;
+      const pointerId = e.pointerId;
+
+      const onPointerMove = (ev: PointerEvent) => {
+        if (ev.pointerId !== pointerId) return;
+        const dx = ev.clientX - startX;
+        const dy = ev.clientY - startY;
+        if (Math.hypot(dx, dy) > DRAG_CLICK_THRESHOLD_PX) {
+          dragIntentRef.current = true;
+        }
+      };
+
+      const onPointerUp = (ev: PointerEvent) => {
+        if (ev.pointerId !== pointerId) return;
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+      };
+
+      window.addEventListener("pointermove", onPointerMove);
+      window.addEventListener("pointerup", onPointerUp);
+      window.addEventListener("pointercancel", onPointerUp);
+    },
+    [],
+  );
+
+  const handleGripPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      listeners?.onPointerDown?.(e);
+      trackDragIntent(e);
+    },
+    [listeners, trackDragIntent],
+  );
+
+  const handleGripClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      if (dragIntentRef.current) {
+        dragIntentRef.current = false;
+        return;
+      }
+      onOpenChange(true);
+    },
+    [onOpenChange],
+  );
+
+  const runAction = useCallback(
+    (action?: () => void) => {
+      if (!action) return;
+      action();
+      onOpenChange(false);
+    },
+    [onOpenChange],
+  );
+
   return (
     <DropdownMenu open={open} onOpenChange={onOpenChange}>
-      <DropdownMenuTrigger asChild>
+      <div className="relative mt-1 shrink-0">
+        {/* Invisible anchor for menu positioning — not the drag handle */}
+        <DropdownMenuTrigger asChild>
+          <span
+            className="pointer-events-none absolute inset-0 block size-full"
+            aria-hidden
+          />
+        </DropdownMenuTrigger>
+
         <button
           type="button"
           className={cn(
-            "text-muted-foreground mt-1 shrink-0 cursor-grab touch-none rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing data-[state=open]:opacity-100",
+            "text-muted-foreground relative z-10 cursor-grab touch-none rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing data-[state=open]:opacity-100",
+            open && "opacity-100",
             isDragging && "opacity-100",
           )}
           {...attributes}
-          {...listeners}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (isDragging) return;
-            onOpenChange(true);
-          }}
-          aria-label="Card actions"
+          {...(listeners ?? {})}
+          onPointerDown={handleGripPointerDown}
+          onClick={handleGripClick}
+          aria-label="Drag card or open actions"
+          aria-haspopup="menu"
+          aria-expanded={open}
         >
           <GripVertical className="size-4" />
         </button>
-      </DropdownMenuTrigger>
+      </div>
+
       <DropdownMenuContent
         side="top"
         align="center"
@@ -151,10 +230,8 @@ function CardActions({
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
         <DropdownMenuItem
-          onClick={(e) => {
-            e.stopPropagation();
-            onAdd?.();
-          }}
+          disabled={!onAdd}
+          onSelect={() => runAction(onAdd)}
           className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-blue-50 hover:text-blue-600"
           title="Add Below"
         >
@@ -163,10 +240,7 @@ function CardActions({
 
         {onMoveUp && (
           <DropdownMenuItem
-            onClick={(e) => {
-              e.stopPropagation();
-              onMoveUp?.();
-            }}
+            onSelect={() => runAction(onMoveUp)}
             className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-slate-100"
             title="Move Up"
           >
@@ -175,11 +249,10 @@ function CardActions({
         )}
 
         <DropdownMenuItem
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete?.();
-          }}
-          className="text-muted-foreground flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-rose-50 hover:text-rose-600"
+          disabled={!onDelete}
+          onSelect={() => runAction(onDelete)}
+          variant="destructive"
+          className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-rose-50 hover:text-rose-600"
           title="Delete Card"
         >
           <Trash2 className="size-4" />

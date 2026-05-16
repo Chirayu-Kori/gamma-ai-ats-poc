@@ -19,17 +19,12 @@ import {
 import { FileText, Languages, Plus, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RichTextField } from "@/components/editor/rich-text-field";
 import { SortableCard } from "@/components/editor/sortable-card";
 import { useGenerateOutline } from "@/hooks/useGenerateOutline";
+import { useGenerateStore } from "@/stores/generateStore";
+import { buildMockOutlineResponse } from "@/lib/mock-outline-data";
 import {
   blockToHtml,
   htmlToBlock,
@@ -41,81 +36,24 @@ import { cn } from "@/lib/utils";
 const DEFAULT_PROMPT =
   "Act as a Senior Frontend Developer and make an ATS friendly resume for a frontend developer.";
 
-const CARD_OPTIONS = [5, 8, 10] as const;
-const FORMAT_OPTIONS = ["A4", "Letter"] as const;
-const LANGUAGE_OPTIONS = [
-  "English (US)",
-  "English (UK)",
-  "Spanish",
-  "French",
-] as const;
-
-function PillSelect<T extends string | number>({
-  value,
-  options,
-  onChange,
-  formatLabel,
-  className,
-}: {
-  value: T;
-  options: readonly T[];
-  onChange: (v: T) => void;
-  formatLabel?: (v: T) => string;
-  className?: string;
-}) {
-  return (
-    <Select value={String(value)} onValueChange={(v) => onChange(v as T)}>
-      <SelectTrigger
-        className={cn(
-          "h-9 w-full rounded-full border-slate-200 bg-white text-sm font-medium text-slate-700 shadow-sm",
-          "focus-visible:border-blue-300 focus-visible:ring-2 focus-visible:ring-blue-200",
-          className,
-        )}
-      >
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((opt) => (
-          <SelectItem key={String(opt)} value={String(opt)}>
-            {formatLabel ? formatLabel(opt) : String(opt)}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
-
-function SelectField({
-  icon: Icon,
-  children,
-  className,
-}: {
-  icon?: React.ComponentType<{ className?: string }>;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={cn("relative", className)}>
-      {Icon && (
-        <Icon className="pointer-events-none absolute top-1/2 left-3 z-10 size-4 -translate-y-1/2 text-slate-400" />
-      )}
-      {children}
-    </div>
-  );
-}
-
 function SortableOutlineBlockCard({
   block,
   selected,
   onSelect,
   onBlockChange,
+  onAdd,
+  onDelete,
+  onMoveUp,
 }: {
   block: EditableOutlineBlock;
   selected?: boolean;
   onSelect?: () => void;
   onBlockChange: (
-    patch: Pick<EditableOutlineBlock, "title" | "bullets">,
+    patch: Pick<EditableOutlineBlock, "title" | "bullets" | "paragraph">,
   ) => void;
+  onAdd?: () => void;
+  onDelete?: () => void;
+  onMoveUp?: () => void;
 }) {
   return (
     <SortableCard
@@ -123,6 +61,9 @@ function SortableOutlineBlockCard({
       className="items-start"
       selected={selected}
       onSelect={onSelect}
+      onAdd={onAdd}
+      onDelete={onDelete}
+      onMoveUp={onMoveUp}
     >
       <div className="flex min-w-0 overflow-hidden rounded-lg border border-slate-200/80">
         <div
@@ -174,12 +115,18 @@ type GenerateCanvasProps = {
 };
 
 export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
-  const [prompt, setPrompt] = useState(DEFAULT_PROMPT);
-  const [cardCount, setCardCount] = useState<number>(10);
-  const [format, setFormat] = useState<"A4" | "Letter">("A4");
-  const [language, setLanguage] = useState<string>("English (US)");
-  const [blocks, setBlocks] = useState<EditableOutlineBlock[]>([]);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const {
+    prompt,
+    cardCount,
+    format,
+    language,
+    blocks,
+    selectedBlockId,
+    setBlocks,
+    setSelectedBlockId,
+  } = useGenerateStore();
+
+  const setPrompt = useGenerateStore((s) => s.setPrompt);
 
   const generateOutline = useGenerateOutline();
 
@@ -190,21 +137,39 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
     }),
   );
 
+  const applyOutlineBlocks = useCallback(
+    (rawBlocks: Parameters<typeof toEditableBlocks>[0]) => {
+      const next = toEditableBlocks(rawBlocks);
+      setBlocks(next);
+      setSelectedBlockId(next[0]?.sortId ?? null);
+    },
+    [setBlocks, setSelectedBlockId],
+  );
+
   const runGenerate = useCallback(() => {
     generateOutline.mutate(
       { prompt, cardCount, format, language },
       {
-        onSuccess: (data) => {
-          const next = toEditableBlocks(data.blocks);
-          setBlocks(next);
-          setSelectedBlockId(next[0]?.sortId ?? null);
+        onSuccess: (data) => applyOutlineBlocks(data.blocks),
+        onError: () => {
+          const fallback = buildMockOutlineResponse(prompt, cardCount);
+          applyOutlineBlocks(fallback.blocks);
         },
       },
     );
-  }, [generateOutline, prompt, cardCount, format, language]);
+  }, [
+    generateOutline,
+    prompt,
+    cardCount,
+    format,
+    language,
+    applyOutlineBlocks,
+  ]);
 
   useEffect(() => {
-    runGenerate();
+    if (blocks.length === 0) {
+      runGenerate();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -228,6 +193,9 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
     );
   };
 
+  const reindexBlocks = (items: EditableOutlineBlock[]) =>
+    items.map((b, i) => ({ ...b, id: i + 1 }));
+
   const addBlock = (index: number) => {
     setBlocks((prev) => {
       const next = [...prev];
@@ -238,10 +206,23 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
         bullets: ["New detail..."],
       };
       next.splice(index, 0, newBlock);
-
-      // Optional: re-index IDs to keep them sequential
-      return next.map((b, i) => ({ ...b, id: i + 1 }));
+      return reindexBlocks(next);
     });
+  };
+
+  const removeBlock = (sortId: string) => {
+    setBlocks((prev) => {
+      const next = prev.filter((b) => b.sortId !== sortId);
+      return reindexBlocks(next);
+    });
+    setSelectedBlockId((current) =>
+      current === sortId ? null : current,
+    );
+  };
+
+  const moveBlockUp = (index: number) => {
+    if (index <= 0) return;
+    setBlocks((prev) => reindexBlocks(arrayMove(prev, index, index - 1)));
   };
 
   const isGenerating = generateOutline.isPending;
@@ -249,38 +230,11 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
   return (
     <div className="mx-auto w-full max-w-3xl py-2">
       <h1 className="text-center text-2xl font-bold tracking-tight text-[#1e3a5f] sm:text-3xl">
-        Generate
+        Generate Outline
       </h1>
 
       <div className="mt-8 space-y-4">
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-          <span className="text-sm font-medium text-slate-500">Prompt</span>
-          <SelectField className="min-w-30">
-            <PillSelect
-              value={cardCount}
-              options={CARD_OPTIONS}
-              onChange={(v) => setCardCount(Number(v))}
-              formatLabel={(v) => `${v} cards`}
-            />
-          </SelectField>
-          <SelectField icon={FileText} className="min-w-28">
-            <PillSelect
-              value={format}
-              options={FORMAT_OPTIONS}
-              onChange={setFormat}
-              className="pl-9"
-            />
-          </SelectField>
-          <SelectField icon={Languages} className="min-w-36">
-            <PillSelect
-              value={language}
-              options={LANGUAGE_OPTIONS}
-              onChange={setLanguage}
-              className="pl-9"
-            />
-          </SelectField>
-        </div>
-
+        {/* We keep the text area for quick prompt editing but move the main settings to the right panel */}
         <div className="relative rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm">
           <textarea
             value={prompt}
@@ -304,9 +258,10 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
         </div>
       </div>
 
-      <div className="mt-10 space-y-3">
-        <h2 className="text-sm font-medium text-slate-500">Outline</h2>
-        <div className="rounded-xl border border-slate-200/60 bg-white/60 px-5 py-3">
+      {(blocks.length > 0 || isGenerating) && (
+        <div className="mt-10 space-y-3">
+          <h2 className="text-sm font-medium text-slate-500">Proposed Structure</h2>
+          <div className="rounded-xl border border-slate-200/60 bg-white/60 px-5 py-3">
           {isGenerating && blocks.length === 0 ? (
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
@@ -328,7 +283,7 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
               >
                 <div className="flex flex-col gap-1 py-1">
                   {blocks.map((block, index) => (
-                    <div key={block.sortId}>
+                    <div key={block.sortId} id={block.sortId}>
                       <div className="py-1">
                         <SortableOutlineBlockCard
                           block={block}
@@ -336,6 +291,13 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
                           onSelect={() => setSelectedBlockId(block.sortId)}
                           onBlockChange={(patch) =>
                             updateBlock(block.sortId, patch)
+                          }
+                          onAdd={() => addBlock(index + 1)}
+                          onDelete={() => removeBlock(block.sortId)}
+                          onMoveUp={
+                            index > 0
+                              ? () => moveBlockUp(index)
+                              : undefined
                           }
                         />
                       </div>
@@ -348,7 +310,8 @@ export function GenerateCanvas({ onComplete }: GenerateCanvasProps) {
             </DndContext>
           )}
         </div>
-      </div>
+        </div>
+      )}
 
       {blocks.length > 0 && !isGenerating && (
         <div className="mt-8 flex justify-center">
