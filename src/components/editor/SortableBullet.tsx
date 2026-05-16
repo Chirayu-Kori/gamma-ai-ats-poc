@@ -2,17 +2,23 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { EditableText } from "./EditableText";
 import { GripVertical } from "lucide-react";
 
+import { EditableText } from "./EditableText";
+
 interface SortableBulletProps {
-  id: string; // The dnd-kit item id
+  id: string;
   expIdx: number;
   bulletIdx: number;
   section: "experience" | "projects";
 }
 
-export function SortableBullet({ id, expIdx, bulletIdx, section }: SortableBulletProps) {
+export function SortableBullet({
+  id,
+  expIdx,
+  bulletIdx,
+  section,
+}: SortableBulletProps) {
   const {
     attributes,
     listeners,
@@ -33,21 +39,25 @@ export function SortableBullet({ id, expIdx, bulletIdx, section }: SortableBulle
     <li
       ref={setNodeRef}
       style={style}
-      className={`group flex items-start -ml-6 pl-2 pr-2 py-1 rounded relative ${
+      className={`group relative flex items-start rounded px-2 py-1 ${
         isDragging ? "bg-accent/50" : "hover:bg-accent/10"
       }`}
     >
-      <div 
-        {...attributes} 
+      <div
+        {...attributes}
         {...listeners}
-        className="opacity-0 group-hover:opacity-100 mt-1 cursor-grab active:cursor-grabbing text-muted-foreground mr-2 shrink-0 transition-opacity"
+        className="text-muted-foreground mt-1 mr-1 shrink-0 cursor-grab opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing"
       >
-        <GripVertical size={16} />
+        <GripVertical size={14} />
       </div>
-      <div className="flex-1">
-        <EditableText 
-          path={`${section}.${expIdx}.bullets.${bulletIdx}.text`} 
-          className="outline-none focus:bg-accent/10 focus:ring-1 ring-accent px-1 rounded -ml-1 inline-block min-w-full"
+      <span className="mt-[6px] mr-2.5 shrink-0 text-[8px] text-slate-400">
+        ●
+      </span>
+      <div className="min-w-0 flex-1">
+        <EditableText
+          path={`${section}.${expIdx}.bullets.${bulletIdx}.text`}
+          mode="inline"
+          className="focus:bg-accent/10 ring-accent -ml-1 inline-block w-full rounded px-1 outline-none focus:ring-1"
         />
       </div>
     </li>

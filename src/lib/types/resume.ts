@@ -15,6 +15,7 @@ export interface Bullet {
 }
 
 export interface Experience {
+  id?: string;
   company: string;
   title: string;
   start: string;
@@ -24,6 +25,7 @@ export interface Experience {
 }
 
 export interface Education {
+  id?: string;
   institution: string;
   degree: string;
   field: string | null;

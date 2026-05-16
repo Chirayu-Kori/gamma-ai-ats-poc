@@ -26,7 +26,7 @@ export async function consumeResumeUpgradeSse(
   handlers: {
     onPayload: (payload: { delta?: string; error?: unknown }) => void;
     onDone: () => void;
-  }
+  },
 ): Promise<void> {
   const response = await apiClient.post<unknown>(UPGRADE_PATH, body, {
     adapter: "fetch",

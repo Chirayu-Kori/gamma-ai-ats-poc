@@ -31,7 +31,9 @@ export function useResumeStream() {
           onPayload: ({ delta, error }) => {
             if (error) {
               throw new Error(
-                typeof error === "string" ? error : "Upgrade stream reported an error"
+                typeof error === "string"
+                  ? error
+                  : "Upgrade stream reported an error",
               );
             }
             if (!delta) return;
@@ -46,7 +48,7 @@ export function useResumeStream() {
           onDone: () => {
             setStatus("editing");
           },
-        }
+        },
       );
     },
     onError: (err) => {

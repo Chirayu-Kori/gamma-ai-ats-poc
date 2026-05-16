@@ -17,10 +17,16 @@ interface ResumeState {
   focusedPath: string | null;
 
   // Actions
-  setResume: (partial: Partial<Resume>) => void;
+  setResume: (partial: Partial<Resume> | null) => void;
   setStatus: (status: Status) => void;
   updateField: (path: string, value: unknown) => void;
   reorderBullets: (expIdx: number, fromId: string, toId: string) => void;
+  reorderExperience: (fromId: string, toId: string) => void;
+  reorderEducation: (fromId: string, toId: string) => void;
+  addExperience: (index: number) => void;
+  removeExperience: (index: number) => void;
+  addEducation: (index: number) => void;
+  removeEducation: (index: number) => void;
   setTemplate: (id: string) => void;
   setTheme: (patch: Record<string, string>) => void;
   setFocusedPath: (path: string | null) => void;
@@ -53,27 +59,117 @@ export const useResumeStore = create<ResumeState>()(
       theme: {},
       focusedPath: null,
 
-      setResume: (partial) => set((s) => { s.resume = partial; }),
-      setStatus: (status) => set((s) => { s.status = status; }),
-      
-      updateField: (path, value) => set((s) => {
-        setByPath(s.resume, path, value);
-      }),
+      setResume: (partial) =>
+        set((s) => {
+          s.resume = partial;
+        }),
+      setStatus: (status) =>
+        set((s) => {
+          s.status = status;
+        }),
 
-      reorderBullets: (expIdx, fromId, toId) => set((s) => {
-        if (!s.resume?.experience?.[expIdx]?.bullets) return;
-        const bullets = s.resume.experience[expIdx].bullets;
-        const oldIndex = bullets.findIndex((b: { id?: string }) => b.id === fromId);
-        const newIndex = bullets.findIndex((b: { id?: string }) => b.id === toId);
-        if (oldIndex !== -1 && newIndex !== -1) {
-          const [item] = bullets.splice(oldIndex, 1);
-          bullets.splice(newIndex, 0, item);
-        }
-      }),
+      updateField: (path, value) =>
+        set((s) => {
+          setByPath(s.resume, path, value);
+        }),
 
-      setTemplate: (id) => set((s) => { s.selectedTemplate = id; }),
-      setTheme: (patch) => set((s) => { Object.assign(s.theme, patch); }),
-      setFocusedPath: (path) => set((s) => { s.focusedPath = path; }),
-    }))
-  )
+      reorderBullets: (expIdx, fromId, toId) =>
+        set((s) => {
+          if (!s.resume?.experience?.[expIdx]?.bullets) return;
+          const bullets = s.resume.experience[expIdx].bullets;
+          const oldIndex = bullets.findIndex(
+            (b: { id?: string }) => b.id === fromId,
+          );
+          const newIndex = bullets.findIndex(
+            (b: { id?: string }) => b.id === toId,
+          );
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = bullets.splice(oldIndex, 1);
+            bullets.splice(newIndex, 0, item);
+          }
+        }),
+
+      reorderExperience: (fromId, toId) =>
+        set((s) => {
+          const list = s.resume?.experience;
+          if (!list) return;
+          const oldIndex = list.findIndex((e) => e.id === fromId);
+          const newIndex = list.findIndex((e) => e.id === toId);
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = list.splice(oldIndex, 1);
+            list.splice(newIndex, 0, item);
+          }
+        }),
+
+      reorderEducation: (fromId, toId) =>
+        set((s) => {
+          const list = s.resume?.education;
+          if (!list) return;
+          const oldIndex = list.findIndex((e) => e.id === fromId);
+          const newIndex = list.findIndex((e) => e.id === toId);
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = list.splice(oldIndex, 1);
+            list.splice(newIndex, 0, item);
+          }
+        }),
+
+      addExperience: (index) =>
+        set((s) => {
+          if (!s.resume) return;
+          if (!s.resume.experience) s.resume.experience = [];
+          const newExp = {
+            id: `exp-${Date.now()}`,
+            company: "New Company",
+            title: "New Role",
+            start: "Start Date",
+            end: "End Date",
+            location: "Location",
+            bullets: [{ text: "Enter achievement..." }],
+          };
+          s.resume.experience.splice(index + 1, 0, newExp);
+        }),
+
+      removeExperience: (index) =>
+        set((s) => {
+          if (!s.resume?.experience) return;
+          s.resume.experience.splice(index, 1);
+        }),
+
+      addEducation: (index) =>
+        set((s) => {
+          if (!s.resume) return;
+          if (!s.resume.education) s.resume.education = [];
+          const newEdu = {
+            id: `edu-${Date.now()}`,
+            institution: "New Institution",
+            degree: "Degree",
+            field: "Field of Study",
+            start: "Start Date",
+            end: "End Date",
+            gpa: "",
+            highlights: [],
+          };
+          s.resume.education.splice(index + 1, 0, newEdu);
+        }),
+
+      removeEducation: (index) =>
+        set((s) => {
+          if (!s.resume?.education) return;
+          s.resume.education.splice(index, 1);
+        }),
+
+      setTemplate: (id) =>
+        set((s) => {
+          s.selectedTemplate = id;
+        }),
+      setTheme: (patch) =>
+        set((s) => {
+          Object.assign(s.theme, patch);
+        }),
+      setFocusedPath: (path) =>
+        set((s) => {
+          s.focusedPath = path;
+        }),
+    })),
+  ),
 );
