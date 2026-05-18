@@ -61,7 +61,7 @@ export function SortableEducationList() {
         items={items.map((e) => e.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-2">
+        <div className="space-y-4">
           {items.map((edu, index) => (
             <SortableCard
               key={edu.id}

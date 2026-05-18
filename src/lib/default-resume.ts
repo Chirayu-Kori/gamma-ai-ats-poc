@@ -60,7 +60,7 @@ export const DEFAULT_RESUME: Resume = {
       id: "edu-1",
       institution: "University of Technology",
       degree: "Bachelor of Science in Computer Science",
-      field: "Computer Science",
+      field: null,
       start: null,
       end: "May 2018",
       gpa: null,
@@ -69,8 +69,29 @@ export const DEFAULT_RESUME: Resume = {
   ],
   skills: [
     {
-      category: "Technical",
-      items: ["React", "Next.js", "TypeScript", "Node.js"],
+      category: "Languages & Frameworks",
+      items: [
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "HTML/CSS",
+      ],
+    },
+    {
+      category: "Tools & Platforms",
+      items: ["Git", "Docker", "AWS", "PostgreSQL", "Figma", "Vercel"],
+    },
+    {
+      category: "Practices",
+      items: [
+        "REST APIs",
+        "CI/CD",
+        "Unit Testing",
+        "Accessibility (WCAG)",
+        "Performance Optimization",
+      ],
     },
   ],
   projects: null,

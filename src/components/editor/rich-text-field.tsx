@@ -74,8 +74,8 @@ export function RichTextField({
 
   const baseEditorClass =
     mode === "inline"
-      ? "outline-none focus:outline-none transition-colors p-1 -m-1 whitespace-pre-wrap break-words [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none"
-      : "outline-none focus:outline-none transition-colors p-1.5 -mx-1.5 [&_ul]:!list-disc [&_ul]:list-outside [&_ul]:ml-6 [&_ul]:space-y-1 [&_ol]:!list-decimal [&_ol]:list-outside [&_ol]:ml-6 [&_ol]:space-y-1 [&_p]:m-0 [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none";
+      ? "outline-none focus:outline-none transition-colors p-1 -m-1 whitespace-nowrap break-normal [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none"
+      : "outline-none focus:outline-none transition-colors break-words p-1.5 -mx-1.5 [&_ul]:!list-disc [&_ul]:list-outside [&_ul]:ml-6 [&_ul]:space-y-1 [&_ol]:!list-decimal [&_ol]:list-outside [&_ol]:ml-6 [&_ol]:space-y-1 [&_p]:m-0 [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none";
 
   const editor = useEditor({
     extensions,
@@ -113,7 +113,10 @@ export function RichTextField({
 
   return (
     <div
-      className={cn(mode === "inline" ? "inline-block" : "w-full", className)}
+      className={cn(
+        mode === "inline" ? "inline-block max-w-full" : "w-full min-w-0",
+        className,
+      )}
     >
       <EditorBubbleMenu editor={editor} mode={mode} />
       <EditorContent editor={editor} />

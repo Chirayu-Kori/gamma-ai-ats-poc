@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import type { ResumeMeta } from "@/lib/types/resume-meta";
+import { getResumeSeedLabel } from "@/lib/resume-seeds";
 
 export async function GET(
   _request: Request,
@@ -9,7 +10,7 @@ export async function GET(
   const { id } = await context.params;
   const body: ResumeMeta = {
     id,
-    label: id === "test" ? "Demo resume" : `Resume ${id}`,
+    label: getResumeSeedLabel(id),
   };
   return NextResponse.json(body);
 }

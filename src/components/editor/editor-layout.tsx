@@ -15,6 +15,7 @@ import { ResumeCanvas } from "@/components/ResumeCanvas";
 import { useResumeStore } from "@/stores/resumeStore";
 import { useGenerateStore } from "@/stores/generateStore";
 import { DEFAULT_RESUME } from "@/lib/default-resume";
+import { getResumeSeed } from "@/lib/resume-seeds";
 import { outlineBlocksToResume } from "@/lib/outline-to-resume";
 import { apiClient } from "@/lib/api-client";
 import { resumeQueryKeys } from "@/lib/query-keys";
@@ -64,9 +65,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 
   useEffect(() => {
     if (resumeId) {
-      if (!useResumeStore.getState().resume) {
-        setResume(DEFAULT_RESUME);
-      }
+      setResume(getResumeSeed(resumeId) ?? DEFAULT_RESUME);
       setStatus("editing");
       setPhase("resume");
     } else {
@@ -246,7 +245,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   return (
     <div className="bg-background text-foreground flex h-screen w-full flex-col overflow-hidden font-sans">
       <TopBar />
-      <div className="flex flex-1 overflow-hidden lg:gap-0">
+      <div className="flex min-h-0 flex-1 overflow-hidden lg:gap-0">
         <div
           className={`bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-r backdrop-blur-sm transition-all duration-300 ease-in-out md:block ${isLeftCollapsed ? "w-0 border-transparent opacity-0" : "w-64 opacity-100"}`}
         >
@@ -255,7 +254,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           </div>
         </div>
 
-        <main className="custom-scrollbar flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
+        <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
           {phase === "generate" ? (
             <GenerateCanvas onComplete={handleContinueToResume} />
           ) : (

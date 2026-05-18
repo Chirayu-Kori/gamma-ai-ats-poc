@@ -10,7 +10,7 @@ export function ResumeCanvas() {
   const Component = TemplateConfig.Component;
 
   return (
-    <div className="bg-muted/30 custom-scrollbar flex h-full w-full justify-center overflow-y-auto p-4 md:p-8 print:overflow-visible print:bg-white print:p-0">
+    <div className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0">
       <Component />
     </div>
   );

@@ -5,6 +5,7 @@ import { useResumeStore } from "../../stores/resumeStore";
 import { EditableText } from "../editor/EditableText";
 import { SortableExperienceList } from "../editor/sortable-experience-list";
 import { SortableEducationList } from "../editor/sortable-education-list";
+import { SkillsRow } from "../editor/skills-row";
 import { ContactInfo } from "../../lib/types/resume";
 import "./minimal-theme.css";
 
@@ -21,13 +22,21 @@ function ContactBar({ contact }: { contact: ContactInfo }) {
   if (contact.website) parts.push({ key: "website", value: contact.website });
 
   return (
-    <div className="text-muted-foreground mt-2 flex flex-wrap justify-center gap-x-3 gap-y-1 text-sm">
+    <div className="text-muted-foreground mt-2 flex w-full min-w-0 items-center text-sm">
       {parts.map((p, i) => (
-        <span key={p.key} className="flex items-center gap-3">
-          <EditableText path={`contact.${p.key}`} mode="inline" />
-          {i < parts.length - 1 && (
-            <span className="text-border text-xs">•</span>
-          )}
+        <span key={p.key} className="contents">
+          <span className="flex min-w-0 flex-1 basis-0 items-center justify-center overflow-hidden px-2 text-center">
+            <EditableText
+              path={`contact.${p.key}`}
+              mode="inline"
+              className="w-full whitespace-nowrap break-normal"
+            />
+          </span>
+          {i < parts.length - 1 ? (
+            <span className="text-border shrink-0 px-0.5 text-xs" aria-hidden>
+              •
+            </span>
+          ) : null}
         </span>
       ))}
     </div>
@@ -42,31 +51,12 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-6">
+    <section className="mb-6 min-w-0">
       <h2 className="mb-3 pb-1 font-semibold tracking-wider uppercase">
         {title}
       </h2>
       {children}
     </section>
-  );
-}
-
-function SkillsRow({ index }: { index: number }) {
-  return (
-    <div className="mb-2 flex items-baseline">
-      <EditableText
-        path={`skills.${index}.category`}
-        mode="inline"
-        className="w-32 shrink-0 font-semibold capitalize"
-      />
-      <div className="flex-1">
-        <EditableText
-          path={`skills.${index}.items.0`}
-          mode="inline"
-          placeholder="Skill 1, Skill 2, etc."
-        />
-      </div>
-    </div>
   );
 }
 
@@ -91,10 +81,10 @@ export function MinimalTemplate() {
 
   return (
     <article
-      className="resume minimal-theme ring-border mx-auto min-h-screen max-w-4xl rounded-sm bg-white p-8 text-black shadow-lg ring-1 sm:p-12"
+      className="resume minimal-theme ring-border mx-auto w-full max-w-4xl min-w-0 overflow-x-clip rounded-sm bg-white p-8 text-black shadow-lg ring-1 sm:p-12"
       style={themeStyle}
     >
-      <header className="mb-8 shrink-0 text-center">
+      <header className="mb-8 min-w-0 shrink-0 text-center">
         <EditableText
           path="name"
           mode="inline"
@@ -108,7 +98,7 @@ export function MinimalTemplate() {
         <ContactBar contact={resume.contact || ({} as ContactInfo)} />
       </header>
 
-      <div className="space-y-6">
+      <div className="min-w-0 space-y-6">
         <Section title="Summary">
           <EditableText
             path="summary"
@@ -131,9 +121,11 @@ export function MinimalTemplate() {
 
         {resume.skills && resume.skills.length > 0 && (
           <Section title="Skills">
-            {resume.skills.map((_, i) => (
-              <SkillsRow key={i} index={i} />
-            ))}
+            <div className="space-y-3">
+              {resume.skills.map((_, i) => (
+                <SkillsRow key={i} index={i} />
+              ))}
+            </div>
           </Section>
         )}
 

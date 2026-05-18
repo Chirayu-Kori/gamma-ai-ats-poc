@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 
 import type { ResumeMeta } from "@/lib/types/resume-meta";
+import { getResumeSeedLabel } from "@/lib/resume-seeds";
 
-const MOCK_RESUMES: ResumeMeta[] = [
-  { id: "test", label: "Demo Resume" },
-  { id: "frontend-dev", label: "Frontend Developer" },
-  { id: "backend-eng", label: "Backend Engineer" },
-];
+const SEED_RESUME_IDS = ["test", "frontend-dev", "backend-eng"] as const;
+
+const MOCK_RESUMES: ResumeMeta[] = SEED_RESUME_IDS.map((id) => ({
+  id,
+  label: getResumeSeedLabel(id),
+}));
 
 export async function GET() {
   return NextResponse.json(MOCK_RESUMES);
