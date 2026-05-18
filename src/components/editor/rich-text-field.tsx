@@ -11,6 +11,9 @@ import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
 import { useEffect, useMemo } from "react";
+// Tiptap v3's StarterKit bundles Underline. We disable it in StarterKit and
+// add a single standalone Underline below so inline mode (which doesn't use
+// StarterKit) still gets it.
 
 import { EditorBubbleMenu } from "./editor-bubble-menu";
 import { cn } from "@/lib/utils";
@@ -41,6 +44,7 @@ function buildExtensions(mode: "inline" | "block", placeholder?: string) {
       blockquote: false,
       codeBlock: false,
       horizontalRule: false,
+      // StarterKit v3 bundles Underline — keep it; don't add the standalone.
       bulletList: {
         keepMarks: true,
         keepAttributes: false,
@@ -50,7 +54,6 @@ function buildExtensions(mode: "inline" | "block", placeholder?: string) {
         keepAttributes: false,
       },
     }),
-    Underline,
     Placeholder.configure({
       placeholder: placeholder ?? "",
       emptyEditorClass: "is-editor-empty",

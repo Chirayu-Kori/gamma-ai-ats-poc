@@ -1,0 +1,14 @@
+.executive-theme {
+  font-family: var(--font-body);
+}
+
+.executive-theme .resume-heading {
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+}
+
+.executive-theme h2 {
+  color: var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 0.25rem;
+}

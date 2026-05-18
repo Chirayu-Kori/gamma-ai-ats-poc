@@ -1,10 +1,15 @@
 import { apiClient } from "@/lib/api-client";
+import type { Resume } from "@/lib/types/resume";
 
-const UPGRADE_PATH = "/api/resumes/upgrade";
+const GENERATE_PATH = "/api/resumes/generate";
 
-export type ResumeUpgradeRequestBody = {
-  raw_text: string;
+export type GenerateRequestBody = {
+  resume_id?: string;
+  resume?: Partial<Resume>;
+  source_text?: string;
+  jd_text?: string;
   target_role?: string;
+  instruction?: string;
 };
 
 function isReadableStream(value: unknown): value is ReadableStream<Uint8Array> {
@@ -16,30 +21,27 @@ function isReadableStream(value: unknown): value is ReadableStream<Uint8Array> {
   );
 }
 
-/**
- * POST upgrade stream using Axios with the fetch adapter so the body is a
- * {@link ReadableStream} (XHR cannot do this the same way in the browser).
- */
-export async function consumeResumeUpgradeSse(
-  body: ResumeUpgradeRequestBody,
+export async function consumeResumeGenerateSse(
+  body: GenerateRequestBody,
   signal: AbortSignal | undefined,
   handlers: {
     onPayload: (payload: { delta?: string; error?: unknown }) => void;
     onDone: () => void;
   },
 ): Promise<void> {
-  const response = await apiClient.post<unknown>(UPGRADE_PATH, body, {
+  const response = await apiClient.post<unknown>(GENERATE_PATH, body, {
     adapter: "fetch",
     responseType: "stream",
     signal,
     headers: {
       Accept: "text/event-stream",
+      "Content-Type": "application/json",
     },
   });
 
   const stream = response.data;
   if (!isReadableStream(stream)) {
-    throw new Error("Upgrade response is not a readable stream");
+    throw new Error("Generate response is not a readable stream");
   }
 
   const reader = stream.getReader();
@@ -61,7 +63,10 @@ export async function consumeResumeUpgradeSse(
         handlers.onDone();
         return;
       }
-      const parsed = JSON.parse(payload) as { delta?: string; error?: unknown };
+      const parsed = JSON.parse(payload) as {
+        delta?: string;
+        error?: unknown;
+      };
       handlers.onPayload(parsed);
       if (parsed.error) return;
     }

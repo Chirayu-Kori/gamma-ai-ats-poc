@@ -1,0 +1,508 @@
+{
+  "id": "r-b76513b434ee",
+  "label": "NIKKY BISEN",
+  "resume": {
+    "name": "NIKKY BISEN",
+    "headline": "SOFTWARE DEVELOPER",
+    "contact": {
+      "email": "nkbisane@gmail.com",
+      "phone": "8007289776",
+      "location": null,
+      "linkedin": null,
+      "github": "https://github.com/Nikky-05",
+      "website": "https://portfolio-31nr.onrender.com/"
+    },
+    "summary": "AI/GenAI Engineer with 3+ years of experience designing and deploying production-ready AI-powered backend systems, including RAG pipelines, LLM-based chatbots, OCR automation, and domain-specific NLP solutions. Strong expertise in Python, FastAPI, scalable microservices architecture, and cloud deployment. Focused on building intelligent, high-performance AI systems with measurable business impact.",
+    "experience": [
+      {
+        "id": null,
+        "company": "Prevoyance IT Solutions",
+        "title": "",
+        "start": "April 2025",
+        "end": "Present",
+        "location": "Nagpur",
+        "bullets": [
+          {
+            "text": "Designed and deployed RAG-based knowledge systems using LangChain and vector embeddings, improving response accuracy by 30%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built scalable LLM-powered chatbot handling 1,000+ user queries/day with optimized inference latency.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Developed FastAPI-based AI microservices reducing API response time by 25%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Implemented OCR + NLP pipelines automating document extraction and reducing manual effort by 40%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Integrated CI/CD-driven MLOps workflows for streamlined model deployment and monitoring.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "id": null,
+        "company": "Evoluzn India Pvt Ltd",
+        "title": "",
+        "start": "November 2022",
+        "end": "April 2025",
+        "location": "Nagpur",
+        "bullets": [
+          {
+            "text": "Developed secure and scalable REST APIs using Flask and FastAPI.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Designed backend integrations with MySQL and third-party services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built responsive UI components using React.js and Context API.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Deployed applications on Linux VPS using Gunicorn and Nginx.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Structured rule-based NLP chatbot for domain-specific automation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Mentored junior developers and contributed to architecture decisions.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": null,
+        "institution": "St. Vincent Pallotti College of Engineering & Technology, Nagpur",
+        "degree": "Bachelor of Engineering (B.E.)",
+        "field": null,
+        "start": null,
+        "end": "2021",
+        "gpa": "8.55",
+        "highlights": []
+      },
+      {
+        "id": null,
+        "institution": "Shri Datta Meghe Polytechnic, Nagpur",
+        "degree": "Diploma in Engineering",
+        "field": null,
+        "start": null,
+        "end": "2018",
+        "gpa": "70.94%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "category": "Languages",
+        "items": [
+          "Python",
+          "JavaScript",
+          "SQL"
+        ]
+      },
+      {
+        "category": "AI / ML",
+        "items": [
+          "LangChain",
+          "LangGraph",
+          "RAG",
+          "LLMs",
+          "Prompt Engineering",
+          "Scikit-learn",
+          "TensorFlow"
+        ]
+      },
+      {
+        "category": "Backend Frameworks",
+        "items": [
+          "FastAPI",
+          "Flask",
+          "Node.js",
+          "Express.js"
+        ]
+      },
+      {
+        "category": "Frontend",
+        "items": [
+          "React.js",
+          "Bootstrap",
+          "HTML",
+          "CSS"
+        ]
+      },
+      {
+        "category": "Databases",
+        "items": [
+          "MySQL",
+          "PostgreSQL"
+        ]
+      },
+      {
+        "category": "DevOps / Deployment",
+        "items": [
+          "Linux (Ubuntu)",
+          "Nginx",
+          "Gunicorn",
+          "VPS",
+          "CI/CD",
+          "SSH"
+        ]
+      },
+      {
+        "category": "Tools",
+        "items": [
+          "Git",
+          "GitHub",
+          "Postman",
+          "REST APIs"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "RAG-Based Knowledge System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Built retrieval-augmented generation system using vector search and LLM integration for domain-specific data.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "AI Rule-Based & LLM Chatbots",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Developed hybrid chatbot architecture for enterprise workflow automation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "OCR & Document Intelligence System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Automated structured data extraction from diverse document formats.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "AI Auto-Mail Generation System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Created NLP-driven system for automated email generation and backend workflow triggering.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "certifications": []
+  },
+  "original_resume": {
+    "name": "NIKKY BISEN",
+    "headline": "SOFTWARE DEVELOPER",
+    "contact": {
+      "email": "nkbisane@gmail.com",
+      "phone": "8007289776",
+      "location": null,
+      "linkedin": null,
+      "github": "https://github.com/Nikky-05",
+      "website": "https://portfolio-31nr.onrender.com/"
+    },
+    "summary": "AI/GenAI Engineer with 3+ years of experience designing and deploying production-ready AI-powered backend systems, including RAG pipelines, LLM-based chatbots, OCR automation, and domain-specific NLP solutions. Strong expertise in Python, FastAPI, scalable microservices architecture, and cloud deployment. Focused on building intelligent, high-performance AI systems with measurable business impact.",
+    "experience": [
+      {
+        "id": null,
+        "company": "Prevoyance IT Solutions",
+        "title": "",
+        "start": "April 2025",
+        "end": "Present",
+        "location": "Nagpur",
+        "bullets": [
+          {
+            "text": "Designed and deployed RAG-based knowledge systems using LangChain and vector embeddings, improving response accuracy by 30%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built scalable LLM-powered chatbot handling 1,000+ user queries/day with optimized inference latency.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Developed FastAPI-based AI microservices reducing API response time by 25%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Implemented OCR + NLP pipelines automating document extraction and reducing manual effort by 40%.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Integrated CI/CD-driven MLOps workflows for streamlined model deployment and monitoring.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "id": null,
+        "company": "Evoluzn India Pvt Ltd",
+        "title": "",
+        "start": "November 2022",
+        "end": "April 2025",
+        "location": "Nagpur",
+        "bullets": [
+          {
+            "text": "Developed secure and scalable REST APIs using Flask and FastAPI.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Designed backend integrations with MySQL and third-party services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built responsive UI components using React.js and Context API.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Deployed applications on Linux VPS using Gunicorn and Nginx.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Structured rule-based NLP chatbot for domain-specific automation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Mentored junior developers and contributed to architecture decisions.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": null,
+        "institution": "St. Vincent Pallotti College of Engineering & Technology, Nagpur",
+        "degree": "Bachelor of Engineering (B.E.)",
+        "field": null,
+        "start": null,
+        "end": "2021",
+        "gpa": "8.55",
+        "highlights": []
+      },
+      {
+        "id": null,
+        "institution": "Shri Datta Meghe Polytechnic, Nagpur",
+        "degree": "Diploma in Engineering",
+        "field": null,
+        "start": null,
+        "end": "2018",
+        "gpa": "70.94%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "category": "Languages",
+        "items": [
+          "Python",
+          "JavaScript",
+          "SQL"
+        ]
+      },
+      {
+        "category": "AI / ML",
+        "items": [
+          "LangChain",
+          "LangGraph",
+          "RAG",
+          "LLMs",
+          "Prompt Engineering",
+          "Scikit-learn",
+          "TensorFlow"
+        ]
+      },
+      {
+        "category": "Backend Frameworks",
+        "items": [
+          "FastAPI",
+          "Flask",
+          "Node.js",
+          "Express.js"
+        ]
+      },
+      {
+        "category": "Frontend",
+        "items": [
+          "React.js",
+          "Bootstrap",
+          "HTML",
+          "CSS"
+        ]
+      },
+      {
+        "category": "Databases",
+        "items": [
+          "MySQL",
+          "PostgreSQL"
+        ]
+      },
+      {
+        "category": "DevOps / Deployment",
+        "items": [
+          "Linux (Ubuntu)",
+          "Nginx",
+          "Gunicorn",
+          "VPS",
+          "CI/CD",
+          "SSH"
+        ]
+      },
+      {
+        "category": "Tools",
+        "items": [
+          "Git",
+          "GitHub",
+          "Postman",
+          "REST APIs"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "RAG-Based Knowledge System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Built retrieval-augmented generation system using vector search and LLM integration for domain-specific data.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "AI Rule-Based & LLM Chatbots",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Developed hybrid chatbot architecture for enterprise workflow automation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "OCR & Document Intelligence System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Automated structured data extraction from diverse document formats.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "AI Auto-Mail Generation System",
+        "description": "",
+        "url": null,
+        "tech_stack": [],
+        "bullets": [
+          {
+            "text": "Created NLP-driven system for automated email generation and backend workflow triggering.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "certifications": []
+  },
+  "theme": {},
+  "template_id": "minimal",
+  "source_text": null,
+  "jd_text": null,
+  "created_at": "2026-05-18T08:48:25.981445+00:00",
+  "updated_at": "2026-05-18T08:48:25.981445+00:00"
+}

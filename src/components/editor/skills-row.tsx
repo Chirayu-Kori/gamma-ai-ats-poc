@@ -12,8 +12,15 @@ function parseSkillItems(text: string): string[] {
     .filter(Boolean);
 }
 
+const EMPTY_ITEMS: readonly string[] = Object.freeze([]) as readonly string[];
+
 export function SkillsRow({ index }: { index: number }) {
-  const items = useResumeStore((s) => s.resume?.skills?.[index]?.items ?? []);
+  // Selecting `items` directly returns the same reference across renders when
+  // the store didn't change; the previous `?? []` minted a fresh `[]` every
+  // call and caused a render loop. Fall back to a frozen module-level array.
+  const items = useResumeStore(
+    (s) => (s.resume?.skills?.[index]?.items as string[] | undefined) ?? EMPTY_ITEMS,
+  );
   const updateField = useResumeStore((s) => s.updateField);
   const triggerAutosave = useDebouncedAutosave();
 

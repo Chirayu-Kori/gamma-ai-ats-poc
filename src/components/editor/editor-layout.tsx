@@ -1,54 +1,73 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Menu, Settings, Download, User, ArrowLeft } from "lucide-react";
+import {
+  Menu,
+  Settings,
+  Download,
+  User,
+  ArrowLeft,
+  AlertTriangle,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DesignPanel } from "./design-panel";
-import { GenerateCanvas } from "./generate-canvas";
+import { RightSidebar } from "./right-sidebar";
+import { UploadCanvas } from "./upload-canvas";
+import { GenerateStreamCanvas } from "./generate-stream-canvas";
 import { ResumeCanvas } from "@/components/ResumeCanvas";
 import { useResumeStore } from "@/stores/resumeStore";
-import { useGenerateStore } from "@/stores/generateStore";
-import { DEFAULT_RESUME } from "@/lib/default-resume";
-import { getResumeSeed } from "@/lib/resume-seeds";
-import { outlineBlocksToResume } from "@/lib/outline-to-resume";
+import { useUploadStore } from "@/stores/uploadStore";
 import { apiClient } from "@/lib/api-client";
 import { resumeQueryKeys } from "@/lib/query-keys";
-import type { ResumeMeta } from "@/lib/types/resume-meta";
+import type { Resume } from "@/lib/types/resume";
+import type { ResumeRecord } from "@/lib/types/resume-meta";
 import { cn } from "@/lib/utils";
-import type { EditableOutlineBlock } from "@/lib/outline-utils";
 
-type EditorPhase = "generate" | "resume";
+type EditorPhase = "upload" | "generate" | "resume";
 
 type EditorLayoutProps = {
   resumeId?: string;
 };
 
+const SECTION_LABELS = [
+  "Personal Info",
+  "Summary",
+  "Experience",
+  "Education",
+  "Skills",
+  "Projects",
+] as const;
+
 export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const router = useRouter();
   const setResume = useResumeStore((s) => s.setResume);
   const setStatus = useResumeStore((s) => s.setStatus);
+  const setTheme = useResumeStore((s) => s.setTheme);
+  const setTemplate = useResumeStore((s) => s.setTemplate);
+  const resetUpload = useUploadStore((s) => s.reset);
+
   const [phase, setPhase] = useState<EditorPhase>(
-    resumeId ? "resume" : "generate",
+    resumeId ? "resume" : "upload",
   );
   const [leftOpen, setLeftOpen] = useState(false);
   const [rightOpen, setRightOpen] = useState(false);
   const [isLeftCollapsed, setIsLeftCollapsed] = useState(false);
   const [isRightCollapsed, setIsRightCollapsed] = useState(false);
+  const [persistError, setPersistError] = useState<string | null>(null);
 
   const {
-    data: resumeMeta,
+    data: record,
     isError,
     error,
   } = useQuery({
     queryKey: resumeQueryKeys.detail(resumeId ?? ""),
     queryFn: async () => {
-      const { data } = await apiClient.get<ResumeMeta>(
+      const { data } = await apiClient.get<ResumeRecord>(
         `/api/resumes/${resumeId}`,
       );
       return data;
@@ -63,37 +82,80 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     }
   }, [resumeId, isError, error]);
 
+  // Sync the record into the store, but DON'T clobber a fresh in-memory
+  // resume the user just streamed. The store wins over the record if it
+  // has more content than what's persisted (the PUT may have raced).
   useEffect(() => {
-    if (resumeId) {
-      setResume(getResumeSeed(resumeId) ?? DEFAULT_RESUME);
-      setStatus("editing");
-      setPhase("resume");
-    } else {
+    if (!resumeId) {
       setResume(null);
       setStatus("idle");
-      setPhase("generate");
+      setPhase("upload");
+      resetUpload();
+      return;
     }
-  }, [resumeId, setResume, setStatus]);
+    if (!record) return;
 
-  const handleContinueToResume = () => {
-    const outlineBlocks = useGenerateStore.getState().blocks;
-    const resumeFromOutline =
-      outlineBlocks.length > 0
-        ? outlineBlocksToResume(outlineBlocks)
-        : DEFAULT_RESUME;
-
-    setResume(resumeFromOutline);
+    const inStore = useResumeStore.getState().resume;
+    const storeBetter =
+      inStore &&
+      (inStore.experience?.length ?? 0) > (record.resume.experience?.length ?? 0);
+    if (!storeBetter) {
+      setResume(record.resume);
+    }
+    if (record.theme && Object.keys(record.theme).length > 0) {
+      setTheme(record.theme);
+    }
+    if (record.template_id) setTemplate(record.template_id);
     setStatus("editing");
+    setPhase("resume");
+  }, [
+    resumeId,
+    record,
+    setResume,
+    setStatus,
+    setTheme,
+    setTemplate,
+    resetUpload,
+  ]);
 
-    if (resumeId) {
-      setPhase("resume");
-    } else {
-      const newId = crypto.randomUUID();
-      router.push(`/resumes/${newId}`);
+  const handleParsed = (_parsedId: string) => {
+    setPhase("generate");
+  };
+
+  const handleGenerateComplete = async () => {
+    setPhase("resume");
+    setPersistError(null);
+    const parsedId = useUploadStore.getState().parsedResumeId ?? resumeId;
+    const currentResume = useResumeStore.getState().resume;
+    const currentTheme = useResumeStore.getState().theme;
+    const currentTemplate = useResumeStore.getState().selectedTemplate;
+    if (parsedId && currentResume) {
+      try {
+        await apiClient.put(`/api/resumes/${parsedId}`, {
+          resume: currentResume,
+          theme: currentTheme,
+          template_id: currentTemplate,
+        });
+      } catch (err) {
+        console.error("Failed to persist generated resume", err);
+        setPersistError(extractErrorMessage(err));
+      }
+    }
+    if (!resumeId && parsedId) {
+      router.replace(`/resumes/${parsedId}`);
     }
   };
 
-  const displayLabel = resumeMeta?.label ?? resumeId;
+  // Source of truth for the "original" used by the diff panel:
+  //  - record.original_resume (saved at parse time) if we have it
+  //  - else, the parsed-but-not-yet-saved resume from the upload flow
+  const originalResume: Partial<Resume> | null = useMemo(() => {
+    if (record?.original_resume) return record.original_resume as Partial<Resume>;
+    const parsed = useUploadStore.getState().parsedResume;
+    return parsed ?? null;
+  }, [record]);
+
+  const displayLabel = record?.label ?? resumeId;
 
   const TopBar = () => (
     <header className="bg-background relative z-10 flex h-14 shrink-0 items-center justify-between border-b px-4 shadow-sm transition-all">
@@ -130,21 +192,15 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
             </span>
           )}
         </Link>
-        <span
-          className={`ml-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase ${
-            phase === "generate"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
-          }`}
-        >
-          {phase === "generate" ? "Draft" : "Saved"}
-        </span>
+        <PhaseBadge phase={phase} />
       </div>
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="sm"
           className="hover:bg-muted hidden font-medium transition-all sm:flex"
+          onClick={() => window.print()}
+          disabled={phase !== "resume"}
         >
           <Download className="mr-2 h-4 w-4" />
           Export PDF
@@ -166,23 +222,13 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
               <Settings className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] p-0 sm:max-w-sm">
-            <DesignPanel phase={phase} />
+          <SheetContent side="right" className="w-[320px] p-0 sm:max-w-sm">
+            <RightSidebar phase={phase} originalResume={originalResume} />
           </SheetContent>
         </Sheet>
       </div>
     </header>
   );
-
-  const { blocks, selectedBlockId, setSelectedBlockId } = useGenerateStore();
-
-  const scrollToSection = (id: string) => {
-    setSelectedBlockId(id);
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
 
   const LeftPanelContent = () => (
     <div className="bg-background flex h-full min-h-0 flex-col">
@@ -192,43 +238,12 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
         </h2>
       </div>
       <div className="custom-scrollbar flex-1 space-y-1 overflow-y-auto p-3">
-        {phase === "generate" ? (
-          blocks.length > 0 ? (
-            blocks.map((block: EditableOutlineBlock) => (
-              <Button
-                key={block.sortId}
-                variant={
-                  selectedBlockId === block.sortId ? "secondary" : "ghost"
-                }
-                className={cn(
-                  "w-full justify-start text-sm font-medium transition-all",
-                  selectedBlockId === block.sortId &&
-                    "bg-blue-50 text-blue-700 hover:bg-blue-100",
-                )}
-                onClick={() => scrollToSection(block.sortId)}
-              >
-                <div className="mr-3 flex size-5 shrink-0 items-center justify-center rounded-md bg-blue-100 text-[10px] font-bold text-blue-700">
-                  {block.id}
-                </div>
-                <span className="truncate">
-                  {block.title || "Untitled Section"}
-                </span>
-              </Button>
-            ))
-          ) : (
-            <div className="px-4 py-8 text-center text-sm text-slate-400 italic">
-              No sections generated yet...
-            </div>
-          )
+        {phase === "upload" ? (
+          <div className="px-4 py-8 text-center text-sm text-slate-400 italic">
+            Upload a resume to begin.
+          </div>
         ) : (
-          [
-            "Personal Info",
-            "Summary",
-            "Experience",
-            "Education",
-            "Skills",
-            "Projects",
-          ].map((section) => (
+          SECTION_LABELS.map((section) => (
             <Button
               key={section}
               variant="ghost"
@@ -245,9 +260,24 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   return (
     <div className="bg-background text-foreground flex h-screen w-full flex-col overflow-hidden font-sans">
       <TopBar />
+      {persistError && (
+        <div className="flex items-center gap-2 border-b border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-800">
+          <AlertTriangle className="size-4 shrink-0" />
+          <span className="truncate">
+            Couldn&apos;t save the upgraded resume to the backend:{" "}
+            <span className="font-semibold">{persistError}</span>. Your
+            in-browser copy is still here — try editing a field to autosave.
+          </span>
+        </div>
+      )}
       <div className="flex min-h-0 flex-1 overflow-hidden lg:gap-0">
         <div
-          className={`bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-r backdrop-blur-sm transition-all duration-300 ease-in-out md:block ${isLeftCollapsed ? "w-0 border-transparent opacity-0" : "w-64 opacity-100"}`}
+          className={cn(
+            "bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-r backdrop-blur-sm transition-all duration-300 ease-in-out md:block",
+            isLeftCollapsed
+              ? "w-0 border-transparent opacity-0"
+              : "w-64 opacity-100",
+          )}
         >
           <div className="h-full w-64">
             <LeftPanelContent />
@@ -255,22 +285,49 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
         </div>
 
         <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
-          {phase === "generate" ? (
-            <GenerateCanvas onComplete={handleContinueToResume} />
-          ) : (
-            <ResumeCanvas />
+          {phase === "upload" && <UploadCanvas onParsed={handleParsed} />}
+          {phase === "generate" && (
+            <GenerateStreamCanvas
+              resumeId={resumeId}
+              onComplete={handleGenerateComplete}
+            />
           )}
+          {phase === "resume" && <ResumeCanvas />}
         </main>
 
         <div
-          className={`bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-l backdrop-blur-sm transition-all duration-300 ease-in-out lg:block ${isRightCollapsed ? "w-0 border-transparent opacity-0" : "w-72 opacity-100"}`}
+          className={cn(
+            "bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-l backdrop-blur-sm transition-all duration-300 ease-in-out lg:block",
+            isRightCollapsed
+              ? "w-0 border-transparent opacity-0"
+              : "w-80 opacity-100",
+          )}
         >
-          <div className="h-full w-72">
-            <DesignPanel phase={phase} />
+          <div className="h-full w-80">
+            <RightSidebar phase={phase} originalResume={originalResume} />
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function PhaseBadge({ phase }: { phase: EditorPhase }) {
+  const cfg: Record<EditorPhase, { label: string; className: string }> = {
+    upload: { label: "Upload", className: "bg-amber-100 text-amber-700" },
+    generate: { label: "Streaming", className: "bg-blue-100 text-blue-700" },
+    resume: { label: "Editing", className: "bg-green-100 text-green-700" },
+  };
+  const c = cfg[phase];
+  return (
+    <span
+      className={cn(
+        "ml-3 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase",
+        c.className,
+      )}
+    >
+      {c.label}
+    </span>
   );
 }
 
@@ -281,4 +338,27 @@ function axiosIs404(error: unknown): boolean {
     "response" in error &&
     (error as { response?: { status?: number } }).response?.status === 404
   );
+}
+
+function extractErrorMessage(err: unknown): string {
+  if (err && typeof err === "object" && "response" in err) {
+    const resp = (err as { response?: { data?: unknown; status?: number } })
+      .response;
+    if (resp?.data) {
+      if (typeof resp.data === "string") return resp.data;
+      if (typeof resp.data === "object" && resp.data !== null) {
+        const d = resp.data as { detail?: unknown; message?: string };
+        if (typeof d.detail === "string") return d.detail;
+        if (typeof d.message === "string") return d.message;
+        try {
+          return JSON.stringify(d).slice(0, 200);
+        } catch {
+          /* fall through */
+        }
+      }
+    }
+    if (resp?.status) return `HTTP ${resp.status}`;
+  }
+  if (err instanceof Error) return err.message;
+  return "Unknown error";
 }

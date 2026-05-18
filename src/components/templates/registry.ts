@@ -1,5 +1,7 @@
 import { MinimalTemplate } from "./MinimalTemplate";
-// In the future, import ExecutiveTemplate, ModernTemplate, etc.
+import { ExecutiveTemplate } from "./ExecutiveTemplate";
+import { ModernTemplate } from "./ModernTemplate";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const TEMPLATES: Record<
   string,
@@ -10,6 +12,14 @@ export const TEMPLATES: Record<
     Component: MinimalTemplate,
     thumbnail: "/t/minimal.png",
   },
-  // executive: { name: "Executive", Component: ExecutiveTemplate, thumbnail: "/t/exec.png" },
-  // modern:    { name: "Modern",    Component: ModernTemplate,    thumbnail: "/t/modern.png" },
+  executive: {
+    name: "Executive",
+    Component: ExecutiveTemplate,
+    thumbnail: "/t/executive.png",
+  },
+  modern: {
+    name: "Modern",
+    Component: ModernTemplate,
+    thumbnail: "/t/modern.png",
+  },
 };

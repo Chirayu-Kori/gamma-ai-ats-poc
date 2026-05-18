@@ -11,13 +11,15 @@ import {
 import { useResumeStore } from "@/stores/resumeStore";
 import { TEMPLATES } from "@/components/templates/registry";
 import { cn } from "@/lib/utils";
+import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
+import { CustomThemePanel } from "@/components/editor/custom-theme-panel";
 
 type DesignPanelProps = {
-  phase: "generate" | "resume";
+  phase: "upload" | "generate" | "resume";
 };
 
 import { useGenerateStore } from "@/stores/generateStore";
-import { FileText, Languages, Hash } from "lucide-react";
+import { FileText, Languages } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -26,7 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const CARD_OPTIONS = [5, 8, 10] as const;
 const FORMAT_OPTIONS = ["A4", "Letter"] as const;
 const LANGUAGE_OPTIONS = [
   "English (US)",
@@ -96,32 +97,32 @@ export function DesignPanel({ phase }: DesignPanelProps) {
   const theme = useResumeStore((s) => s.theme);
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const setTheme = useResumeStore((s) => s.setTheme);
+  const triggerAutosave = useDebouncedAutosave();
 
-  const { cardCount, format, language, setCardCount, setFormat, setLanguage } =
-    useGenerateStore();
+  const applyTemplate = (id: string) => {
+    setTemplate(id);
+    triggerAutosave();
+  };
+  const applyTheme = (patch: Record<string, string>) => {
+    setTheme(patch);
+    triggerAutosave();
+  };
+
+  const { format, language, setFormat, setLanguage } = useGenerateStore();
 
   const activeAccent = getActiveAccentId(theme);
   const activeFont = getActiveFontId(theme);
   const templateIds = Object.keys(TEMPLATES);
 
-  if (phase === "generate") {
+  if (phase === "upload") {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
         <div className="border-b p-5">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
-            Generation Settings
+            Design Details
           </h2>
         </div>
-        <div className="custom-scrollbar flex-1 space-y-8 overflow-y-auto p-5">
-          <DesignField label="Card Count" icon={Hash}>
-            <DesignSelect
-              value={cardCount}
-              options={CARD_OPTIONS}
-              onChange={(v) => setCardCount(Number(v))}
-              formatLabel={(v) => `${v} cards`}
-            />
-          </DesignField>
-
+        <div className="custom-scrollbar flex-1 space-y-4 overflow-y-auto p-5">
           <DesignField label="Format" icon={FileText}>
             <DesignSelect
               value={format}
@@ -129,7 +130,6 @@ export function DesignPanel({ phase }: DesignPanelProps) {
               onChange={setFormat}
             />
           </DesignField>
-
           <DesignField label="Language" icon={Languages}>
             <DesignSelect
               value={language}
@@ -137,13 +137,10 @@ export function DesignPanel({ phase }: DesignPanelProps) {
               onChange={setLanguage}
             />
           </DesignField>
-
           <Separator className="my-2" />
-
           <div className="rounded-lg border border-blue-100 bg-blue-50/50 p-4 text-xs leading-relaxed text-blue-700">
-            <p className="mb-1 font-semibold">Pro Tip:</p>
-            Choose the number of cards based on your experience level. More
-            cards allow for a more detailed resume.
+            Upload a PDF/image (and optionally a job description) to begin. You
+            can change template and theme during generation.
           </div>
         </div>
       </div>
@@ -168,7 +165,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                 <button
                   key={tid}
                   type="button"
-                  onClick={() => setTemplate(tid)}
+                  onClick={() => applyTemplate(tid)}
                   className={cn(
                     "group bg-muted/30 relative flex aspect-[1/1.414] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-2 p-2 transition-all hover:shadow-sm",
                     selected
@@ -211,7 +208,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                 role="radio"
                 aria-checked={activeAccent === color.id}
                 title={color.id}
-                onClick={() => setTheme({ accent: color.value })}
+                onClick={() => applyTheme({ accent: color.value })}
                 className={cn(
                   "h-8 w-8 rounded-full border shadow-sm transition-all hover:scale-105",
                   color.className,
@@ -221,6 +218,15 @@ export function DesignPanel({ phase }: DesignPanelProps) {
               />
             ))}
           </div>
+        </div>
+
+        <Separator />
+
+        <Separator />
+
+        <div>
+          <h3 className="mb-3 text-sm font-semibold">Custom theme</h3>
+          <CustomThemePanel onApplied={() => triggerAutosave()} />
         </div>
 
         <Separator />
@@ -236,7 +242,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                   type="button"
                   variant="outline"
                   onClick={() =>
-                    setTheme({
+                    applyTheme({
                       fontHeading: font.fontHeading,
                       fontBody: font.fontBody,
                     })

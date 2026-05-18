@@ -1,0 +1,17 @@
+.modern-theme {
+  font-family: var(--font-body);
+}
+
+.modern-theme .modern-sidebar {
+  background: var(--color-accent);
+  color: white;
+}
+
+.modern-theme .modern-sidebar h2 {
+  color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.modern-theme .modern-main h2 {
+  color: var(--color-accent);
+}
