@@ -22,7 +22,7 @@ export function ResumeCanvas() {
       !resume.summary &&
       (!resume.experience || resume.experience.length === 0));
 
-  if (isEmpty && status !== "streaming") {
+  if (isEmpty && status !== "generating") {
     return (
       <div className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center shadow-sm">
         <div className="rounded-full bg-blue-50 p-4">

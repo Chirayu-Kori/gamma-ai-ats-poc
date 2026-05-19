@@ -67,6 +67,21 @@ class Resume(BaseModel):
     certifications: Optional[list[str]] = None
 
 
+class ExperienceUpgrade(BaseModel):
+    """Rewritten bullets for one job (by index in experience[])."""
+
+    index: int = Field(ge=0)
+    bullets: list[Bullet] = Field(default_factory=list)
+
+
+class ResumeUpgradeDelta(BaseModel):
+    """Small patch returned by Gemini — merged into the parsed resume."""
+
+    headline: Optional[str] = None
+    summary: Optional[str] = None
+    experience: list[ExperienceUpgrade] = Field(default_factory=list)
+
+
 class ResumeRecord(BaseModel):
     """Wrapper persisted to disk."""
 

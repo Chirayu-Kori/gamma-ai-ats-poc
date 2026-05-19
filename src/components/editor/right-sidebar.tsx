@@ -6,16 +6,14 @@ import { Sparkles, SlidersHorizontal } from "lucide-react";
 import { ChangesPanel } from "./changes-panel";
 import { DesignPanel } from "./design-panel";
 import { cn } from "@/lib/utils";
-import type { Resume } from "@/lib/types/resume";
-
 type RightSidebarProps = {
   phase: "upload" | "generate" | "resume";
-  originalResume?: Partial<Resume> | null;
+  resumeId?: string;
 };
 
 type Tab = "changes" | "design";
 
-export function RightSidebar({ phase, originalResume }: RightSidebarProps) {
+export function RightSidebar({ phase, resumeId }: RightSidebarProps) {
   const [tab, setTab] = useState<Tab>(
     phase === "upload" ? "design" : "changes",
   );
@@ -38,7 +36,10 @@ export function RightSidebar({ phase, originalResume }: RightSidebarProps) {
       </div>
       <div className="min-h-0 flex-1">
         {tab === "changes" ? (
-          <ChangesPanel originalResume={originalResume} />
+          <ChangesPanel
+            resumeId={resumeId}
+            enabled={phase === "resume"}
+          />
         ) : (
           <DesignPanel phase={phase} />
         )}

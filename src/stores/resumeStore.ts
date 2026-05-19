@@ -4,7 +4,13 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { DEFAULT_RESUME_THEME } from "../lib/resume-theme";
 import { Resume } from "../lib/types/resume";
 
-export type Status = "idle" | "streaming" | "editing" | "saving" | "error";
+export type Status =
+  | "idle"
+  | "generating"
+  | "streaming"
+  | "editing"
+  | "saving"
+  | "error";
 
 interface ResumeState {
   // Data

@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 from schemas.resume import Resume, ResumeMeta, ResumeRecord
 from services import storage
+from services.resume_diff import ResumeDiff, compute_resume_diff
 
 router = APIRouter(prefix="/api/resumes", tags=["resumes"])
 
@@ -41,6 +42,16 @@ def create_resume(body: CreateResumeBody) -> ResumeRecord:
         theme=body.theme,
         jd_text=body.jd_text,
     )
+
+
+@router.get("/{resume_id}/changes", response_model=ResumeDiff)
+def get_resume_changes(resume_id: str) -> ResumeDiff:
+    """Compare original (pre-upgrade) vs current resume — call after generate."""
+    record = storage.get_resume(resume_id)
+    if record is None:
+        raise HTTPException(404, f"Resume {resume_id} not found")
+    original = record.original_resume or record.resume
+    return compute_resume_diff(original, record.resume)
 
 
 @router.get("/{resume_id}")

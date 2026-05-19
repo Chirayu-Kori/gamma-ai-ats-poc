@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Menu,
   Settings,
@@ -18,13 +18,12 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { RightSidebar } from "./right-sidebar";
 import { UploadCanvas } from "./upload-canvas";
-import { GenerateStreamCanvas } from "./generate-stream-canvas";
+import { GenerateLoadingCanvas } from "./generate-loading-canvas";
 import { ResumeCanvas } from "@/components/ResumeCanvas";
 import { useResumeStore } from "@/stores/resumeStore";
 import { useUploadStore } from "@/stores/uploadStore";
 import { apiClient } from "@/lib/api-client";
 import { resumeQueryKeys } from "@/lib/query-keys";
-import type { Resume } from "@/lib/types/resume";
 import type { ResumeRecord } from "@/lib/types/resume-meta";
 import { cn } from "@/lib/utils";
 
@@ -45,11 +44,13 @@ const SECTION_LABELS = [
 
 export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const setResume = useResumeStore((s) => s.setResume);
   const setStatus = useResumeStore((s) => s.setStatus);
   const setTheme = useResumeStore((s) => s.setTheme);
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const resetUpload = useUploadStore((s) => s.reset);
+  const parsedResumeId = useUploadStore((s) => s.parsedResumeId);
 
   const [phase, setPhase] = useState<EditorPhase>(
     resumeId ? "resume" : "upload",
@@ -123,7 +124,6 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   };
 
   const handleGenerateComplete = async () => {
-    setPhase("resume");
     setPersistError(null);
     const parsedId = useUploadStore.getState().parsedResumeId ?? resumeId;
     const currentResume = useResumeStore.getState().resume;
@@ -136,24 +136,24 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           theme: currentTheme,
           template_id: currentTemplate,
         });
+        await queryClient.invalidateQueries({
+          queryKey: resumeQueryKeys.detail(parsedId),
+        });
+        await queryClient.invalidateQueries({
+          queryKey: [...resumeQueryKeys.detail(parsedId), "changes"],
+        });
       } catch (err) {
         console.error("Failed to persist generated resume", err);
         setPersistError(extractErrorMessage(err));
       }
     }
+    setPhase("resume");
     if (!resumeId && parsedId) {
       router.replace(`/resumes/${parsedId}`);
     }
   };
 
-  // Source of truth for the "original" used by the diff panel:
-  //  - record.original_resume (saved at parse time) if we have it
-  //  - else, the parsed-but-not-yet-saved resume from the upload flow
-  const originalResume: Partial<Resume> | null = useMemo(() => {
-    if (record?.original_resume) return record.original_resume as Partial<Resume>;
-    const parsed = useUploadStore.getState().parsedResume;
-    return parsed ?? null;
-  }, [record]);
+  const activeResumeId = resumeId ?? parsedResumeId ?? undefined;
 
   const displayLabel = record?.label ?? resumeId;
 
@@ -223,7 +223,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="w-[320px] p-0 sm:max-w-sm">
-            <RightSidebar phase={phase} originalResume={originalResume} />
+            <RightSidebar phase={phase} resumeId={activeResumeId} />
           </SheetContent>
         </Sheet>
       </div>
@@ -287,7 +287,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
         <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
           {phase === "upload" && <UploadCanvas onParsed={handleParsed} />}
           {phase === "generate" && (
-            <GenerateStreamCanvas
+            <GenerateLoadingCanvas
               resumeId={resumeId}
               onComplete={handleGenerateComplete}
             />
@@ -304,7 +304,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           )}
         >
           <div className="h-full w-80">
-            <RightSidebar phase={phase} originalResume={originalResume} />
+            <RightSidebar phase={phase} resumeId={activeResumeId} />
           </div>
         </div>
       </div>
@@ -315,7 +315,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 function PhaseBadge({ phase }: { phase: EditorPhase }) {
   const cfg: Record<EditorPhase, { label: string; className: string }> = {
     upload: { label: "Upload", className: "bg-amber-100 text-amber-700" },
-    generate: { label: "Streaming", className: "bg-blue-100 text-blue-700" },
+    generate: { label: "Upgrading", className: "bg-blue-100 text-blue-700" },
     resume: { label: "Editing", className: "bg-green-100 text-green-700" },
   };
   const c = cfg[phase];

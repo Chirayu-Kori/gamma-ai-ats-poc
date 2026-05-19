@@ -1,21 +1,22 @@
 "use client";
 
-import { useMemo } from "react";
 import {
   Sparkles,
   AlertCircle,
   Wand2,
   CheckCircle2,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
 
-import { computeResumeDiff, type ResumeChange } from "@/lib/resume-diff";
+import { useResumeChanges } from "@/hooks/useResumeChanges";
+import type { ResumeChange } from "@/lib/resume-diff";
 import { cn } from "@/lib/utils";
-import { useResumeStore } from "@/stores/resumeStore";
-import type { Resume } from "@/lib/types/resume";
 
 type ChangesPanelProps = {
-  originalResume?: Partial<Resume> | null;
+  resumeId?: string;
+  /** When false, show a waiting state (generation in progress). */
+  enabled: boolean;
 };
 
 const AREA_LABEL: Record<ResumeChange["area"], string> = {
@@ -53,17 +54,27 @@ const KIND_META: Record<
   },
 };
 
-export function ChangesPanel({ originalResume }: ChangesPanelProps) {
-  const resume = useResumeStore((s) => s.resume);
+export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
+  const { data: diff, isLoading, isError } = useResumeChanges(resumeId, enabled);
 
-  const diff = useMemo(
-    () => computeResumeDiff(originalResume, resume),
-    [originalResume, resume],
-  );
+  if (!enabled) {
+    return (
+      <div className="bg-background flex h-full min-h-0 flex-col">
+        <div className="border-b p-5">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+            Changes
+          </h2>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-sm text-slate-400">
+          <Loader2 className="size-6 animate-spin text-blue-400" />
+          <p>Resume upgrade in progress…</p>
+          <p className="text-xs">Change summary loads after generation finishes.</p>
+        </div>
+      </div>
+    );
+  }
 
-  const total = diff.added.length + diff.improved.length + diff.missing.length;
-
-  if (!originalResume) {
+  if (!resumeId) {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
         <div className="border-b p-5">
@@ -78,6 +89,39 @@ export function ChangesPanel({ originalResume }: ChangesPanelProps) {
       </div>
     );
   }
+
+  if (isLoading) {
+    return (
+      <div className="bg-background flex h-full min-h-0 flex-col">
+        <div className="border-b p-5">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+            Changes
+          </h2>
+        </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-sm text-slate-400">
+          <Loader2 className="size-6 animate-spin text-blue-400" />
+          <p>Loading change summary…</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError || !diff) {
+    return (
+      <div className="bg-background flex h-full min-h-0 flex-col">
+        <div className="border-b p-5">
+          <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+            Changes
+          </h2>
+        </div>
+        <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-rose-600">
+          Could not load changes. Try saving the resume and refreshing.
+        </div>
+      </div>
+    );
+  }
+
+  const total = diff.added.length + diff.improved.length + diff.missing.length;
 
   return (
     <div className="bg-background flex h-full min-h-0 flex-col">
@@ -100,7 +144,7 @@ export function ChangesPanel({ originalResume }: ChangesPanelProps) {
         {total === 0 ? (
           <div className="flex flex-col items-center gap-2 py-10 text-center text-sm text-slate-400">
             <CheckCircle2 className="size-6 text-emerald-400" />
-            <p>No structural diff yet — the upgrade is in progress.</p>
+            <p>No structural changes detected.</p>
           </div>
         ) : (
           <>
