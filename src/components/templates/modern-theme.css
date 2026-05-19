@@ -3,11 +3,30 @@
 .modern-theme .modern-sidebar {
   background: var(--color-sidebar);
   color: white;
+  overflow-x: visible;
+}
+
+.modern-theme .modern-sidebar-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  padding-bottom: 0.35rem;
+  word-break: normal;
 }
 
 .modern-theme .modern-sidebar h2 {
   color: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.modern-theme .modern-sidebar .resume-contact-icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modern-theme .modern-sidebar .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .modern-theme .modern-main h2 {

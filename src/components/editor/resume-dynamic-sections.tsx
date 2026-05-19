@@ -159,7 +159,7 @@ export function ResumeDynamicSections({
         )}
         onClick={(e) => {
           if (isEditableTarget(e.target)) return;
-          setSelectedSectionId(section.id);
+          setSelectedSectionId(isSelected ? null : section.id);
         }}
       >
         <EditableSectionTitle sectionId={section.id} className={titleClass} />

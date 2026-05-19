@@ -68,6 +68,7 @@ export function SortableCard({
   return (
     <div
       ref={setNodeRef}
+      data-section-id={id}
       style={style}
       className={cn(
         "group relative rounded-md transition-colors",

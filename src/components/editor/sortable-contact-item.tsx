@@ -92,9 +92,10 @@ export function SortableContactItem({
           isDragging && "bg-accent/30 rounded-md",
         )}
       >
-        <div className="flex gap-1">
-          {grip}
-          <div className="min-w-0 flex-1">
+        <div className="pointer-events-none absolute top-0 right-full z-20 mr-0.5 print:hidden">
+          <div className="pointer-events-auto">{grip}</div>
+        </div>
+        <div className="min-w-0">
             <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-medium tracking-wide opacity-70 uppercase">
               <ContactIcon icon={Icon} className="size-3" onAccent={onAccent} />
               <span>{label}</span>
@@ -106,7 +107,6 @@ export function SortableContactItem({
               className="resume-contact-value block text-sm break-words"
               editorClassName="whitespace-normal break-words"
             />
-          </div>
         </div>
       </li>
     );
@@ -118,18 +118,19 @@ export function SortableContactItem({
         ref={setNodeRef}
         style={style}
         className={cn(
-          "group relative flex min-w-0 max-w-full list-none items-center gap-1 rounded-full px-2 py-1",
+          "group relative flex min-w-0 max-w-full list-none items-center gap-1.5",
           isDragging && "bg-accent/40",
         )}
       >
-        {grip}
+        <div className="pointer-events-none absolute top-1/2 right-full z-20 -translate-y-1/2 pr-0.5 print:hidden">
+          <div className="pointer-events-auto">{grip}</div>
+        </div>
         <ContactIcon icon={Icon} className="size-3" onAccent={onAccent} />
         <EditableText
           path={`contact.${id}`}
           mode="inline"
-          inlineWrap
-          className="resume-contact-value min-w-0 text-sm break-words"
-          editorClassName="whitespace-normal break-words"
+          className="resume-contact-value min-w-0 text-sm leading-none"
+          editorClassName="whitespace-nowrap py-0 leading-none"
         />
       </li>
     );

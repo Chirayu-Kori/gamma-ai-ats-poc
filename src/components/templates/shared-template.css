@@ -54,8 +54,15 @@
 }
 
 .resume-theme-base .resume-contact-inline,
-.resume-theme-base .resume-contact-bar {
+.resume-theme-base .resume-contact-bar,
+.resume-theme-base .resume-contact-chips {
   overflow: visible;
+}
+
+.resume-theme-base .resume-contact-chips > li {
+  flex-shrink: 0;
+  width: max-content;
+  max-width: 100%;
 }
 
 .resume-theme-base .resume-contact-inline > li,
@@ -69,6 +76,17 @@
 .resume-theme-base .resume-contact-value .ProseMirror {
   white-space: nowrap;
   overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Sidebar contact — wrap in narrow columns */
+.resume-theme-base .resume-contact-sidebar .resume-contact-value,
+.resume-theme-base .resume-contact-sidebar .resume-contact-value .ProseMirror {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
   word-break: normal;
 }
 
