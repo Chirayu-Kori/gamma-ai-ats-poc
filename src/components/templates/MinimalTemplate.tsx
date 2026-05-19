@@ -81,7 +81,7 @@ export function MinimalTemplate() {
 
   return (
     <article
-      className="resume minimal-theme ring-border mx-auto w-full max-w-4xl min-w-0 overflow-x-clip rounded-sm bg-white p-8 text-black shadow-lg ring-1 sm:p-12"
+      className="resume minimal-theme resume-theme-base ring-border mx-auto w-full max-w-4xl min-w-0 overflow-x-clip rounded-sm p-8 shadow-lg ring-1 sm:p-12"
       style={themeStyle}
     >
       <header className="mb-8 min-w-0 shrink-0 text-center">

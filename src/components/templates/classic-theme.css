@@ -1,0 +1,23 @@
+@import "./shared-template.css";
+
+.classic-theme .classic-rule {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent) 20%,
+    var(--color-accent) 80%,
+    transparent
+  );
+}
+
+.classic-theme .classic-section-title {
+  color: var(--color-accent);
+}
+
+.classic-theme .classic-section-title::before,
+.classic-theme .classic-section-title::after {
+  content: "—";
+  margin: 0 0.75rem;
+  opacity: 0.5;
+}

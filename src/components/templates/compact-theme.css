@@ -1,0 +1,13 @@
+@import "./shared-template.css";
+
+.compact-theme .compact-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.compact-theme .compact-header {
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}

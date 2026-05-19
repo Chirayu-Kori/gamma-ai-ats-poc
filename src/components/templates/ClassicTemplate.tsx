@@ -7,22 +7,7 @@ import { SortableExperienceList } from "@/components/editor/sortable-experience-
 import { SortableEducationList } from "@/components/editor/sortable-education-list";
 import { SkillsRow } from "@/components/editor/skills-row";
 import type { ContactInfo } from "@/lib/types/resume";
-import "./executive-theme.css";
-
-function ContactLine({ contact }: { contact: ContactInfo }) {
-  const parts: string[] = [];
-  if (contact?.email) parts.push(contact.email);
-  if (contact?.phone) parts.push(contact.phone);
-  if (contact?.location) parts.push(contact.location);
-  if (contact?.linkedin) parts.push(contact.linkedin);
-  if (contact?.website) parts.push(contact.website);
-  if (!parts.length) return null;
-  return (
-    <p className="mt-2 text-sm tracking-wide text-slate-600">
-      {parts.join("   •   ")}
-    </p>
-  );
-}
+import "./classic-theme.css";
 
 function Section({
   title,
@@ -32,8 +17,8 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-7">
-      <h2 className="resume-heading mb-3 text-xs font-bold tracking-[0.2em] uppercase">
+    <section className="mb-6">
+      <h2 className="classic-section-title mb-3 text-center text-sm font-bold tracking-[0.3em] uppercase">
         {title}
       </h2>
       {children}
@@ -41,41 +26,51 @@ function Section({
   );
 }
 
-export function ExecutiveTemplate() {
+export function ClassicTemplate() {
   const resume = useResumeStore((s) => s.resume);
   const theme = useResumeStore((s) => s.theme);
-
   if (!resume) return null;
+
+  const contact = resume.contact ?? ({} as ContactInfo);
+  const contactParts = [
+    contact.email,
+    contact.phone,
+    contact.location,
+    contact.linkedin,
+    contact.website,
+  ].filter(Boolean);
 
   return (
     <article
-      className="resume executive-theme resume-theme-base ring-border mx-auto w-full max-w-4xl min-w-0 rounded-sm p-10 shadow-lg ring-1 sm:p-14"
+      className="resume classic-theme resume-theme-base ring-border mx-auto w-full max-w-3xl min-w-0 rounded-sm p-10 shadow-lg ring-1 sm:p-12"
       style={resumeThemeToCssVars(theme)}
     >
-      <header className="mb-8 border-b-2 pb-6 text-center">
+      <header className="classic-header mb-8 text-center">
+        <div className="classic-rule mb-4" />
         <EditableText
           path="name"
           mode="inline"
-          className="resume-heading block text-4xl font-black uppercase"
+          className="font-heading block text-3xl font-bold tracking-wide"
         />
         <EditableText
           path="headline"
           mode="inline"
-          className="mt-2 block text-sm tracking-[0.25em] text-slate-500 uppercase"
+          className="mt-2 block text-sm tracking-[0.2em] uppercase opacity-70"
         />
-        <ContactLine contact={resume.contact || ({} as ContactInfo)} />
+        {contactParts.length > 0 && (
+          <p className="mt-3 text-xs tracking-wide opacity-80">
+            {contactParts.join("  ·  ")}
+          </p>
+        )}
+        <div className="classic-rule mt-4" />
       </header>
 
-      <Section title="Profile">
-        <EditableText
-          path="summary"
-          mode="block"
-          className="text-sm leading-relaxed text-slate-700"
-        />
+      <Section title="Summary">
+        <EditableText path="summary" mode="block" className="text-sm leading-relaxed" />
       </Section>
 
       {resume.experience && resume.experience.length > 0 && (
-        <Section title="Professional Experience">
+        <Section title="Experience">
           <SortableExperienceList />
         </Section>
       )}
@@ -87,7 +82,7 @@ export function ExecutiveTemplate() {
       )}
 
       {resume.skills && resume.skills.length > 0 && (
-        <Section title="Core Competencies">
+        <Section title="Skills">
           <div className="space-y-2">
             {resume.skills.map((_, i) => (
               <SkillsRow key={i} index={i} />
@@ -98,7 +93,7 @@ export function ExecutiveTemplate() {
 
       {resume.certifications && resume.certifications.length > 0 && (
         <Section title="Certifications">
-          <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed">
+          <ul className="list-disc space-y-1 pl-5 text-sm">
             {resume.certifications.map((c, i) => (
               <li key={i}>{c}</li>
             ))}

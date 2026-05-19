@@ -1,0 +1,37 @@
+/* Shared theme variables applied across all resume templates */
+.resume-theme-base {
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.resume-theme-base .font-heading,
+.resume-theme-base .resume-heading {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+}
+
+.resume-theme-base .ProseMirror {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.resume-theme-base h2 {
+  font-family: var(--font-heading);
+  color: var(--color-accent);
+}
+
+.resume-theme-base ul.list-disc,
+.resume-theme-base .resume ul {
+  list-style-type: disc;
+  margin-left: 1.25rem;
+}
+
+.resume-theme-base ol.list-decimal,
+.resume-theme-base .resume ol {
+  list-style-type: decimal;
+  margin-left: 1.25rem;
+}

@@ -1,9 +1,7 @@
-.modern-theme {
-  font-family: var(--font-body);
-}
+@import "./shared-template.css";
 
 .modern-theme .modern-sidebar {
-  background: var(--color-accent);
+  background: var(--color-sidebar);
   color: white;
 }
 
