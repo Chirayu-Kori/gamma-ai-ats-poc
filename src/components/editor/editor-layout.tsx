@@ -33,14 +33,7 @@ type EditorLayoutProps = {
   resumeId?: string;
 };
 
-const SECTION_LABELS = [
-  "Personal Info",
-  "Summary",
-  "Experience",
-  "Education",
-  "Skills",
-  "Projects",
-] as const;
+import { DocumentOutline } from "./document-outline";
 
 export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const router = useRouter();
@@ -238,21 +231,13 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           Document Outline
         </h2>
       </div>
-      <div className="custom-scrollbar flex-1 space-y-1 overflow-y-auto p-3">
+      <div className="custom-scrollbar flex-1 overflow-y-auto">
         {phase === "upload" ? (
           <div className="px-4 py-8 text-center text-sm text-slate-400 italic">
             Upload a resume to begin.
           </div>
         ) : (
-          SECTION_LABELS.map((section) => (
-            <Button
-              key={section}
-              variant="ghost"
-              className="w-full justify-start text-sm font-medium"
-            >
-              {section}
-            </Button>
-          ))
+          <DocumentOutline />
         )}
       </div>
     </div>

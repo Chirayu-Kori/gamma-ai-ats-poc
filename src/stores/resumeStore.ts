@@ -2,8 +2,9 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { subscribeWithSelector } from "zustand/middleware";
 import { createId, ensureResumeIds } from "../lib/ensure-resume-ids";
+import { DEFAULT_SECTION_TITLES, ensureResumeSections } from "../lib/resume-sections";
 import { DEFAULT_RESUME_THEME } from "../lib/resume-theme";
-import { Resume } from "../lib/types/resume";
+import type { Resume, ResumeSectionConfig, ResumeSectionType } from "../lib/types/resume";
 
 export type Status =
   | "idle"
@@ -14,27 +15,28 @@ export type Status =
   | "error";
 
 interface ResumeState {
-  // Data
   resume: Partial<Resume> | null;
   schemaVersion: number;
-
-  // UI state
   status: Status;
   selectedTemplate: string;
   theme: Record<string, string>;
   focusedPath: string | null;
 
-  // Actions
   setResume: (partial: Partial<Resume> | null) => void;
   setStatus: (status: Status) => void;
   updateField: (path: string, value: unknown) => void;
   reorderBullets: (expIdx: number, fromId: string, toId: string) => void;
   reorderExperience: (fromId: string, toId: string) => void;
   reorderEducation: (fromId: string, toId: string) => void;
+  reorderSections: (fromId: string, toId: string) => void;
   addExperience: (index: number) => void;
   removeExperience: (index: number) => void;
   addEducation: (index: number) => void;
   removeEducation: (index: number) => void;
+  addSection: (type: ResumeSectionType, afterSectionId?: string) => void;
+  removeSection: (sectionId: string) => void;
+  updateSectionTitle: (sectionId: string, title: string) => void;
+  toggleSectionVisible: (sectionId: string) => void;
   setTemplate: (id: string) => void;
   setTheme: (patch: Record<string, string>) => void;
   setFocusedPath: (path: string | null) => void;
@@ -56,12 +58,82 @@ function setByPath(obj: any, path: string, value: unknown) {
   node[keys[keys.length - 1]] = value;
 }
 
+function normalizeResume(partial: Partial<Resume>): Partial<Resume> {
+  return ensureResumeSections(ensureResumeIds(partial));
+}
+
+function ensureSectionContent(
+  resume: Partial<Resume>,
+  type: ResumeSectionType,
+) {
+  switch (type) {
+    case "summary":
+      if (!resume.summary) resume.summary = "";
+      break;
+    case "experience":
+      if (!resume.experience?.length) {
+        resume.experience = [
+          {
+            id: createId("exp"),
+            company: "New Company",
+            title: "New Role",
+            start: "Start Date",
+            end: "End Date",
+            location: "Location",
+            bullets: [{ id: createId("bullet"), text: "Enter achievement..." }],
+          },
+        ];
+      }
+      break;
+    case "education":
+      if (!resume.education?.length) {
+        resume.education = [
+          {
+            id: createId("edu"),
+            institution: "New Institution",
+            degree: "Degree",
+            field: "Field of Study",
+            start: "Start Date",
+            end: "End Date",
+            gpa: "",
+            highlights: [],
+          },
+        ];
+      }
+      break;
+    case "skills":
+      if (!resume.skills?.length) {
+        resume.skills = [{ category: "Skills", items: ["Skill 1"] }];
+      }
+      break;
+    case "projects":
+      if (!resume.projects?.length) {
+        resume.projects = [
+          {
+            name: "Project Name",
+            description: "Project description",
+            url: null,
+            tech_stack: [],
+            bullets: [{ id: createId("bullet"), text: "Key outcome..." }],
+          },
+        ];
+      }
+      break;
+    case "certifications":
+      if (!resume.certifications?.length) {
+        resume.certifications = ["Certification name"];
+      }
+      break;
+    case "custom":
+      break;
+  }
+}
+
 export const useResumeStore = create<ResumeState>()(
   subscribeWithSelector(
     immer((set) => ({
       resume: null,
-      schemaVersion: 1,
-
+      schemaVersion: 2,
       status: "idle",
       selectedTemplate: "minimal",
       theme: { ...DEFAULT_RESUME_THEME },
@@ -69,7 +141,7 @@ export const useResumeStore = create<ResumeState>()(
 
       setResume: (partial) =>
         set((s) => {
-          s.resume = partial ? ensureResumeIds(partial) : null;
+          s.resume = partial ? normalizeResume(partial) : null;
         }),
       setStatus: (status) =>
         set((s) => {
@@ -121,6 +193,21 @@ export const useResumeStore = create<ResumeState>()(
           }
         }),
 
+      reorderSections: (fromId, toId) =>
+        set((s) => {
+          const list = s.resume?.sections;
+          if (!list) return;
+          const oldIndex = list.findIndex((section) => section.id === fromId);
+          const newIndex = list.findIndex((section) => section.id === toId);
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = list.splice(oldIndex, 1);
+            list.splice(newIndex, 0, item);
+            list.forEach((section, index) => {
+              section.order = index;
+            });
+          }
+        }),
+
       addExperience: (index) =>
         set((s) => {
           if (!s.resume) return;
@@ -134,7 +221,9 @@ export const useResumeStore = create<ResumeState>()(
             location: "Location",
             bullets: [{ id: createId("bullet"), text: "Enter achievement..." }],
           };
-          s.resume.experience.splice(index + 1, 0, newExp);
+          const insertAt =
+            index < 0 ? s.resume.experience.length : index + 1;
+          s.resume.experience.splice(insertAt, 0, newExp);
         }),
 
       removeExperience: (index) =>
@@ -157,13 +246,81 @@ export const useResumeStore = create<ResumeState>()(
             gpa: "",
             highlights: [],
           };
-          s.resume.education.splice(index + 1, 0, newEdu);
+          const insertAt = index < 0 ? s.resume.education.length : index + 1;
+          s.resume.education.splice(insertAt, 0, newEdu);
         }),
 
       removeEducation: (index) =>
         set((s) => {
           if (!s.resume?.education) return;
           s.resume.education.splice(index, 1);
+        }),
+
+      addSection: (type, afterSectionId) =>
+        set((s) => {
+          if (!s.resume) return;
+          if (!s.resume.sections) s.resume.sections = [];
+
+          const existing = s.resume.sections.find(
+            (section) => section.type === type && type !== "custom",
+          );
+          if (existing) {
+            existing.visible = true;
+            return;
+          }
+
+          ensureSectionContent(s.resume, type);
+
+          const newSection: ResumeSectionConfig = {
+            id: createId("sec"),
+            type,
+            title: DEFAULT_SECTION_TITLES[type],
+            visible: true,
+            order: s.resume.sections.length,
+            ...(type === "custom" ? { custom_content: "<p></p>" } : {}),
+          };
+
+          let insertAt = s.resume.sections.length;
+          if (afterSectionId) {
+            const afterIndex = s.resume.sections.findIndex(
+              (section) => section.id === afterSectionId,
+            );
+            if (afterIndex >= 0) insertAt = afterIndex + 1;
+          }
+
+          s.resume.sections.splice(insertAt, 0, newSection);
+          s.resume.sections.forEach((section, index) => {
+            section.order = index;
+          });
+        }),
+
+      removeSection: (sectionId) =>
+        set((s) => {
+          if (!s.resume?.sections) return;
+          const index = s.resume.sections.findIndex(
+            (section) => section.id === sectionId,
+          );
+          if (index === -1) return;
+          s.resume.sections.splice(index, 1);
+          s.resume.sections.forEach((section, idx) => {
+            section.order = idx;
+          });
+        }),
+
+      updateSectionTitle: (sectionId, title) =>
+        set((s) => {
+          const section = s.resume?.sections?.find(
+            (item) => item.id === sectionId,
+          );
+          if (section) section.title = title;
+        }),
+
+      toggleSectionVisible: (sectionId) =>
+        set((s) => {
+          const section = s.resume?.sections?.find(
+            (item) => item.id === sectionId,
+          );
+          if (section) section.visible = !section.visible;
         }),
 
       setTemplate: (id) =>
