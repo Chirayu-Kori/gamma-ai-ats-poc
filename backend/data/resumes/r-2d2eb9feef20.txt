@@ -202,37 +202,55 @@
     ],
     "projects": [
       {
-        "name": "CineSense - Movie Genre Detection",
-        "description": "",
+        "name": "",
+        "description": "Project description",
         "url": null,
-        "tech_stack": [
-          "BERT",
-          "ResNet152",
-          "PyTorch"
-        ],
+        "tech_stack": [],
         "bullets": [
           {
-            "text": "Utilised the MMIMDb dataset with movie synopses and posters as inputs, and relevant genres as output labels.",
+            "text": "Key outcome...",
             "impact_score": null,
             "keywords": [],
-            "id": "bullet-93c9e469-a4a6-44a9-a939-0b2439bcc36e"
-          },
-          {
-            "text": "Employed BERT for text encoding and ResNet-152 for image encoding and the concatenated features were classified via a feed-forward neural network across 26 possible genres.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-6d552dcf-f6a9-46ce-a18f-1c4c6ee5888f"
-          },
-          {
-            "text": "Evaluated the performance of the model by using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-2ebe877f-d76c-49fc-a15f-cf72098789e7"
+            "id": "bullet-a1ff56ed-6020-4a77-b179-7958a462b6ea"
           }
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": [
+      {
+        "id": "sec-3630106f-5745-4273-91ff-beb02f46eeab",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-30a50fe9-aeb1-4d30-a77d-834b886e9445",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-1339fe92-2643-4081-84db-4ac2248f88a9",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-823af0cd-095b-4b0c-b82e-f2ef49dd2b8c",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      }
+    ]
   },
   "original_resume": {
     "name": "SAHINI VENKATA SITARAM SRUTI",
@@ -465,7 +483,8 @@
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": null
   },
   "theme": {
     "accent": "#2563eb",
@@ -473,12 +492,12 @@
     "headingColor": "#0f172a",
     "backgroundColor": "#ffffff",
     "sidebarColor": "#2563eb",
-    "fontHeading": "\"Inter\", sans-serif",
-    "fontBody": "\"Inter\", sans-serif"
+    "fontHeading": "\"Open Sans\", sans-serif",
+    "fontBody": "\"Open Sans\", sans-serif"
   },
   "template_id": "classic",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-18T10:57:48.436479+00:00",
-  "updated_at": "2026-05-19T08:05:42.435067+00:00"
+  "updated_at": "2026-05-19T09:53:51.161627+00:00"
 }

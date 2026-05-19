@@ -23,6 +23,7 @@ import { SortableCard } from "./sortable-card";
 import { EditableSectionTitle } from "./editable-section-title";
 import { ResumeSectionContent } from "./resume-section-content";
 import { cn } from "@/lib/utils";
+import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
 
 export type SectionTitleVariant =
   | "default"
@@ -70,6 +71,7 @@ export function ResumeDynamicSections({
   const removeSection = useResumeStore((s) => s.removeSection);
   const addSection = useResumeStore((s) => s.addSection);
   const triggerAutosave = useDebouncedAutosave();
+  const { modifiers } = useScaleAwareDnd();
 
   const sections = getVisibleSections(resume).filter(
     (section) => !excludeTypes.includes(section.type),
@@ -142,6 +144,7 @@ export function ResumeDynamicSections({
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
+      modifiers={modifiers}
     >
       <SortableContext
         id="resume-sections-sortable"

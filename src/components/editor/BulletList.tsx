@@ -16,6 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useResumeStore } from "../../stores/resumeStore";
 import { SortableBullet } from "./SortableBullet";
+import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
 
 interface BulletListProps {
   expIdx: number;
@@ -33,6 +34,7 @@ export function BulletList({
       : resume?.projects?.[expIdx]?.bullets;
 
   const reorder = useResumeStore((s) => s.reorderBullets);
+  const { modifiers } = useScaleAwareDnd();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -59,6 +61,7 @@ export function BulletList({
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
+      modifiers={modifiers}
     >
       <SortableContext
         id={`bullets-sortable-${section}-${expIdx}`}
