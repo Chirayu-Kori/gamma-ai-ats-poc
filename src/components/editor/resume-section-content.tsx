@@ -6,15 +6,21 @@ import { EditableText } from "./EditableText";
 import { SortableExperienceList } from "./sortable-experience-list";
 import { SortableEducationList } from "./sortable-education-list";
 import { SortableSkillsList } from "./sortable-skills-list";
+import type { SkillsRowVariant } from "./skills-row";
 import { ProjectsList } from "./projects-list";
 import { CertificationsList } from "./certifications-list";
 import type { ResumeSectionConfig } from "@/lib/types/resume";
 
 type ResumeSectionContentProps = {
   section: ResumeSectionConfig;
+  /** `stacked` for narrow sidebars; `pills` for Creative template only. */
+  skillsVariant?: SkillsRowVariant;
 };
 
-export function ResumeSectionContent({ section }: ResumeSectionContentProps) {
+export function ResumeSectionContent({
+  section,
+  skillsVariant,
+}: ResumeSectionContentProps) {
   const resume = useResumeStore((s) => s.resume);
   const sectionIndex = findSectionIndex(resume, section.id);
 
@@ -33,7 +39,7 @@ export function ResumeSectionContent({ section }: ResumeSectionContentProps) {
     case "education":
       return <SortableEducationList />;
     case "skills":
-      return <SortableSkillsList />;
+      return <SortableSkillsList variant={skillsVariant} />;
     case "projects":
       return <ProjectsList />;
     case "certifications":

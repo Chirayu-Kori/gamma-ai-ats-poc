@@ -24,10 +24,10 @@ export function ModernTemplate() {
 
   return (
     <article
-      className="resume modern-theme resume-theme-base ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[minmax(11rem,260px)_minmax(0,1fr)] overflow-x-clip rounded-sm shadow-lg ring-1"
+      className="resume modern-theme resume-theme-base ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[minmax(11rem,260px)_minmax(0,1fr)] overflow-x-visible rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
-      <aside className="modern-sidebar min-w-0 space-y-7 p-6">
+      <aside className="modern-sidebar min-w-0 space-y-7 overflow-x-visible p-6">
         <div
           id="resume-header"
           data-section-type="headline"
@@ -48,12 +48,13 @@ export function ModernTemplate() {
         </div>
 
         <div>
-          <h2 className="resume-section-title mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-[0.1em] uppercase">
+          <h2 className="modern-sidebar-heading resume-section-title mb-2 flex items-center gap-1.5">
             <Mail className="resume-contact-icon size-3.5" strokeWidth={2} aria-hidden />
             Contact
           </h2>
           <ResumeContactSidebar
             contact={contact}
+            onAccent
             keys={["email", "phone", "location", "linkedin", "github", "website"]}
           />
         </div>
@@ -62,10 +63,10 @@ export function ModernTemplate() {
           <div id={`section-${skillsSection.id}`} className="scroll-mt-24">
             <EditableSectionTitle
               sectionId={skillsSection.id}
-              className="mb-2 text-xs font-semibold tracking-[0.1em] uppercase"
+              className="modern-sidebar-heading mb-2"
             />
             <div className="text-sm">
-              <SortableSkillsList />
+              <SortableSkillsList variant="stacked" />
             </div>
           </div>
         )}

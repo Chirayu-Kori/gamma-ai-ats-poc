@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { FileText } from "lucide-react";
 
 import { mergeThemeDefaults, pageSizeCssVars } from "@/lib/resume-theme";
+import { isSectionSelectionTarget } from "@/lib/section-selection";
 import { useResumeStore } from "../stores/resumeStore";
 import { CanvasSaveBar } from "./editor/canvas-save-bar";
 import { StreamingSectionEffects } from "./editor/streaming-section-effects";
@@ -15,6 +17,15 @@ export function ResumeCanvas() {
   const resume = useResumeStore((s) => s.resume);
   const status = useResumeStore((s) => s.status);
   const pageVars = pageSizeCssVars(mergeThemeDefaults(theme));
+  const setSelectedSectionId = useResumeStore((s) => s.setSelectedSectionId);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedSectionId(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [setSelectedSectionId]);
 
   const TemplateConfig = TEMPLATES[templateId] || TEMPLATES["minimal"];
   const Component = TemplateConfig.Component;
@@ -43,9 +54,17 @@ export function ResumeCanvas() {
     );
   }
 
+  const clearSectionSelection = (e: React.MouseEvent) => {
+    if (isSectionSelectionTarget(e.target)) return;
+    setSelectedSectionId(null);
+  };
+
   return (
     <div className="relative flex w-full min-w-0 flex-col">
-      <div className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0">
+      <div
+        className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0"
+        onClick={clearSectionSelection}
+      >
         <div className="resume-page-format w-full min-w-0" style={pageVars}>
           <StreamingSectionEffects />
           <Component />

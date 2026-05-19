@@ -137,6 +137,10 @@ export function DocumentOutline() {
   };
 
   const scrollToSection = (sectionId: string) => {
+    if (selectedSectionId === sectionId) {
+      setSelectedSectionId(null);
+      return;
+    }
     setSelectedSectionId(sectionId);
     document.getElementById(`section-${sectionId}`)?.scrollIntoView({
       behavior: "smooth",

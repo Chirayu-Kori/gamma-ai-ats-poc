@@ -59,7 +59,7 @@ const TITLE_CLASSES: Record<SectionTitleVariant, string> = {
   ),
   modern: cn(
     TITLE_BASE,
-    "mb-2 text-sm font-bold tracking-[0.1em] uppercase text-[color:var(--color-accent)]",
+    "mb-2 text-sm font-bold tracking-widest uppercase text-[color:var(--color-accent)]",
   ),
   compact: cn(TITLE_BASE, "compact-label mb-2"),
   creative: cn(TITLE_BASE, "creative-section-title mb-2"),
@@ -159,7 +159,7 @@ export function ResumeDynamicSections({
         )}
         onClick={(e) => {
           if (isEditableTarget(e.target)) return;
-          setSelectedSectionId(section.id);
+          setSelectedSectionId(isSelected ? null : section.id);
         }}
       >
         <EditableSectionTitle sectionId={section.id} className={titleClass} />

@@ -538,6 +538,9 @@ export const useResumeStore = create<ResumeState>()(
           s.resume.sections.forEach((section, idx) => {
             section.order = idx;
           });
+          if (s.selectedSectionId === sectionId) {
+            s.selectedSectionId = null;
+          }
         }),
 
       updateSectionTitle: (sectionId, title) =>

@@ -18,9 +18,13 @@ import {
 import { useResumeStore } from "@/stores/resumeStore";
 import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
 import { SortableCard } from "./sortable-card";
-import { SkillsRow } from "./skills-row";
+import { SkillsRow, type SkillsRowVariant } from "./skills-row";
 
-export function SortableSkillsList() {
+export function SortableSkillsList({
+  variant = "row",
+}: {
+  variant?: SkillsRowVariant;
+}) {
   const skills = useResumeStore((s) => s.resume?.skills);
   const reorderSkills = useResumeStore((s) => s.reorderSkills);
   const triggerAutosave = useDebouncedAutosave();
@@ -56,13 +60,18 @@ export function SortableSkillsList() {
         items={skillIds}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-2">
+        <div
+          className={
+            variant === "pills" ? "creative-skills-pills space-y-3" : "space-y-2"
+          }
+        >
           {skills.map((group, index) => {
             const id = group.id ?? skillIds[index];
             return (
               <SortableCard
                 key={id}
                 id={id}
+                className={variant === "pills" ? "creative-skill-group" : undefined}
                 onAdd={() => {
                   useResumeStore.getState().addSkillGroup(index);
                   triggerAutosave();
@@ -80,7 +89,7 @@ export function SortableSkillsList() {
                     : undefined
                 }
               >
-                <SkillsRow index={index} />
+                <SkillsRow index={index} variant={variant} />
               </SortableCard>
             );
           })}

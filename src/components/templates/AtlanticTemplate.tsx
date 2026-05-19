@@ -65,7 +65,7 @@ export function AtlanticTemplate() {
               className="atlantic-sidebar-heading mb-2"
             />
             <div className="text-sm">
-              <SortableSkillsList />
+              <SortableSkillsList variant="stacked" />
             </div>
           </div>
         )}

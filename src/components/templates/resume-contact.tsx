@@ -22,7 +22,7 @@ export function ResumeContactInline({
     <SortableContactList
       contact={contact}
       layout="inline"
-      className={className}
+      className={cn("justify-start gap-x-4", className)}
       onAccent={onAccent}
       keys={keys}
     />
@@ -47,10 +47,12 @@ export function ResumeContactSidebar({
   contact,
   className,
   keys,
+  onAccent = false,
 }: {
   contact: ContactInfo;
   className?: string;
   keys?: ContactKey[];
+  onAccent?: boolean;
 }) {
   return (
     <SortableContactList
@@ -58,6 +60,7 @@ export function ResumeContactSidebar({
       layout="sidebar"
       className={className}
       keys={keys}
+      onAccent={onAccent}
     />
   );
 }

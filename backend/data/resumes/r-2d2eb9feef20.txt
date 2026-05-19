@@ -12,6 +12,14 @@
       "github": "Sruti-sahini",
       "website": null
     },
+    "contact_order": [
+      "linkedin",
+      "email",
+      "github",
+      "phone",
+      "location",
+      "website"
+    ],
     "summary": "",
     "experience": [
       {
@@ -157,6 +165,7 @@
     ],
     "skills": [
       {
+        "id": "skill-9602199c-cdac-42a4-9144-5dab834246b5",
         "category": "Programming Skills",
         "items": [
           "C/C++",
@@ -167,6 +176,7 @@
         ]
       },
       {
+        "id": "skill-75afe348-97ee-4d7f-a199-e22380b6b822",
         "category": "Frameworks/Databases",
         "items": [
           "PyTorch",
@@ -179,6 +189,7 @@
         ]
       },
       {
+        "id": "skill-86ab65c3-f28a-4f98-aaa3-33f402611cec",
         "category": "Developer Tools",
         "items": [
           "Git",
@@ -189,6 +200,7 @@
         ]
       },
       {
+        "id": "skill-f0148ee0-0cf0-408f-a18b-298c9e79b09a",
         "category": "Course work",
         "items": [
           "Linear Algebra",
@@ -202,6 +214,7 @@
     ],
     "projects": [
       {
+        "id": "proj-2ce39a37-cf96-4ed1-8e61-23c17bd4b477",
         "name": "",
         "description": "Project description",
         "url": null,
@@ -263,6 +276,7 @@
       "github": "Sruti-sahini",
       "website": null
     },
+    "contact_order": null,
     "summary": "",
     "experience": [
       {
@@ -408,6 +422,7 @@
     ],
     "skills": [
       {
+        "id": null,
         "category": "Programming Skills",
         "items": [
           "C/C++",
@@ -418,6 +433,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Frameworks/Databases",
         "items": [
           "PyTorch",
@@ -430,6 +446,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Developer Tools",
         "items": [
           "Git",
@@ -440,6 +457,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Course work",
         "items": [
           "Linear Algebra",
@@ -453,6 +471,7 @@
     ],
     "projects": [
       {
+        "id": null,
         "name": "CineSense - Movie Genre Detection",
         "description": "",
         "url": null,
@@ -492,12 +511,17 @@
     "headingColor": "#0f172a",
     "backgroundColor": "#ffffff",
     "sidebarColor": "#2563eb",
-    "fontHeading": "\"Open Sans\", sans-serif",
-    "fontBody": "\"Open Sans\", sans-serif"
+    "fontHeading": "\"Inter\", sans-serif",
+    "fontBody": "\"Inter\", sans-serif",
+    "pageLayout": "single",
+    "pageFormat": "A4",
+    "pageWidth": "210",
+    "pageHeight": "297",
+    "pageUnit": "mm"
   },
-  "template_id": "classic",
+  "template_id": "minimal",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-18T10:57:48.436479+00:00",
-  "updated_at": "2026-05-19T09:53:51.161627+00:00"
+  "updated_at": "2026-05-19T11:49:24.547819+00:00"
 }

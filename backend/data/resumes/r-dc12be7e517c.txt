@@ -3,7 +3,7 @@
   "label": "SAHINI VENKATA SITARAM SRUTI",
   "resume": {
     "name": "<span style=\"color: rgb(30, 41, 59);\"><strong>SAHINI VENKATA SITARAM SRUTI</strong></span>",
-    "headline": "SAHINI VENKATA SITARAM SRUTI",
+    "headline": "Machine Learning Engineer",
     "contact": {
       "email": "sahinisruti@gmail.com",
       "phone": "+91 7995341736",
@@ -12,36 +12,16 @@
       "github": "Sruti-sahini",
       "website": null
     },
+    "contact_order": [
+      "email",
+      "github",
+      "phone",
+      "linkedin",
+      "location",
+      "website"
+    ],
     "summary": "<p>A Machine Learning Engineer with expertise in Reinforcement Learning with Human Feedback (RLHF) and Vision Language Models (VLMs). Proven ability to fine-tune models like VIT-Pro using DPO and Supervised Fine-tuning, and to develop comprehensive evaluation benchmarks. Experienced in analyzing model behavior on complex tasks and contributing to critical projects like Image Verification.</p>",
     "experience": [
-      {
-        "id": "exp-d3499316-6a3c-41a1-891e-cf3383878a20",
-        "company": "Turing Global India",
-        "title": "",
-        "start": "",
-        "end": "Present",
-        "location": null,
-        "bullets": [
-          {
-            "text": "Implemented Reinforcement Learning with Human Feedback (RLHF) to identify and document reward-hacking behaviors in LLM code-completion tasks using incomplete Python codebases.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-278d5c5a-63a5-4300-8911-9dc9b1d07791"
-          },
-          {
-            "text": "Analyzed model performance on PR-style tasks with failing test cases, comparing step-by-step reasoning against one-shot solutions, and collecting preference data on code quality and correctness.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-537b9483-e553-473a-bf7b-3e4e80a53acb"
-          },
-          {
-            "text": "Identified and mitigated hacky approaches, including hardcoded test cases, by providing structured human feedback and instructional prompts to foster principled, test-driven coding behavior.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-5911a27a-16a1-404c-9d13-1eb592384277"
-          }
-        ]
-      },
       {
         "id": "exp-1e07606a-1178-4153-98ec-7c4cac971d23",
         "company": "Amazon India",
@@ -51,16 +31,16 @@
         "location": null,
         "bullets": [
           {
-            "text": "Reduced vision-language model (VLM) hallucination on the Image Verification Project within the Central Machine Learning team, leveraging Amazon's internal VIT-Pro model, fine-tuned from IDEFICS.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-fc0a9f2e-1da0-4571-b765-2343618e2f37"
-          },
-          {
             "text": "Fine-tuned VIT-Pro using Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT) to optimize performance for both one-word and descriptive responses.",
             "impact_score": null,
             "keywords": [],
             "id": "bullet-ace15faf-bd38-4533-99b5-3564d52a70a8"
+          },
+          {
+            "text": "Reduced vision-language model (VLM) hallucination on the Image Verification Project within the Central Machine Learning team, leveraging Amazon's internal VIT-Pro model, fine-tuned from IDEFICS.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-fc0a9f2e-1da0-4571-b765-2343618e2f37"
           },
           {
             "text": "Generated high-quality preference pairs and delivered iterative feedback to human annotators, significantly enhancing dataset quality.",
@@ -83,62 +63,40 @@
         ]
       },
       {
-        "id": "exp-0fda6545-6beb-4702-8432-70873d557bbb",
-        "company": "Amazon India",
+        "id": "exp-d3499316-6a3c-41a1-891e-cf3383878a20",
+        "company": "Turing Global India",
         "title": "",
-        "start": "May",
-        "end": "July",
+        "start": "",
+        "end": "August -     January",
         "location": null,
         "bullets": [
           {
-            "text": "Automated image verification for customer concession claims within the Central Machine Learning team by leveraging a Vision Language Model (VLM) for the Image Verification Project.",
+            "text": "Analyzed model performance on PR-style tasks with failing test cases, comparing step-by-step reasoning against one-shot solutions, and collecting preference data on code quality and correctness.",
             "impact_score": null,
             "keywords": [],
-            "id": "bullet-621a7f5c-fab3-4334-a4cd-eccf90406bf9"
+            "id": "bullet-537b9483-e553-473a-bf7b-3e4e80a53acb"
           },
           {
-            "text": "Developed a comprehensive evaluation benchmark for Vision Language Models, conducting ablation experiments across ClaudeV3, IDEFICS 8B, IDEFICS 9B, and fine-tuned IDEFICS versions, generating PR curves and performing qualitative analysis.",
+            "text": "Identified and mitigated hacky approaches, including hardcoded test cases, by providing structured human feedback and instructional prompts to foster principled, test-driven coding behavior.",
             "impact_score": null,
             "keywords": [],
-            "id": "bullet-8c874a1e-9f74-4e0e-b6ec-0f7132fbb6fb"
+            "id": "bullet-5911a27a-16a1-404c-9d13-1eb592384277"
           },
           {
-            "text": "Proposed optimal model settings and identified critical areas for improvement based on in-depth study and analysis.",
+            "text": "Implemented Reinforcement Learning with Human Feedback (RLHF) to identify and document reward-hacking behaviors in LLM code-completion tasks using incomplete Python codebases.",
             "impact_score": null,
             "keywords": [],
-            "id": "bullet-d9503200-a419-4f12-b9b3-12e7e82b70ae"
-          },
-          {
-            "text": "Reviewed state-of-the-art literature and prompt engineering principles, integrating innovative evaluation methods to enhance expertise in VLM applications.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-8a384aa8-02a1-4a31-be7b-30a03da123fe"
-          },
-          {
-            "text": "Utilized VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, and EC2 to develop and evaluate advanced machine learning models.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-db1c64da-e81b-4d3a-8c38-5e1a800a8f7d"
+            "id": "bullet-278d5c5a-63a5-4300-8911-9dc9b1d07791"
           }
         ]
       }
     ],
     "education": [
       {
-        "id": "edu-5b2a2c75-14cc-4bef-8bf0-e5b4df8e0430",
-        "institution": "Indian Institute of Technology Patna",
-        "degree": "Bachelor of Technology",
-        "field": null,
-        "start": "2021",
-        "end": "2025",
-        "gpa": "7.74",
-        "highlights": []
-      },
-      {
         "id": "edu-d8f83f3b-74ab-4c41-8a30-c7a89606f9e0",
         "institution": "FIITJEE Junior College",
         "degree": "Class 12th",
-        "field": "Andhra Pradesh Board of Intermediate Education",
+        "field": "",
         "start": "2019",
         "end": "2020",
         "gpa": "96.2%",
@@ -147,16 +105,41 @@
       {
         "id": "edu-1319bfd6-79fe-41f1-adb6-d300f01ba582",
         "institution": "Timpany Senior Secondary School",
-        "degree": "Class 10th",
-        "field": "Central Board of Secondary Education",
+        "degree": "Class 10th in Central Board of Secondary Education",
+        "field": "",
         "start": "2017",
         "end": "2018",
         "gpa": "92%",
         "highlights": []
+      },
+      {
+        "id": "edu-5b2a2c75-14cc-4bef-8bf0-e5b4df8e0430",
+        "institution": "Indian Institute of Technology Patna",
+        "degree": "Bachelor of Technology",
+        "field": null,
+        "start": "2021",
+        "end": "2025",
+        "gpa": "7.74",
+        "highlights": [
+          ""
+        ]
       }
     ],
     "skills": [
       {
+        "id": "skill-4eee9bf8-aab4-4c5d-8d75-5a1ae8a263d6",
+        "category": "Frameworks/Databases",
+        "items": [
+          "PyTorch",
+          "Pandas",
+          "scikit-learn",
+          "ReactJs",
+          "Express.js",
+          "MongoDB"
+        ]
+      },
+      {
+        "id": "skill-0c858995-0a39-4330-8b45-b670a477234d",
         "category": "Programming Skills",
         "items": [
           "C/C++",
@@ -167,18 +150,7 @@
         ]
       },
       {
-        "category": "Frameworks/Databases",
-        "items": [
-          "PyTorch",
-          "Pandas",
-          "scikit-learn",
-          "ReactJs",
-          "Node.js",
-          "Express.js",
-          "MongoDB"
-        ]
-      },
-      {
+        "id": "skill-195e78c3-44b3-4474-8f70-a54ea376aadc",
         "category": "Developer Tools",
         "items": [
           "Git",
@@ -189,6 +161,7 @@
         ]
       },
       {
+        "id": "skill-e24dffa8-cfa5-440a-919f-227b1617f8f7",
         "category": "Course work",
         "items": [
           "Linear Algebra",
@@ -196,12 +169,15 @@
           "Programming",
           "Data Structures and Algorithms",
           "Data Science",
-          "Machine Learning"
+          "Machine Learning",
+          "",
+          "asdasdasd"
         ]
       }
     ],
     "projects": [
       {
+        "id": "proj-6e826b96-8648-4d11-bb3c-7b683f941b06",
         "name": "CineSense - Movie Genre Detection",
         "description": "Developed CineSense, a movie genre detection system leveraging multimodal data and deep learning.",
         "url": "Notebook Link",
@@ -212,16 +188,16 @@
         ],
         "bullets": [
           {
-            "text": "Utilized the MMIMDb dataset, processing movie synopses and posters as inputs to predict relevant genres.",
-            "impact_score": null,
-            "keywords": [],
-            "id": "bullet-93e85565-7c17-416c-8df9-189424f59bae"
-          },
-          {
             "text": "Employed BERT for text encoding and ResNet-152 for image encoding; concatenated features were classified via a feed-forward neural network across 26 possible genres.",
             "impact_score": null,
             "keywords": [],
             "id": "bullet-a3d922a1-7b11-4dba-b0d5-4456a3f859a8"
+          },
+          {
+            "text": "Utilized the MMIMDb dataset, processing movie synopses and posters as inputs to predict relevant genres.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-93e85565-7c17-416c-8df9-189424f59bae"
           },
           {
             "text": "Evaluated model performance using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
@@ -232,7 +208,49 @@
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": [
+      {
+        "id": "sec-695cbaeb-730f-43fb-9a83-51acc123f9b0",
+        "type": "summary",
+        "title": "Summary",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-d8e2fdc9-b174-46e0-9d90-a2b21ee988a7",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-5e792756-23da-4258-9563-501435072144",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-b169d5c8-b95d-4826-b852-2cc9351600f5",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      },
+      {
+        "id": "sec-c96a9a84-2608-4f58-84b6-d6f0f9dc6bdc",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 4,
+        "custom_content": null
+      }
+    ]
   },
   "original_resume": {
     "name": "SAHINI VENKATA SITARAM SRUTI",
@@ -245,6 +263,7 @@
       "github": "Sruti-sahini",
       "website": null
     },
+    "contact_order": null,
     "summary": "",
     "experience": [
       {
@@ -390,6 +409,7 @@
     ],
     "skills": [
       {
+        "id": null,
         "category": "Programming Skills",
         "items": [
           "C/C++",
@@ -400,6 +420,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Frameworks/Databases",
         "items": [
           "PyTorch",
@@ -412,6 +433,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Developer Tools",
         "items": [
           "Git",
@@ -422,6 +444,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Course work",
         "items": [
           "Linear Algebra",
@@ -435,6 +458,7 @@
     ],
     "projects": [
       {
+        "id": null,
         "name": "CineSense - Movie Genre Detection",
         "description": "",
         "url": "Notebook Link",
@@ -465,7 +489,8 @@
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": null
   },
   "theme": {
     "accent": "#e11d48",
@@ -474,11 +499,17 @@
     "backgroundColor": "#ffffff",
     "sidebarColor": "#e11d48",
     "fontHeading": "\"Lato\", sans-serif",
-    "fontBody": "\"Lato\", sans-serif"
+    "fontBody": "\"Lato\", sans-serif",
+    "pageLayout": "sidebar-right",
+    "pageFormat": "A4",
+    "pageWidth": "210",
+    "pageHeight": "297",
+    "pageUnit": "mm",
+    "iconColor": "#e11d48"
   },
-  "template_id": "stripe",
+  "template_id": "creative",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T07:33:38.020198+00:00",
-  "updated_at": "2026-05-19T08:20:03.599331+00:00"
+  "updated_at": "2026-05-19T13:56:13.893463+00:00"
 }

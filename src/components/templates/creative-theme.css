@@ -31,8 +31,158 @@
 }
 
 .creative-theme .creative-chip {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  min-height: 2.75rem;
+  padding-inline: 0.75rem;
+  gap: 0;
   background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));
   color: var(--color-text);
+}
+
+.creative-theme .resume-contact-chips > li {
+  align-items: center;
+}
+
+.creative-theme .resume-contact-chips .resume-contact-value {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.creative-theme .resume-contact-chips .resume-contact-value > div {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.creative-theme .resume-contact-chips .resume-contact-value,
+.creative-theme .resume-contact-chips .resume-contact-value .ProseMirror,
+.creative-theme .resume-contact-chips .resume-contact-value .ProseMirror p {
+  display: inline;
+  margin: 0;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  padding: 0;
+  line-height: 1.25;
+}
+
+.creative-theme .creative-skills-category {
+  color: var(--color-accent);
+}
+
+.creative-theme .creative-skill-pill-wrap {
+  position: relative;
+  margin-top: 0.2rem;
+  margin-right: 0.35rem;
+}
+
+.creative-theme .creative-skill-pill:not(.creative-skill-pill-add) {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+  border-radius: 9999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  font-weight: 500;
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));
+  color: var(--color-text);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+.creative-theme .creative-skill-pill-editor,
+.creative-theme .creative-skill-pill-editor > div {
+  display: inline-flex;
+  align-items: center;
+  min-width: 2.75rem;
+  width: max-content;
+  max-width: none;
+}
+
+.creative-theme .creative-skill-pill .ProseMirror,
+.creative-theme .creative-skill-pill .ProseMirror p {
+  display: inline;
+  margin: 0;
+  min-width: 2.75rem;
+  width: auto;
+  max-width: none;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  padding: 0 !important;
+  line-height: 1.25;
+}
+
+.creative-theme .creative-skill-pill .ProseMirror.is-editor-empty:first-child::before {
+  float: none;
+  height: auto;
+  display: inline;
+}
+
+.creative-theme .creative-skill-pill-add {
+  padding: 0.2rem 0.65rem;
+  cursor: pointer;
+  border-style: dashed;
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+
+.creative-theme .creative-skill-pill-add:hover {
+  opacity: 1;
+}
+
+.creative-theme .creative-skill-pill-remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  padding: 0;
+  line-height: 0;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+  background: var(--color-bg);
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+  opacity: 0;
+  transform: translate(45%, -45%);
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease;
+}
+
+.creative-theme .creative-skill-pill-wrap:hover .creative-skill-pill-remove,
+.creative-theme .creative-skill-pill-wrap:focus-within .creative-skill-pill-remove {
+  opacity: 1;
+}
+
+.creative-theme .creative-skill-pill-remove:hover {
+  color: var(--color-accent);
+}
+
+/* Skill groups in Creative sidebar — hide card chrome, keep drag handle */
+.creative-theme .creative-skills-pills .creative-skill-group > div:last-child {
+  border-color: transparent;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.creative-theme .creative-skills-pills .creative-skill-group:hover > div:last-child {
+  background: transparent;
 }
 
 .creative-theme .creative-cert-item {

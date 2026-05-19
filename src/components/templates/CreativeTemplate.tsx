@@ -24,7 +24,7 @@ export function CreativeTemplate() {
 
   return (
     <article
-      className="resume creative-theme resume-theme-base ring-border mx-auto w-full max-w-5xl min-w-0 overflow-x-clip rounded-sm shadow-lg ring-1"
+      className="resume creative-theme resume-theme-base ring-border mx-auto w-full max-w-5xl min-w-0 overflow-x-visible rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
       <div className="creative-accent-bar" />
@@ -60,7 +60,7 @@ export function CreativeTemplate() {
         />
 
         {sidebarSections.length > 0 && (
-          <aside className="creative-sidebar min-w-0 space-y-5 rounded-xl p-5">
+          <aside className="creative-sidebar min-w-0 space-y-5 overflow-x-visible rounded-xl p-5">
             {sidebarSections.map((section) => (
               <section
                 key={section.id}
@@ -72,7 +72,12 @@ export function CreativeTemplate() {
                   sectionId={section.id}
                   className="creative-sidebar-title mb-2"
                 />
-                <ResumeSectionContent section={section} />
+                <ResumeSectionContent
+                  section={section}
+                  skillsVariant={
+                    section.type === "skills" ? "pills" : undefined
+                  }
+                />
               </section>
             ))}
           </aside>

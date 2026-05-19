@@ -56,17 +56,17 @@ const CONTACT_META: Record<
 
 const LAYOUT_CLASS: Record<ContactItemLayout, string> = {
   inline:
-    "resume-contact resume-contact-inline flex min-w-0 flex-wrap items-center justify-center gap-x-3 gap-y-2",
-  bar: "resume-contact resume-contact-bar text-muted-foreground mt-3 flex min-w-0 flex-wrap items-center justify-center gap-x-2 gap-y-2 text-sm",
+    "resume-contact resume-contact-inline flex list-none flex-wrap items-center justify-start gap-x-4 gap-y-1",
+  bar: "resume-contact resume-contact-bar text-muted-foreground mt-3 flex list-none flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm",
   sidebar: "resume-contact resume-contact-sidebar list-none space-y-3 p-0",
-  chips: "resume-contact resume-contact-chips flex min-w-0 list-none flex-wrap gap-2 p-0",
+  chips:
+    "resume-contact resume-contact-chips flex min-w-0 w-full list-none flex-wrap items-center gap-y-2 p-0",
 };
 
 type SortableContactListProps = {
   contact: ContactInfo;
   layout: ContactItemLayout;
   className?: string;
-  chipClassName?: string;
   onAccent?: boolean;
   keys?: ContactKey[];
 };
@@ -75,7 +75,6 @@ export function SortableContactList({
   contact,
   layout,
   className,
-  chipClassName,
   onAccent = false,
   keys,
 }: SortableContactListProps) {
@@ -100,9 +99,11 @@ export function SortableContactList({
   const strategy =
     layout === "sidebar"
       ? verticalListSortingStrategy
-      : layout === "chips" || layout === "bar" || layout === "inline"
-        ? rectSortingStrategy
-        : horizontalListSortingStrategy;
+      : layout === "inline" || layout === "bar"
+        ? horizontalListSortingStrategy
+        : layout === "chips"
+          ? rectSortingStrategy
+          : horizontalListSortingStrategy;
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -125,7 +126,7 @@ export function SortableContactList({
         <ul
           className={cn(
             LAYOUT_CLASS[layout],
-            onAccent && layout !== "sidebar" && "resume-contact-on-accent",
+            onAccent && "resume-contact-on-accent",
             className,
           )}
         >
