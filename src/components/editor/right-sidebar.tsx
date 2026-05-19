@@ -36,10 +36,7 @@ export function RightSidebar({ phase, resumeId }: RightSidebarProps) {
       </div>
       <div className="min-h-0 flex-1">
         {tab === "changes" ? (
-          <ChangesPanel
-            resumeId={resumeId}
-            enabled={phase === "resume"}
-          />
+          <ChangesPanel resumeId={resumeId} enabled={phase === "resume"} />
         ) : (
           <DesignPanel phase={phase} />
         )}

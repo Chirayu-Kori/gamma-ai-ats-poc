@@ -21,7 +21,7 @@ function SidebarContactItem({
   if (!value) return null;
   return (
     <div>
-      <div className="text-[10px] tracking-wider opacity-70 uppercase">
+      <div className="text-[10px] tracking-wider uppercase opacity-70">
         {label}
       </div>
       <EditableText
@@ -42,7 +42,7 @@ export function ModernTemplate() {
 
   return (
     <article
-      className="resume modern-theme ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[260px_1fr] overflow-hidden rounded-sm bg-white text-black shadow-lg ring-1"
+      className="resume modern-theme resume-theme-base ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[260px_1fr] overflow-hidden rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
       <aside className="modern-sidebar space-y-7 p-6">
@@ -103,7 +103,7 @@ export function ModernTemplate() {
             <div className="space-y-2 text-sm">
               {resume.skills.map((g, i) => (
                 <div key={i}>
-                  <div className="text-[10px] tracking-wider opacity-70 uppercase">
+                  <div className="text-[10px] tracking-wider uppercase opacity-70">
                     {g.category}
                   </div>
                   <div>{g.items.join(", ")}</div>

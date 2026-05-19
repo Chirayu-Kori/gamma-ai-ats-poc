@@ -1,0 +1,11 @@
+@import "./shared-template.css";
+
+.bold-theme .bold-header {
+  background: var(--color-accent);
+}
+
+.bold-theme h2 {
+  color: var(--color-accent);
+  border-left: 4px solid var(--color-accent);
+  padding-left: 0.75rem;
+}

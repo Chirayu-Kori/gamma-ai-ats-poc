@@ -60,8 +60,7 @@ export function SortableEducationList() {
               onDelete={() => useResumeStore.getState().removeEducation(index)}
               onMoveUp={
                 index > 0
-                  ? () =>
-                      reorderEducation(edu.id!, education[index - 1].id!)
+                  ? () => reorderEducation(edu.id!, education[index - 1].id!)
                   : undefined
               }
             >

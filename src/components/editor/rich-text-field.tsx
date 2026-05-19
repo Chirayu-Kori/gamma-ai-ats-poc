@@ -10,10 +10,10 @@ import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
+import { Color } from "@tiptap/extension-color";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { FontFamily } from "@tiptap/extension-font-family";
 import { useEffect, useMemo } from "react";
-// Tiptap v3's StarterKit bundles Underline. We disable it in StarterKit and
-// add a single standalone Underline below so inline mode (which doesn't use
-// StarterKit) still gets it.
 
 import { EditorBubbleMenu } from "./editor-bubble-menu";
 import { cn } from "@/lib/utils";
@@ -33,25 +33,40 @@ export type RichTextFieldProps = {
   syncContent?: boolean;
 };
 
+const textStyleExtensions = [
+  TextStyle,
+  Color.configure({ types: ["textStyle"] }),
+  FontFamily.configure({ types: ["textStyle"] }),
+];
+
 function buildExtensions(mode: "inline" | "block", placeholder?: string) {
   if (mode === "inline") {
-    return [InlineDocument, Text, Bold, Italic, Underline, Strike, History];
+    return [
+      InlineDocument,
+      Text,
+      ...textStyleExtensions,
+      Bold,
+      Italic,
+      Underline,
+      Strike,
+      History,
+    ];
   }
 
   return [
+    ...textStyleExtensions,
     StarterKit.configure({
       heading: false,
       blockquote: false,
       codeBlock: false,
       horizontalRule: false,
-      // StarterKit v3 bundles Underline — keep it; don't add the standalone.
       bulletList: {
         keepMarks: true,
-        keepAttributes: false,
+        keepAttributes: true,
       },
       orderedList: {
         keepMarks: true,
-        keepAttributes: false,
+        keepAttributes: true,
       },
     }),
     Placeholder.configure({
@@ -97,15 +112,11 @@ export function RichTextField({
 
   useEffect(() => {
     if (!editor || !syncContent) return;
-
-    // Avoid syncing content while the user is typing to prevent
-    // state resets and unintentional transformations.
     if (editor.isFocused) return;
 
     const current = editor.getHTML();
     const incoming = content ?? "";
 
-    // Normalize empty content for comparison
     const normalizedCurrent = current === "<p></p>" ? "" : current;
     const normalizedIncoming = incoming === "<p></p>" ? "" : incoming;
 

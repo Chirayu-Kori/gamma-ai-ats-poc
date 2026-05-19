@@ -19,7 +19,8 @@ export function SkillsRow({ index }: { index: number }) {
   // the store didn't change; the previous `?? []` minted a fresh `[]` every
   // call and caused a render loop. Fall back to a frozen module-level array.
   const items = useResumeStore(
-    (s) => (s.resume?.skills?.[index]?.items as string[] | undefined) ?? EMPTY_ITEMS,
+    (s) =>
+      (s.resume?.skills?.[index]?.items as string[] | undefined) ?? EMPTY_ITEMS,
   );
   const updateField = useResumeStore((s) => s.updateField);
   const triggerAutosave = useDebouncedAutosave();

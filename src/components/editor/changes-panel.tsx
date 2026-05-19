@@ -55,7 +55,11 @@ const KIND_META: Record<
 };
 
 export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
-  const { data: diff, isLoading, isError } = useResumeChanges(resumeId, enabled);
+  const {
+    data: diff,
+    isLoading,
+    isError,
+  } = useResumeChanges(resumeId, enabled);
 
   if (!enabled) {
     return (
@@ -68,7 +72,9 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
         <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-sm text-slate-400">
           <Loader2 className="size-6 animate-spin text-blue-400" />
           <p>Resume upgrade in progress…</p>
-          <p className="text-xs">Change summary loads after generation finishes.</p>
+          <p className="text-xs">
+            Change summary loads after generation finishes.
+          </p>
         </div>
       </div>
     );
@@ -149,7 +155,11 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
         ) : (
           <>
             <ChangeGroup title="Added" items={diff.added} kind="added" />
-            <ChangeGroup title="Improved" items={diff.improved} kind="improved" />
+            <ChangeGroup
+              title="Improved"
+              items={diff.improved}
+              kind="improved"
+            />
             <ChangeGroup title="Missing" items={diff.missing} kind="missing" />
           </>
         )}
@@ -174,7 +184,7 @@ function Stat({
   }[tone];
   return (
     <div className={cn("rounded-lg px-2 py-2", toneCls)}>
-      <div className="text-base font-bold leading-none">{n}</div>
+      <div className="text-base leading-none font-bold">{n}</div>
       <div className="mt-1 text-[10px] tracking-wider uppercase opacity-80">
         {label}
       </div>
@@ -211,7 +221,7 @@ function ChangeGroup({
           <li
             key={c.id}
             className={cn(
-              "rounded-lg p-3 ring-1 ring-inset transition-colors",
+              "rounded-lg p-3 ring-1 transition-colors ring-inset",
               meta.ring,
             )}
           >

@@ -99,7 +99,8 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     const inStore = useResumeStore.getState().resume;
     const storeBetter =
       inStore &&
-      (inStore.experience?.length ?? 0) > (record.resume.experience?.length ?? 0);
+      (inStore.experience?.length ?? 0) >
+        (record.resume.experience?.length ?? 0);
     if (!storeBetter) {
       setResume(record.resume);
     }

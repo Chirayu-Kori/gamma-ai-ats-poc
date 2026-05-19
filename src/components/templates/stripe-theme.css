@@ -1,0 +1,28 @@
+@import "./shared-template.css";
+
+.stripe-theme .stripe-bar {
+  width: 12px;
+  background: linear-gradient(
+    180deg,
+    var(--color-accent),
+    color-mix(in srgb, var(--color-accent) 50%, var(--color-heading))
+  );
+}
+
+.stripe-theme .stripe-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-heading);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.stripe-theme .stripe-section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+}

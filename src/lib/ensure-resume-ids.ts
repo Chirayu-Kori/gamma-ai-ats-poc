@@ -1,4 +1,10 @@
-import type { Bullet, Education, Experience, Project, Resume } from "./types/resume";
+import type {
+  Bullet,
+  Education,
+  Experience,
+  Project,
+  Resume,
+} from "./types/resume";
 
 export function createId(prefix: string): string {
   return `${prefix}-${crypto.randomUUID()}`;

@@ -6,7 +6,10 @@ import { apiClient } from "@/lib/api-client";
 import type { ResumeDiff } from "@/lib/resume-diff";
 import { resumeQueryKeys } from "@/lib/query-keys";
 
-export function useResumeChanges(resumeId: string | undefined, enabled: boolean) {
+export function useResumeChanges(
+  resumeId: string | undefined,
+  enabled: boolean,
+) {
   return useQuery({
     queryKey: [...resumeQueryKeys.detail(resumeId ?? ""), "changes"],
     queryFn: async () => {

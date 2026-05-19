@@ -113,7 +113,7 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={(e) => handleDelete(resume.id, e)}
-                        className="rounded-md p-1 text-slate-400 opacity-0 transition hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
+                        className="rounded-md p-1 text-slate-400 opacity-0 transition group-hover:opacity-100 hover:bg-rose-50 hover:text-rose-600"
                         aria-label="Delete resume"
                       >
                         <Trash2 className="h-4 w-4" />

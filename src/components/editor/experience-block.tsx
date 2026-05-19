@@ -16,13 +16,13 @@ export function ExperienceBlock({ index }: { index: number }) {
             className={`text-base font-bold ${compactInline}`}
           />
         </div>
-        <div className="text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm whitespace-nowrap font-medium">
+        <div className="text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm font-medium whitespace-nowrap">
           <EditableText
             path={`experience.${index}.start`}
             mode="inline"
             className={compactInline}
           />
-          <span aria-hidden className="mx-0.5 text-muted-foreground/60">
+          <span aria-hidden className="text-muted-foreground/60 mx-0.5">
             –
           </span>
           <EditableText

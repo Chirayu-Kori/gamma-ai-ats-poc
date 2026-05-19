@@ -4,12 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   ACCENT_COLORS,
+  DEFAULT_RESUME_THEME,
   FONT_OPTIONS,
   getActiveAccentId,
   getActiveFontId,
+  mergeThemeDefaults,
 } from "@/lib/resume-theme";
 import { useResumeStore } from "@/stores/resumeStore";
-import { TEMPLATES } from "@/components/templates/registry";
+import {
+  TEMPLATES,
+  type TemplateLayout,
+} from "@/components/templates/registry";
 import { cn } from "@/lib/utils";
 import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
 import { CustomThemePanel } from "@/components/editor/custom-theme-panel";
@@ -92,6 +97,117 @@ function DesignField({
   );
 }
 
+function ColorInput({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2">
+      <span className="text-xs font-medium text-slate-600">{label}</span>
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-20 rounded border border-slate-200 px-1.5 py-0.5 font-mono text-xs text-slate-700"
+        />
+        <input
+          type="color"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="size-8 cursor-pointer rounded border border-slate-200 bg-transparent p-0.5"
+          aria-label={`${label} color picker`}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TemplatePreview({
+  layout,
+  accent,
+  sidebar,
+}: {
+  layout: TemplateLayout;
+  accent: string;
+  sidebar: string;
+}) {
+  const bar = (className: string, color: string) => (
+    <div className={className} style={{ backgroundColor: color }} />
+  );
+
+  return (
+    <div className="bg-background flex h-20 w-16 flex-col overflow-hidden rounded-sm border border-black/5 p-1.5 shadow-sm">
+      {layout === "band-header" && (
+        <>
+          {bar("mb-1 h-2.5 w-full shrink-0 rounded-sm", accent)}
+          <div className="bg-muted h-1 w-2/3 rounded-full" />
+          <div className="bg-muted mt-1.5 h-1 w-full rounded-full" />
+          <div className="bg-muted mt-1 h-1 w-full rounded-full" />
+        </>
+      )}
+      {layout === "sidebar-left" && (
+        <div className="flex h-full gap-1">
+          {bar("w-4 shrink-0 rounded-sm", sidebar)}
+          <div className="flex flex-1 flex-col gap-1 pt-0.5">
+            <div className="bg-muted h-1 w-full rounded-full" />
+            <div className="bg-muted h-1 w-full rounded-full" />
+            <div className="bg-muted h-1 w-2/3 rounded-full" />
+          </div>
+        </div>
+      )}
+      {layout === "sidebar-right" && (
+        <div className="flex h-full gap-1">
+          <div className="flex flex-1 flex-col gap-1 pt-0.5">
+            {bar("mb-0.5 h-0.5 w-full rounded-full", accent)}
+            <div className="bg-muted h-1 w-full rounded-full" />
+            <div className="bg-muted h-1 w-full rounded-full" />
+          </div>
+          {bar("w-4 shrink-0 rounded-sm opacity-60", accent)}
+        </div>
+      )}
+      {layout === "stripe" && (
+        <div className="flex h-full gap-1">
+          {bar("w-1 shrink-0 rounded-full", accent)}
+          <div className="flex flex-1 flex-col gap-1 pt-0.5">
+            <div className="bg-muted h-1 w-2/3 rounded-full" />
+            <div className="bg-muted h-1 w-full rounded-full" />
+            <div className="bg-muted h-1 w-full rounded-full" />
+          </div>
+        </div>
+      )}
+      {layout === "two-column" && (
+        <>
+          <div className="bg-muted h-1 w-2/3 rounded-full" />
+          <div className="mt-1.5 grid flex-1 grid-cols-2 gap-1">
+            <div className="space-y-1">
+              <div className="bg-muted h-1 w-full rounded-full" />
+              <div className="bg-muted h-1 w-full rounded-full" />
+            </div>
+            <div className="space-y-1">
+              <div className="bg-muted h-1 w-full rounded-full" />
+              <div className="bg-muted h-1 w-2/3 rounded-full" />
+            </div>
+          </div>
+        </>
+      )}
+      {layout === "single" && (
+        <>
+          {bar("mb-1 h-1 w-full rounded-full", accent)}
+          <div className="bg-muted h-1 w-2/3 rounded-full" />
+          <div className="bg-muted mt-2 h-1 w-full rounded-full" />
+          <div className="bg-muted h-1 w-full rounded-full" />
+        </>
+      )}
+    </div>
+  );
+}
+
 export function DesignPanel({ phase }: DesignPanelProps) {
   const selectedTemplate = useResumeStore((s) => s.selectedTemplate);
   const theme = useResumeStore((s) => s.theme);
@@ -110,6 +226,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
 
   const { format, language, setFormat, setLanguage } = useGenerateStore();
 
+  const mergedTheme = mergeThemeDefaults(theme);
   const activeAccent = getActiveAccentId(theme);
   const activeFont = getActiveFontId(theme);
   const templateIds = Object.keys(TEMPLATES);
@@ -173,16 +290,13 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                       : "hover:border-primary/40 border-transparent",
                   )}
                   aria-pressed={selected}
+                  title={tpl.description}
                 >
-                  <div className="bg-background flex h-20 w-16 flex-col gap-1 rounded-sm border border-black/5 p-2 shadow-sm">
-                    <div
-                      className="h-1 w-full rounded-full"
-                      style={{ backgroundColor: theme.accent ?? "#2563eb" }}
-                    />
-                    <div className="bg-primary/20 h-1 w-2/3 rounded-full" />
-                    <div className="bg-muted mt-2 h-1 w-full rounded-full" />
-                    <div className="bg-muted h-1 w-full rounded-full" />
-                  </div>
+                  <TemplatePreview
+                    layout={tpl.layout}
+                    accent={mergedTheme.accent}
+                    sidebar={mergedTheme.sidebarColor}
+                  />
                   <span className="text-muted-foreground mt-2 text-xs font-medium">
                     {tpl.name}
                   </span>
@@ -195,9 +309,9 @@ export function DesignPanel({ phase }: DesignPanelProps) {
         <Separator />
 
         <div>
-          <h3 className="mb-4 text-sm font-semibold">Color Palette</h3>
+          <h3 className="mb-4 text-sm font-semibold">Accent Colors</h3>
           <div
-            className="flex flex-wrap gap-2.5"
+            className="mb-4 flex flex-wrap gap-2.5"
             role="radiogroup"
             aria-label="Accent color"
           >
@@ -208,7 +322,9 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                 role="radio"
                 aria-checked={activeAccent === color.id}
                 title={color.id}
-                onClick={() => applyTheme({ accent: color.value })}
+                onClick={() =>
+                  applyTheme({ accent: color.value, sidebarColor: color.value })
+                }
                 className={cn(
                   "h-8 w-8 rounded-full border shadow-sm transition-all hover:scale-105",
                   color.className,
@@ -218,9 +334,45 @@ export function DesignPanel({ phase }: DesignPanelProps) {
               />
             ))}
           </div>
-        </div>
 
-        <Separator />
+          <h3 className="mb-3 text-sm font-semibold">Custom Colors</h3>
+          <div className="space-y-2">
+            <ColorInput
+              label="Accent"
+              value={mergedTheme.accent}
+              onChange={(accent) => applyTheme({ accent })}
+            />
+            <ColorInput
+              label="Sidebar"
+              value={mergedTheme.sidebarColor}
+              onChange={(sidebarColor) => applyTheme({ sidebarColor })}
+            />
+            <ColorInput
+              label="Heading"
+              value={mergedTheme.headingColor}
+              onChange={(headingColor) => applyTheme({ headingColor })}
+            />
+            <ColorInput
+              label="Body text"
+              value={mergedTheme.textColor}
+              onChange={(textColor) => applyTheme({ textColor })}
+            />
+            <ColorInput
+              label="Background"
+              value={mergedTheme.backgroundColor}
+              onChange={(backgroundColor) => applyTheme({ backgroundColor })}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="w-full"
+              onClick={() => applyTheme({ ...DEFAULT_RESUME_THEME })}
+            >
+              Reset colors
+            </Button>
+          </div>
+        </div>
 
         <Separator />
 
@@ -253,6 +405,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                     selected && "border-primary bg-primary/5",
                   )}
                   aria-pressed={selected}
+                  style={{ fontFamily: font.fontBody }}
                 >
                   {font.label}
                   <span className="text-muted-foreground text-xs tracking-widest uppercase">

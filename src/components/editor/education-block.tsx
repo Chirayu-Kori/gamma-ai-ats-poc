@@ -5,7 +5,10 @@ import { EditableText } from "./EditableText";
 
 const compactInline = "whitespace-nowrap break-normal";
 
-function shouldShowField(degree: string, field: string | null | undefined): boolean {
+function shouldShowField(
+  degree: string,
+  field: string | null | undefined,
+): boolean {
   const f = field?.trim();
   if (!f) return false;
   const d = degree.trim().toLowerCase();

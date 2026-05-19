@@ -58,9 +58,7 @@ export function GenerateLoadingCanvas({
 
   if (isError) {
     const msg =
-      upgrade.error instanceof Error
-        ? upgrade.error.message
-        : "Upgrade failed";
+      upgrade.error instanceof Error ? upgrade.error.message : "Upgrade failed";
     return (
       <div className="mx-auto w-full max-w-2xl">
         <div className="flex flex-col items-center justify-center rounded-2xl border border-rose-200 bg-rose-50 px-8 py-16 text-center">
@@ -68,7 +66,9 @@ export function GenerateLoadingCanvas({
           <h3 className="mt-4 text-lg font-semibold text-slate-800">
             Upgrade failed
           </h3>
-          <p className="mt-2 max-w-md text-sm break-all text-slate-600">{msg}</p>
+          <p className="mt-2 max-w-md text-sm break-all text-slate-600">
+            {msg}
+          </p>
           <Button
             size="sm"
             variant="outline"

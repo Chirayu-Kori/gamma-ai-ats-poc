@@ -60,8 +60,7 @@ export function SortableExperienceList() {
               onDelete={() => useResumeStore.getState().removeExperience(index)}
               onMoveUp={
                 index > 0
-                  ? () =>
-                      reorderExperience(exp.id!, experience[index - 1].id!)
+                  ? () => reorderExperience(exp.id!, experience[index - 1].id!)
                   : undefined
               }
             >

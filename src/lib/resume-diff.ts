@@ -41,10 +41,20 @@ function scalarChange(
   const o = norm(original);
   const u = norm(upgraded);
   if (!o && !u) {
-    return { id: `miss-${area}`, kind: "missing", area, detail: `${label} is empty` };
+    return {
+      id: `miss-${area}`,
+      kind: "missing",
+      area,
+      detail: `${label} is empty`,
+    };
   }
   if (!o && u) {
-    return { id: `add-${area}`, kind: "added", area, detail: `Generated ${label.toLowerCase()}` };
+    return {
+      id: `add-${area}`,
+      kind: "added",
+      area,
+      detail: `Generated ${label.toLowerCase()}`,
+    };
   }
   if (o && u && o !== u) {
     return {
@@ -55,7 +65,12 @@ function scalarChange(
     };
   }
   if (o && !u) {
-    return { id: `miss-${area}`, kind: "missing", area, detail: `${label} lost in upgrade` };
+    return {
+      id: `miss-${area}`,
+      kind: "missing",
+      area,
+      detail: `${label} lost in upgrade`,
+    };
   }
   return null;
 }
@@ -139,9 +154,12 @@ function experienceChanges(
       });
     }
 
-    const oTexts = new Set((o.bullets ?? []).map((b) => norm(b.text)).filter(Boolean));
+    const oTexts = new Set(
+      (o.bullets ?? []).map((b) => norm(b.text)).filter(Boolean),
+    );
     const uTexts = (u.bullets ?? []).map((b) => norm(b.text)).filter(Boolean);
-    const rewrites = uTexts.filter((t) => !oTexts.has(t)).length - Math.max(ub - ob, 0);
+    const rewrites =
+      uTexts.filter((t) => !oTexts.has(t)).length - Math.max(ub - ob, 0);
     if (rewrites > 0) {
       out.push({
         id: `imp-exp-${i}`,
@@ -282,16 +300,46 @@ export function computeResumeDiff(
 ): ResumeDiff {
   const all: ResumeChange[] = [];
 
-  const headline = scalarChange("headline", "Headline", original?.headline, upgraded?.headline);
+  const headline = scalarChange(
+    "headline",
+    "Headline",
+    original?.headline,
+    upgraded?.headline,
+  );
   if (headline) all.push(headline);
 
-  const summary = scalarChange("summary", "Summary", original?.summary, upgraded?.summary);
+  const summary = scalarChange(
+    "summary",
+    "Summary",
+    original?.summary,
+    upgraded?.summary,
+  );
   if (summary) all.push(summary);
 
-  all.push(...contactChanges(original?.contact as Resume["contact"], upgraded?.contact as Resume["contact"]));
-  all.push(...experienceChanges(original?.experience as Resume["experience"], upgraded?.experience as Resume["experience"]));
-  all.push(...educationChanges(original?.education as Resume["education"], upgraded?.education as Resume["education"]));
-  all.push(...skillsChanges(original?.skills as Resume["skills"], upgraded?.skills as Resume["skills"]));
+  all.push(
+    ...contactChanges(
+      original?.contact as Resume["contact"],
+      upgraded?.contact as Resume["contact"],
+    ),
+  );
+  all.push(
+    ...experienceChanges(
+      original?.experience as Resume["experience"],
+      upgraded?.experience as Resume["experience"],
+    ),
+  );
+  all.push(
+    ...educationChanges(
+      original?.education as Resume["education"],
+      upgraded?.education as Resume["education"],
+    ),
+  );
+  all.push(
+    ...skillsChanges(
+      original?.skills as Resume["skills"],
+      upgraded?.skills as Resume["skills"],
+    ),
+  );
 
   const projects = optionalSectionChange(
     "projects",
