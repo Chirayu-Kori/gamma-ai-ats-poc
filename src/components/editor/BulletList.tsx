@@ -1,8 +1,17 @@
 "use client";
 
-import { DndContext, closestCenter, DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  closestCenter,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 import {
   SortableContext,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useResumeStore } from "../../stores/resumeStore";
@@ -25,36 +34,42 @@ export function BulletList({
 
   const reorder = useResumeStore((s) => s.reorderBullets);
 
-  // Fallback if no bullets
-  if (!bullets || bullets.length === 0) return null;
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
-  // Add random IDs if missing (they should be added on creation/parsing in a real app)
-  const itemsWithIds = bullets.map((b: { id?: string }, i: number) => ({
-    ...b,
-    id: b.id || `bullet-${expIdx}-${i}`,
-  }));
+  if (!bullets || bullets.length === 0) return null;
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       if (section === "experience") {
-        reorder(expIdx, active.id as string, over.id as string);
+        reorder(expIdx, String(active.id), String(over.id));
       }
       // Reordering for projects can be added similarly
     }
   };
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+    <DndContext
+      id={`bullets-dnd-${section}-${expIdx}`}
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEnd}
+    >
       <SortableContext
-        items={itemsWithIds.map((b: { id?: string }) => b.id as string)}
+        id={`bullets-sortable-${section}-${expIdx}`}
+        items={bullets.map((b) => b.id!)}
         strategy={verticalListSortingStrategy}
       >
         <ul className="mt-2 list-none space-y-1 text-sm">
-          {itemsWithIds.map((b: { id?: string }, i: number) => (
+          {bullets.map((b, i) => (
             <SortableBullet
-              key={b.id as string}
-              id={b.id as string}
+              key={b.id}
+              id={b.id!}
               expIdx={expIdx}
               bulletIdx={i}
               section={section}

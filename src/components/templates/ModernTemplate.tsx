@@ -27,7 +27,7 @@ function SidebarContactItem({
       <EditableText
         path={path}
         mode="inline"
-        className="block text-sm break-words"
+        className="block text-sm wrap-break-word"
       />
     </div>
   );

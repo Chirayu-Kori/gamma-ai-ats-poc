@@ -16,18 +16,8 @@ import {
 } from "@dnd-kit/sortable";
 
 import { useResumeStore } from "@/stores/resumeStore";
-import type { Education } from "@/lib/types/resume";
 import { SortableCard } from "./sortable-card";
 import { EducationBlock } from "./education-block";
-
-function ensureEducationIds(
-  items: Education[],
-): (Education & { id: string })[] {
-  return items.map((edu, i) => ({
-    ...edu,
-    id: edu.id ?? `edu-${i}`,
-  }));
-}
 
 export function SortableEducationList() {
   const education = useResumeStore((s) => s.resume?.education);
@@ -42,8 +32,6 @@ export function SortableEducationList() {
 
   if (!education?.length) return null;
 
-  const items = ensureEducationIds(education);
-
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -53,24 +41,27 @@ export function SortableEducationList() {
 
   return (
     <DndContext
+      id="education-dnd"
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
     >
       <SortableContext
-        items={items.map((e) => e.id)}
+        id="education-sortable"
+        items={education.map((e) => e.id!)}
         strategy={verticalListSortingStrategy}
       >
         <div className="space-y-4">
-          {items.map((edu, index) => (
+          {education.map((edu, index) => (
             <SortableCard
               key={edu.id}
-              id={edu.id}
+              id={edu.id!}
               onAdd={() => useResumeStore.getState().addEducation(index)}
               onDelete={() => useResumeStore.getState().removeEducation(index)}
               onMoveUp={
                 index > 0
-                  ? () => reorderEducation(edu.id, items[index - 1].id)
+                  ? () =>
+                      reorderEducation(edu.id!, education[index - 1].id!)
                   : undefined
               }
             >

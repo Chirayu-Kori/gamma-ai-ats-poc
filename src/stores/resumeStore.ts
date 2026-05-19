@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { subscribeWithSelector } from "zustand/middleware";
+import { createId, ensureResumeIds } from "../lib/ensure-resume-ids";
 import { DEFAULT_RESUME_THEME } from "../lib/resume-theme";
 import { Resume } from "../lib/types/resume";
 
@@ -68,7 +69,7 @@ export const useResumeStore = create<ResumeState>()(
 
       setResume: (partial) =>
         set((s) => {
-          s.resume = partial;
+          s.resume = partial ? ensureResumeIds(partial) : null;
         }),
       setStatus: (status) =>
         set((s) => {
@@ -125,13 +126,13 @@ export const useResumeStore = create<ResumeState>()(
           if (!s.resume) return;
           if (!s.resume.experience) s.resume.experience = [];
           const newExp = {
-            id: `exp-${Date.now()}`,
+            id: createId("exp"),
             company: "New Company",
             title: "New Role",
             start: "Start Date",
             end: "End Date",
             location: "Location",
-            bullets: [{ text: "Enter achievement..." }],
+            bullets: [{ id: createId("bullet"), text: "Enter achievement..." }],
           };
           s.resume.experience.splice(index + 1, 0, newExp);
         }),
@@ -147,7 +148,7 @@ export const useResumeStore = create<ResumeState>()(
           if (!s.resume) return;
           if (!s.resume.education) s.resume.education = [];
           const newEdu = {
-            id: `edu-${Date.now()}`,
+            id: createId("edu"),
             institution: "New Institution",
             degree: "Degree",
             field: "Field of Study",

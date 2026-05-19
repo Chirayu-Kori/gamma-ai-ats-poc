@@ -17,6 +17,14 @@ const ACCEPT_MIME = new Set([
   "image/webp",
 ]);
 
+const ACCEPT_EXTENSIONS = new Set(["pdf", "png", "jpg", "jpeg", "webp"]);
+
+function isAcceptedFile(file: File): boolean {
+  if (file.type && ACCEPT_MIME.has(file.type)) return true;
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  return ext ? ACCEPT_EXTENSIONS.has(ext) : false;
+}
+
 type UploadCanvasProps = {
   onParsed: (resumeId: string) => void;
 };
@@ -44,7 +52,7 @@ export function UploadCanvas({ onParsed }: UploadCanvasProps) {
     (files: FileList | null) => {
       if (!files || files.length === 0) return;
       const f = files[0];
-      if (!ACCEPT_MIME.has(f.type)) {
+      if (!isAcceptedFile(f)) {
         setError("Unsupported file. Please upload a PDF or image.");
         return;
       }
@@ -108,13 +116,26 @@ export function UploadCanvas({ onParsed }: UploadCanvasProps) {
       </div>
 
       <div
-        onDragOver={(e) => {
+        onDragEnter={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           setDragOver(true);
         }}
-        onDragLeave={() => setDragOver(false)}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setDragOver(true);
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setDragOver(false);
+          }
+        }}
         onDrop={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           setDragOver(false);
           handleFiles(e.dataTransfer.files);
         }}
