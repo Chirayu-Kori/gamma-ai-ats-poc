@@ -2,7 +2,7 @@
   "id": "r-dc12be7e517c",
   "label": "SAHINI VENKATA SITARAM SRUTI",
   "resume": {
-    "name": "<span style=\"color: rgb(30, 41, 59);\">SAHINI VENKATA SITARAM SRUTI</span>",
+    "name": "<span style=\"color: rgb(30, 41, 59);\"><strong>SAHINI VENKATA SITARAM SRUTI</strong></span>",
     "headline": "SAHINI VENKATA SITARAM SRUTI",
     "contact": {
       "email": "sahinisruti@gmail.com",
@@ -12,10 +12,10 @@
       "github": "Sruti-sahini",
       "website": null
     },
-    "summary": "A Machine Learning Engineer with expertise in Reinforcement Learning with Human Feedback (RLHF) and Vision Language Models (VLMs). Proven ability to fine-tune models like VIT-Pro using DPO and Supervised Fine-tuning, and to develop comprehensive evaluation benchmarks. Experienced in analyzing model behavior on complex tasks and contributing to critical projects like Image Verification.",
+    "summary": "<p>A Machine Learning Engineer with expertise in Reinforcement Learning with Human Feedback (RLHF) and Vision Language Models (VLMs). Proven ability to fine-tune models like VIT-Pro using DPO and Supervised Fine-tuning, and to develop comprehensive evaluation benchmarks. Experienced in analyzing model behavior on complex tasks and contributing to critical projects like Image Verification.</p>",
     "experience": [
       {
-        "id": null,
+        "id": "exp-d3499316-6a3c-41a1-891e-cf3383878a20",
         "company": "Turing Global India",
         "title": "",
         "start": "",
@@ -26,24 +26,24 @@
             "text": "Implemented Reinforcement Learning with Human Feedback (RLHF) to identify and document reward-hacking behaviors in LLM code-completion tasks using incomplete Python codebases.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-278d5c5a-63a5-4300-8911-9dc9b1d07791"
           },
           {
             "text": "Analyzed model performance on PR-style tasks with failing test cases, comparing step-by-step reasoning against one-shot solutions, and collecting preference data on code quality and correctness.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-537b9483-e553-473a-bf7b-3e4e80a53acb"
           },
           {
             "text": "Identified and mitigated hacky approaches, including hardcoded test cases, by providing structured human feedback and instructional prompts to foster principled, test-driven coding behavior.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-5911a27a-16a1-404c-9d13-1eb592384277"
           }
         ]
       },
       {
-        "id": null,
+        "id": "exp-1e07606a-1178-4153-98ec-7c4cac971d23",
         "company": "Amazon India",
         "title": "",
         "start": "Jan",
@@ -54,36 +54,36 @@
             "text": "Reduced vision-language model (VLM) hallucination on the Image Verification Project within the Central Machine Learning team, leveraging Amazon's internal VIT-Pro model, fine-tuned from IDEFICS.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-fc0a9f2e-1da0-4571-b765-2343618e2f37"
           },
           {
             "text": "Fine-tuned VIT-Pro using Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT) to optimize performance for both one-word and descriptive responses.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-ace15faf-bd38-4533-99b5-3564d52a70a8"
           },
           {
             "text": "Generated high-quality preference pairs and delivered iterative feedback to human annotators, significantly enhancing dataset quality.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-1d3cc92b-5fa7-4be3-9403-847a1c648dfe"
           },
           {
             "text": "Developed a segment-level hallucination evaluation benchmark for descriptive outputs using Claude v3 and assessed one-word answers with the weighted F1-score.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-f4687ed1-42b6-4235-9474-e5513e909a53"
           },
           {
             "text": "Utilized a robust tech stack including VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, and Greenland.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-c13a125b-3a3e-4a78-9e8f-9b1ee8f67244"
           }
         ]
       },
       {
-        "id": null,
+        "id": "exp-0fda6545-6beb-4702-8432-70873d557bbb",
         "company": "Amazon India",
         "title": "",
         "start": "May",
@@ -94,38 +94,38 @@
             "text": "Automated image verification for customer concession claims within the Central Machine Learning team by leveraging a Vision Language Model (VLM) for the Image Verification Project.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-621a7f5c-fab3-4334-a4cd-eccf90406bf9"
           },
           {
             "text": "Developed a comprehensive evaluation benchmark for Vision Language Models, conducting ablation experiments across ClaudeV3, IDEFICS 8B, IDEFICS 9B, and fine-tuned IDEFICS versions, generating PR curves and performing qualitative analysis.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-8c874a1e-9f74-4e0e-b6ec-0f7132fbb6fb"
           },
           {
             "text": "Proposed optimal model settings and identified critical areas for improvement based on in-depth study and analysis.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-d9503200-a419-4f12-b9b3-12e7e82b70ae"
           },
           {
             "text": "Reviewed state-of-the-art literature and prompt engineering principles, integrating innovative evaluation methods to enhance expertise in VLM applications.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-8a384aa8-02a1-4a31-be7b-30a03da123fe"
           },
           {
             "text": "Utilized VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, and EC2 to develop and evaluate advanced machine learning models.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-db1c64da-e81b-4d3a-8c38-5e1a800a8f7d"
           }
         ]
       }
     ],
     "education": [
       {
-        "id": null,
+        "id": "edu-5b2a2c75-14cc-4bef-8bf0-e5b4df8e0430",
         "institution": "Indian Institute of Technology Patna",
         "degree": "Bachelor of Technology",
         "field": null,
@@ -135,7 +135,7 @@
         "highlights": []
       },
       {
-        "id": null,
+        "id": "edu-d8f83f3b-74ab-4c41-8a30-c7a89606f9e0",
         "institution": "FIITJEE Junior College",
         "degree": "Class 12th",
         "field": "Andhra Pradesh Board of Intermediate Education",
@@ -145,7 +145,7 @@
         "highlights": []
       },
       {
-        "id": null,
+        "id": "edu-1319bfd6-79fe-41f1-adb6-d300f01ba582",
         "institution": "Timpany Senior Secondary School",
         "degree": "Class 10th",
         "field": "Central Board of Secondary Education",
@@ -215,19 +215,19 @@
             "text": "Utilized the MMIMDb dataset, processing movie synopses and posters as inputs to predict relevant genres.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-93e85565-7c17-416c-8df9-189424f59bae"
           },
           {
             "text": "Employed BERT for text encoding and ResNet-152 for image encoding; concatenated features were classified via a feed-forward neural network across 26 possible genres.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-a3d922a1-7b11-4dba-b0d5-4456a3f859a8"
           },
           {
             "text": "Evaluated model performance using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-e6604177-96f6-4efd-ac2c-207bdefd47db"
           }
         ]
       }
@@ -468,17 +468,17 @@
     "certifications": null
   },
   "theme": {
-    "accent": "#d97706",
+    "accent": "#e11d48",
     "textColor": "#1e293b",
     "headingColor": "#0f172a",
     "backgroundColor": "#ffffff",
-    "sidebarColor": "#d97706",
-    "fontHeading": "\"Inter\", sans-serif",
-    "fontBody": "\"Inter\", sans-serif"
+    "sidebarColor": "#e11d48",
+    "fontHeading": "\"Lato\", sans-serif",
+    "fontBody": "\"Lato\", sans-serif"
   },
-  "template_id": "minimal",
+  "template_id": "stripe",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T07:33:38.020198+00:00",
-  "updated_at": "2026-05-19T07:57:31.628295+00:00"
+  "updated_at": "2026-05-19T08:20:03.599331+00:00"
 }

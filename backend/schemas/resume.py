@@ -55,6 +55,15 @@ class Project(BaseModel):
     bullets: list[Bullet] = Field(default_factory=list)
 
 
+class ResumeSectionConfig(BaseModel):
+    id: str = ""
+    type: str = "summary"
+    title: str = ""
+    visible: bool = True
+    order: int = 0
+    custom_content: Optional[str] = None
+
+
 class Resume(BaseModel):
     name: str = ""
     headline: str = ""
@@ -65,6 +74,7 @@ class Resume(BaseModel):
     skills: list[SkillGroup] = Field(default_factory=list)
     projects: Optional[list[Project]] = None
     certifications: Optional[list[str]] = None
+    sections: Optional[list[ResumeSectionConfig]] = None
 
 
 class ExperienceUpgrade(BaseModel):

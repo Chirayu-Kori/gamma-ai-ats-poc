@@ -48,6 +48,25 @@ export interface Project {
   bullets: Bullet[];
 }
 
+export type ResumeSectionType =
+  | "summary"
+  | "experience"
+  | "education"
+  | "skills"
+  | "projects"
+  | "certifications"
+  | "custom";
+
+export interface ResumeSectionConfig {
+  id: string;
+  type: ResumeSectionType;
+  title: string;
+  visible: boolean;
+  order: number;
+  /** Rich HTML for user-defined sections */
+  custom_content?: string;
+}
+
 export interface Resume {
   name: string;
   headline: string;
@@ -58,4 +77,5 @@ export interface Resume {
   skills: SkillGroup[];
   projects?: Project[] | null;
   certifications?: string[] | null;
+  sections?: ResumeSectionConfig[] | null;
 }

@@ -1,11 +1,12 @@
 "use client";
 
 import { resumeThemeToCssVars } from "@/lib/resume-theme";
+import { getSectionTitle } from "@/lib/resume-sections";
 import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
-import { SortableExperienceList } from "@/components/editor/sortable-experience-list";
-import { SortableEducationList } from "@/components/editor/sortable-education-list";
+import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
 import { SkillsRow } from "@/components/editor/skills-row";
+import { EditableSectionTitle } from "@/components/editor/editable-section-title";
 import type { ContactInfo } from "@/lib/types/resume";
 import "./modern-theme.css";
 
@@ -21,13 +22,13 @@ function SidebarContactItem({
   if (!value) return null;
   return (
     <div>
-      <div className="text-[10px] tracking-wider uppercase opacity-70">
+      <div className="text-[10px] tracking-wider opacity-70 uppercase">
         {label}
       </div>
       <EditableText
         path={path}
         mode="inline"
-        className="block text-sm wrap-break-word"
+        className="block text-sm break-words"
       />
     </div>
   );
@@ -39,6 +40,9 @@ export function ModernTemplate() {
 
   if (!resume) return null;
   const contact = (resume.contact ?? {}) as ContactInfo;
+  const skillsSection = resume.sections?.find(
+    (section) => section.type === "skills" && section.visible,
+  );
 
   return (
     <article
@@ -46,7 +50,7 @@ export function ModernTemplate() {
       style={resumeThemeToCssVars(theme)}
     >
       <aside className="modern-sidebar space-y-7 p-6">
-        <div>
+        <div id="resume-header" className="scroll-mt-24">
           <EditableText
             path="name"
             mode="inline"
@@ -95,67 +99,26 @@ export function ModernTemplate() {
           />
         </div>
 
-        {resume.skills && resume.skills.length > 0 && (
-          <div>
-            <h2 className="mb-2 text-xs font-semibold tracking-wider uppercase">
-              Skills
-            </h2>
+        {skillsSection && resume.skills && resume.skills.length > 0 && (
+          <div id={`section-${skillsSection.id}`} className="scroll-mt-24">
+            <EditableSectionTitle
+              sectionId={skillsSection.id}
+              className="mb-2 text-xs font-semibold tracking-wider uppercase"
+            />
             <div className="space-y-2 text-sm">
-              {resume.skills.map((g, i) => (
-                <div key={i}>
-                  <div className="text-[10px] tracking-wider uppercase opacity-70">
-                    {g.category}
-                  </div>
-                  <div>{g.items.join(", ")}</div>
-                </div>
+              {resume.skills.map((_, i) => (
+                <SkillsRow key={i} index={i} />
               ))}
             </div>
           </div>
         )}
       </aside>
 
-      <main className="modern-main space-y-7 p-8">
-        <section>
-          <h2 className="mb-2 text-sm font-bold tracking-wider uppercase">
-            Summary
-          </h2>
-          <EditableText
-            path="summary"
-            mode="block"
-            className="text-sm leading-relaxed text-slate-700"
-          />
-        </section>
-
-        {resume.experience && resume.experience.length > 0 && (
-          <section>
-            <h2 className="mb-3 text-sm font-bold tracking-wider uppercase">
-              Experience
-            </h2>
-            <SortableExperienceList />
-          </section>
-        )}
-
-        {resume.education && resume.education.length > 0 && (
-          <section>
-            <h2 className="mb-3 text-sm font-bold tracking-wider uppercase">
-              Education
-            </h2>
-            <SortableEducationList />
-          </section>
-        )}
-
-        {resume.certifications && resume.certifications.length > 0 && (
-          <section>
-            <h2 className="mb-2 text-sm font-bold tracking-wider uppercase">
-              Certifications
-            </h2>
-            <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed">
-              {resume.certifications.map((c, i) => (
-                <li key={i}>{c}</li>
-              ))}
-            </ul>
-          </section>
-        )}
+      <main className="modern-main p-8">
+        <ResumeDynamicSections
+          titleVariant="modern"
+          excludeTypes={["skills"]}
+        />
       </main>
     </article>
   );

@@ -3,9 +3,7 @@
 import { resumeThemeToCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "../../stores/resumeStore";
 import { EditableText } from "../editor/EditableText";
-import { SortableExperienceList } from "../editor/sortable-experience-list";
-import { SortableEducationList } from "../editor/sortable-education-list";
-import { SkillsRow } from "../editor/skills-row";
+import { ResumeDynamicSections } from "../editor/resume-dynamic-sections";
 import { ContactInfo } from "../../lib/types/resume";
 import "./minimal-theme.css";
 
@@ -29,7 +27,7 @@ function ContactBar({ contact }: { contact: ContactInfo }) {
             <EditableText
               path={`contact.${p.key}`}
               mode="inline"
-              className="w-full break-normal whitespace-nowrap"
+              className="w-full whitespace-nowrap break-normal"
             />
           </span>
           {i < parts.length - 1 ? (
@@ -40,23 +38,6 @@ function ContactBar({ contact }: { contact: ContactInfo }) {
         </span>
       ))}
     </div>
-  );
-}
-
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="mb-6 min-w-0">
-      <h2 className="mb-3 pb-1 font-semibold tracking-wider uppercase">
-        {title}
-      </h2>
-      {children}
-    </section>
   );
 }
 
@@ -84,7 +65,10 @@ export function MinimalTemplate() {
       className="resume minimal-theme resume-theme-base ring-border mx-auto w-full max-w-4xl min-w-0 overflow-x-clip rounded-sm p-8 shadow-lg ring-1 sm:p-12"
       style={themeStyle}
     >
-      <header className="mb-8 min-w-0 shrink-0 text-center">
+      <header
+        id="resume-header"
+        className="mb-8 min-w-0 shrink-0 scroll-mt-24 text-center"
+      >
         <EditableText
           path="name"
           mode="inline"
@@ -98,47 +82,7 @@ export function MinimalTemplate() {
         <ContactBar contact={resume.contact || ({} as ContactInfo)} />
       </header>
 
-      <div className="min-w-0 space-y-6">
-        <Section title="Summary">
-          <EditableText
-            path="summary"
-            mode="block"
-            className="text-sm leading-relaxed"
-          />
-        </Section>
-
-        {resume.experience && resume.experience.length > 0 && (
-          <Section title="Experience">
-            <SortableExperienceList />
-          </Section>
-        )}
-
-        {resume.education && resume.education.length > 0 && (
-          <Section title="Education">
-            <SortableEducationList />
-          </Section>
-        )}
-
-        {resume.skills && resume.skills.length > 0 && (
-          <Section title="Skills">
-            <div className="space-y-3">
-              {resume.skills.map((_, i) => (
-                <SkillsRow key={i} index={i} />
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {resume.certifications && resume.certifications.length > 0 && (
-          <Section title="Certifications">
-            <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed">
-              {resume.certifications.map((cert, i) => (
-                <li key={i}>{cert}</li>
-              ))}
-            </ul>
-          </Section>
-        )}
-      </div>
+      <ResumeDynamicSections titleVariant="default" />
     </article>
   );
 }
