@@ -40,8 +40,10 @@ export function ResumeCanvas() {
   }
 
   return (
-    <div className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0">
-      <Component />
+    <div className="bg-muted/30 flex w-full overflow-x-auto print:overflow-visible print:bg-white">
+      <div className="flex w-full min-w-[800px] justify-center shrink-0 p-4 md:p-8 print:min-w-0 print:p-0">
+        <Component />
+      </div>
     </div>
   );
 }
