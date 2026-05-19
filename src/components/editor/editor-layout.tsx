@@ -9,6 +9,7 @@ import {
   User,
   ArrowLeft,
   AlertTriangle,
+  Save,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -28,6 +29,7 @@ import { apiClient } from "@/lib/api-client";
 import { resumeQueryKeys } from "@/lib/query-keys";
 import type { ResumeRecord } from "@/lib/types/resume-meta";
 import { cn } from "@/lib/utils";
+import { useResumePersistence } from "@/hooks/useResumePersistence";
 
 type EditorPhase = "upload" | "generate" | "resume";
 
@@ -45,6 +47,8 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const setTheme = useResumeStore((s) => s.setTheme);
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const setPageSize = useResumeStore((s) => s.setPageSize);
+  const setLastSavedAt = useResumeStore((s) => s.setLastSavedAt);
+  const clearUnsaved = useResumeStore((s) => s.clearUnsaved);
   const resetUpload = useUploadStore((s) => s.reset);
   const parsedResumeId = useUploadStore((s) => s.parsedResumeId);
 
@@ -116,6 +120,10 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
       });
     }
     setStatus("editing");
+    if (record.updated_at) {
+      setLastSavedAt(record.updated_at);
+      clearUnsaved();
+    }
     setPhase("resume");
   }, [
     resumeId,
@@ -125,6 +133,8 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     setTheme,
     setTemplate,
     setPageSize,
+    setLastSavedAt,
+    clearUnsaved,
     resetUpload,
   ]);
 
@@ -147,11 +157,18 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     const currentTemplate = useResumeStore.getState().selectedTemplate;
     if (parsedId && currentResume) {
       try {
-        await apiClient.put(`/api/resumes/${parsedId}`, {
-          resume: currentResume,
-          theme: currentTheme,
-          template_id: currentTemplate,
-        });
+        const { data: saved } = await apiClient.put<ResumeRecord>(
+          `/api/resumes/${parsedId}`,
+          {
+            resume: currentResume,
+            theme: currentTheme,
+            template_id: currentTemplate,
+          },
+        );
+        if (saved.updated_at) {
+          setLastSavedAt(saved.updated_at);
+          clearUnsaved();
+        }
         await queryClient.invalidateQueries({
           queryKey: resumeQueryKeys.detail(parsedId),
         });
@@ -170,6 +187,8 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   };
 
   const activeResumeId = resumeId ?? parsedResumeId ?? undefined;
+  const { saveNow } = useResumePersistence();
+  const saveStatus = useResumeStore((s) => s.status);
 
   const displayLabel = record?.label ?? resumeId;
 
@@ -211,6 +230,16 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
         <PhaseBadge phase={phase} />
       </div>
       <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          className="hidden font-medium sm:flex"
+          onClick={() => void saveNow()}
+          disabled={phase !== "resume" || saveStatus === "saving" || !activeResumeId}
+        >
+          <Save className="mr-2 h-4 w-4" />
+          {saveStatus === "saving" ? "Saving…" : "Save"}
+        </Button>
         <Button
           variant="outline"
           size="sm"

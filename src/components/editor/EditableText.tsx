@@ -46,9 +46,15 @@ export function EditableText({
       content={content}
       forceSync={status === "streaming"}
       syncContent
+      fieldPath={path}
       className={className}
       editorClassName={className}
       placeholder={placeholder}
+      onFieldApply={(html) => {
+        if (status === "streaming") return;
+        updateField(path, html);
+        triggerAutosave();
+      }}
       onUpdate={({ html }) => {
         if (status === "streaming") return;
         updateField(path, html);

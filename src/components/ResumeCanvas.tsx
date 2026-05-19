@@ -4,6 +4,7 @@ import { FileText } from "lucide-react";
 
 import { mergeThemeDefaults, pageSizeCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "../stores/resumeStore";
+import { CanvasSaveBar } from "./editor/canvas-save-bar";
 import { StreamingSectionEffects } from "./editor/streaming-section-effects";
 import { TEMPLATES } from "./templates/registry";
 import "./templates/shared-template.css";
@@ -45,14 +46,14 @@ export function ResumeCanvas() {
   }
 
   return (
-    <div className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0">
-      <div
-        className="resume-page-format w-full min-w-0"
-        style={pageVars}
-      >
-        <StreamingSectionEffects />
-        <Component />
+    <div className="relative flex w-full min-w-0 flex-col">
+      <div className="bg-muted/30 flex w-full min-w-0 justify-center p-4 md:p-8 print:bg-white print:p-0">
+        <div className="resume-page-format w-full min-w-0" style={pageVars}>
+          <StreamingSectionEffects />
+          <Component />
+        </div>
       </div>
+      <CanvasSaveBar />
     </div>
   );
 }

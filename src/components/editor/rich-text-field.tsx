@@ -33,6 +33,9 @@ export type RichTextFieldProps = {
   syncContent?: boolean;
   /** During SSE streaming — always mirror prop into the editor */
   forceSync?: boolean;
+  /** Dot path for AI rewrite (e.g. experience.0.bullets.1.text) */
+  fieldPath?: string;
+  onFieldApply?: (html: string) => void;
 };
 
 const textStyleExtensions = [
@@ -87,6 +90,8 @@ export function RichTextField({
   onUpdate,
   syncContent = true,
   forceSync = false,
+  fieldPath,
+  onFieldApply,
 }: RichTextFieldProps) {
   const extensions = useMemo(
     () => buildExtensions(mode, placeholder),
@@ -143,7 +148,12 @@ export function RichTextField({
         className,
       )}
     >
-      <EditorBubbleMenu editor={editor} mode={mode} />
+      <EditorBubbleMenu
+        editor={editor}
+        mode={mode}
+        fieldPath={fieldPath}
+        onFieldApply={onFieldApply}
+      />
       <EditorContent editor={editor} />
     </div>
   );

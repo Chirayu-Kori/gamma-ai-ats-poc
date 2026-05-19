@@ -31,6 +31,8 @@ interface ResumeState {
   focusedPath: string | null;
   streamingPath: string | null;
   streamingSectionTarget: StreamSectionTarget | null;
+  lastSavedAt: string | null;
+  hasUnsavedChanges: boolean;
 
   setResume: (partial: Partial<Resume> | null) => void;
   applyStreamPartial: (partial: Partial<Resume>) => void;
@@ -68,6 +70,9 @@ interface ResumeState {
   }) => void;
   setTheme: (patch: Record<string, string>) => void;
   setFocusedPath: (path: string | null) => void;
+  setLastSavedAt: (iso: string | null) => void;
+  markUnsaved: () => void;
+  clearUnsaved: () => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -197,6 +202,8 @@ export const useResumeStore = create<ResumeState>()(
       focusedPath: null,
       streamingPath: null,
       streamingSectionTarget: null,
+      lastSavedAt: null,
+      hasUnsavedChanges: false,
 
       setResume: (partial) =>
         set((s) => {
@@ -265,6 +272,21 @@ export const useResumeStore = create<ResumeState>()(
       setStatus: (status) =>
         set((s) => {
           s.status = status;
+        }),
+
+      setLastSavedAt: (iso) =>
+        set((s) => {
+          s.lastSavedAt = iso;
+        }),
+
+      markUnsaved: () =>
+        set((s) => {
+          s.hasUnsavedChanges = true;
+        }),
+
+      clearUnsaved: () =>
+        set((s) => {
+          s.hasUnsavedChanges = false;
         }),
 
       updateField: (path, value) =>

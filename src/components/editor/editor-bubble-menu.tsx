@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Editor } from "@tiptap/react";
 import {
@@ -10,11 +10,14 @@ import {
   ListOrdered,
   Palette,
   Redo2,
+  Sparkles,
   Strikethrough,
   Type,
   Underline,
   Undo2,
 } from "lucide-react";
+
+import { SelectionAIPopover } from "./selection-ai-popover";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,6 +33,8 @@ import { cn } from "@/lib/utils";
 type EditorBubbleMenuProps = {
   editor: Editor | null;
   mode: "inline" | "block";
+  fieldPath?: string;
+  onFieldApply?: (html: string) => void;
 };
 
 function MenuButton({
@@ -64,10 +69,18 @@ function MenuButton({
   );
 }
 
-export function EditorBubbleMenu({ editor, mode }: EditorBubbleMenuProps) {
+export function EditorBubbleMenu({
+  editor,
+  mode,
+  fieldPath,
+  onFieldApply,
+}: EditorBubbleMenuProps) {
   const [visible, setVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
   const [showColors, setShowColors] = useState(false);
+  const [showAI, setShowAI] = useState(false);
+  const showAIRef = useRef(false);
+  showAIRef.current = showAI;
 
   useEffect(() => {
     if (!editor) return;
@@ -77,6 +90,7 @@ export function EditorBubbleMenu({ editor, mode }: EditorBubbleMenuProps) {
       if (empty || !editor.isEditable) {
         setVisible(false);
         setShowColors(false);
+        setShowAI(false);
         return;
       }
 
@@ -91,20 +105,21 @@ export function EditorBubbleMenu({ editor, mode }: EditorBubbleMenuProps) {
 
     editor.on("selectionUpdate", update);
     editor.on("blur", () => {
-      setVisible(false);
-      setShowColors(false);
+      if (!showAIRef.current) {
+        setVisible(false);
+        setShowColors(false);
+        setShowAI(false);
+      }
     });
 
     return () => {
       editor.off("selectionUpdate", update);
-      editor.off("blur", () => {
-        setVisible(false);
-        setShowColors(false);
-      });
     };
   }, [editor]);
 
   if (!editor || !visible) return null;
+
+  const canUseAI = Boolean(fieldPath && onFieldApply);
 
   const currentColor =
     (editor.getAttributes("textStyle").color as string | undefined) ?? "";
@@ -210,6 +225,22 @@ export function EditorBubbleMenu({ editor, mode }: EditorBubbleMenuProps) {
           </SelectContent>
         </Select>
 
+        {canUseAI && (
+          <>
+            <div className="mx-0.5 h-6 w-px bg-slate-200" aria-hidden />
+            <MenuButton
+              label="Rewrite with AI"
+              active={showAI}
+              onClick={() => {
+                setShowAI((v) => !v);
+                setShowColors(false);
+              }}
+            >
+              <Sparkles className="size-4 text-violet-600" />
+            </MenuButton>
+          </>
+        )}
+
         <div className="mx-0.5 h-6 w-px bg-slate-200" aria-hidden />
         <MenuButton
           label="Undo"
@@ -226,6 +257,15 @@ export function EditorBubbleMenu({ editor, mode }: EditorBubbleMenuProps) {
           <Redo2 className="size-4" />
         </MenuButton>
       </div>
+
+      {showAI && canUseAI && fieldPath && onFieldApply && (
+        <SelectionAIPopover
+          editor={editor}
+          fieldPath={fieldPath}
+          onApplied={onFieldApply}
+          onClose={() => setShowAI(false)}
+        />
+      )}
 
       {showColors && (
         <div className="mt-1.5 border-t border-slate-100 pt-1.5">
