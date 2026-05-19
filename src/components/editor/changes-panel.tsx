@@ -64,12 +64,12 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
   if (!enabled) {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
-        <div className="border-b p-5">
+        <div className="border-b p-4">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Changes
           </h2>
         </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-sm text-slate-400">
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-4 text-center text-sm text-slate-400">
           <Loader2 className="size-6 animate-spin text-blue-400" />
           <p>Resume upgrade in progress…</p>
           <p className="text-xs">
@@ -83,12 +83,12 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
   if (!resumeId) {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
-        <div className="border-b p-5">
+        <div className="border-b p-4">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Changes
           </h2>
         </div>
-        <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-slate-400">
+        <div className="flex flex-1 items-center justify-center p-4 text-center text-sm text-slate-400">
           Upload and upgrade a resume to see what was added, improved, or
           missing.
         </div>
@@ -99,12 +99,12 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
   if (isLoading) {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
-        <div className="border-b p-5">
+        <div className="border-b p-4">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Changes
           </h2>
         </div>
-        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-6 text-center text-sm text-slate-400">
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 p-4 text-center text-sm text-slate-400">
           <Loader2 className="size-6 animate-spin text-blue-400" />
           <p>Loading change summary…</p>
         </div>
@@ -115,12 +115,12 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
   if (isError || !diff) {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
-        <div className="border-b p-5">
+        <div className="border-b p-4">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Changes
           </h2>
         </div>
-        <div className="flex flex-1 items-center justify-center p-6 text-center text-sm text-rose-600">
+        <div className="flex flex-1 items-center justify-center p-4 text-center text-sm text-rose-600">
           Could not load changes. Try saving the resume and refreshing.
         </div>
       </div>
@@ -131,7 +131,7 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
 
   return (
     <div className="bg-background flex h-full min-h-0 flex-col">
-      <div className="border-b p-5">
+      <div className="border-b p-4">
         <div className="flex items-center justify-between">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Changes
@@ -146,7 +146,7 @@ export function ChangesPanel({ resumeId, enabled }: ChangesPanelProps) {
           <Stat n={diff.missing.length} label="Missing" tone="amber" />
         </div>
       </div>
-      <div className="custom-scrollbar flex-1 space-y-6 overflow-y-auto p-4">
+      <div className="custom-scrollbar min-h-0 flex-1 space-y-6 overflow-x-hidden overflow-y-auto p-4">
         {total === 0 ? (
           <div className="flex flex-col items-center gap-2 py-10 text-center text-sm text-slate-400">
             <CheckCircle2 className="size-6 text-emerald-400" />

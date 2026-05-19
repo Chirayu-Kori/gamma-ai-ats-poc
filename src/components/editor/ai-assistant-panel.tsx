@@ -94,7 +94,7 @@ export function AiAssistantPanel({ enabled = true }: AiAssistantPanelProps) {
 
       <div
         ref={scrollRef}
-        className="custom-scrollbar flex-1 space-y-3 overflow-y-auto p-4"
+        className="custom-scrollbar min-h-0 flex-1 space-y-3 overflow-x-hidden overflow-y-auto p-4"
       >
         {messages.map((msg, i) => (
           <div

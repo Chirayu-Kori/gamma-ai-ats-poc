@@ -70,28 +70,32 @@ export function SortableCard({
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group relative -mx-2 flex gap-1 rounded-md transition-colors",
+        "group relative rounded-md transition-colors",
         isDragging ? "bg-accent/50" : "hover:bg-slate-100/10",
         className,
       )}
     >
-      <CardActions
-        open={open}
-        onOpenChange={(next) => {
-          setOpen(next);
-          if (!next) setAiOpen(false);
-        }}
-        aiOpen={aiOpen}
-        onAiOpenChange={setAiOpen}
-        isDragging={isDragging}
-        attributes={attributes}
-        listeners={open || aiOpen ? undefined : listeners}
-        section={section}
-        onSectionAiOpen={onSectionAiOpen}
-        onAdd={onAdd}
-        onDelete={onDelete}
-        onMoveUp={onMoveUp}
-      />
+      <div className="pointer-events-none absolute top-1.5 right-full z-20 mr-1 print:hidden">
+        <div className="pointer-events-auto">
+          <CardActions
+            open={open}
+            onOpenChange={(next) => {
+              setOpen(next);
+              if (!next) setAiOpen(false);
+            }}
+            aiOpen={aiOpen}
+            onAiOpenChange={setAiOpen}
+            isDragging={isDragging}
+            attributes={attributes}
+            listeners={open || aiOpen ? undefined : listeners}
+            section={section}
+            onSectionAiOpen={onSectionAiOpen}
+            onAdd={onAdd}
+            onDelete={onDelete}
+            onMoveUp={onMoveUp}
+          />
+        </div>
+      </div>
       <div
         role={onSelect ? "button" : undefined}
         tabIndex={onSelect ? 0 : undefined}
@@ -107,7 +111,7 @@ export function SortableCard({
             : undefined
         }
         className={cn(
-          "min-w-0 flex-1 rounded-lg border transition-colors",
+          "min-w-0 w-full rounded-lg border transition-colors",
           selected
             ? "border-indigo-400 bg-blue-50/40 shadow-sm"
             : "border-transparent",
@@ -229,7 +233,7 @@ function CardActions({
         }
       }}
     >
-      <div className="relative mt-1 shrink-0">
+      <div className="relative shrink-0">
         {/* Invisible anchor for menu positioning — not the drag handle */}
         <DropdownMenuTrigger asChild>
           <span
@@ -241,7 +245,7 @@ function CardActions({
         <button
           type="button"
           className={cn(
-            "text-muted-foreground relative z-10 cursor-grab touch-none rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing data-[state=open]:opacity-100",
+            "text-muted-foreground relative z-10 cursor-grab touch-none rounded bg-white/90 p-0.5 opacity-0 shadow-sm ring-1 ring-slate-200/80 transition-opacity group-hover:opacity-100 active:cursor-grabbing data-[state=open]:opacity-100",
             menuOpen && "opacity-100",
             isDragging && "opacity-100",
           )}

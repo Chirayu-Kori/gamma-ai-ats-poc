@@ -191,7 +191,7 @@ function PageSizeFields({
       {isCustom && (
         <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50/80 p-3">
           <p className="text-xs font-medium text-slate-600">Custom dimensions</p>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             <label className="space-y-1">
               <span className="text-[10px] font-semibold tracking-wide text-slate-500 uppercase">
                 Width
@@ -225,14 +225,14 @@ function PageSizeFields({
               />
             </label>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-1.5">
             {(["mm", "in"] as const).map((u) => (
               <button
                 key={u}
                 type="button"
                 onClick={() => apply({ unit: u })}
                 className={cn(
-                  "flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors",
+                  "flex-1 truncate rounded-md border px-2 py-1.5 text-xs font-medium transition-colors",
                   unit === u
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
@@ -258,9 +258,11 @@ function ColorInput({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white px-3 py-2">
-      <span className="text-xs font-medium text-slate-600">{label}</span>
-      <div className="flex items-center gap-2">
+    <div className="flex items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2">
+      <span className="min-w-0 flex-1 truncate text-xs font-medium text-slate-600" title={label}>
+        {label}
+      </span>
+      <div className="flex shrink-0 items-center gap-2">
         <input
           type="text"
           value={value}
@@ -402,12 +404,12 @@ export function DesignPanel({ phase }: DesignPanelProps) {
   if (phase === "upload") {
     return (
       <div className="bg-background flex h-full min-h-0 flex-col">
-        <div className="border-b p-5">
+        <div className="border-b p-4">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
             Design Details
           </h2>
         </div>
-        <div className="custom-scrollbar flex-1 space-y-4 overflow-y-auto p-5">
+        <div className="custom-scrollbar min-h-0 flex-1 space-y-4 overflow-x-hidden overflow-y-auto p-4">
           <PageSizeFields variant="upload" />
           <DesignField label="Language" icon={Languages}>
             <DesignSelect
@@ -428,19 +430,19 @@ export function DesignPanel({ phase }: DesignPanelProps) {
 
   return (
     <div className="bg-background flex h-full min-h-0 flex-col">
-      <div className="border-b p-5">
+      <div className="border-b p-4">
         <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
           Design Details
         </h2>
       </div>
-      <div className="custom-scrollbar flex-1 space-y-8 overflow-y-auto p-5">
+      <div className="custom-scrollbar min-h-0 flex-1 space-y-8 overflow-x-hidden overflow-y-auto p-4">
         <PageSizeFields variant="resume" onAutosave={triggerAutosave} />
 
         <Separator />
 
         <div>
           <h3 className="mb-3 text-sm font-semibold">Templates</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {visibleTemplateIds.map((tid) => {
               const tpl = TEMPLATES[tid];
               const selected = selectedTemplate === tid;

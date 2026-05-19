@@ -133,10 +133,6 @@ export function ProjectsList() {
           ))}
         </SortableContext>
       </DndContext>
-      <Button type="button" variant="ghost" size="sm" onClick={addProject}>
-        <Plus className="mr-1 size-4" />
-        Add project
-      </Button>
     </div>
   );
 }

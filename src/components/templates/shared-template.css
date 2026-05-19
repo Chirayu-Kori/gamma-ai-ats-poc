@@ -53,10 +53,92 @@
   color: var(--color-icon-on-accent, rgba(255, 255, 255, 0.92));
 }
 
+.resume-theme-base .resume-contact-inline,
+.resume-theme-base .resume-contact-bar {
+  overflow: visible;
+}
+
+.resume-theme-base .resume-contact-inline > li,
+.resume-theme-base .resume-contact-bar > li {
+  flex-shrink: 0;
+  width: max-content;
+  max-width: none;
+}
+
 .resume-theme-base .resume-contact-value,
 .resume-theme-base .resume-contact-value .ProseMirror {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.resume-theme-base .resume-contact-inline .resume-contact-value,
+.resume-theme-base .resume-contact-inline .resume-contact-value .ProseMirror,
+.resume-theme-base .resume-contact-bar .resume-contact-value,
+.resume-theme-base .resume-contact-bar .resume-contact-value .ProseMirror {
+  display: inline-block;
+  width: max-content;
+  max-width: none;
+}
+
+.resume-theme-base .resume-contact-inline .resume-contact-value p,
+.resume-theme-base .resume-contact-bar .resume-contact-value p {
+  margin: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.resume-theme-base .resume-contact-inline .resume-contact-value .ProseMirror,
+.resume-theme-base .resume-contact-bar .resume-contact-value .ProseMirror {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.25;
+}
+
+/* Experience / education: primary fields wrap; dates & meta stay one line */
+.resume-theme-base .resume-entry-primary .ProseMirror {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.resume-theme-base .resume-entry-primary p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.resume-theme-base .resume-entry-meta,
+.resume-theme-base .resume-entry-meta .ProseMirror {
+  display: inline;
+  width: auto;
+  max-width: none;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+
+.resume-theme-base .resume-entry-meta p {
+  margin: 0;
+  display: inline;
+  white-space: nowrap;
+}
+
+.resume-theme-base .resume-entry-meta .ProseMirror {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1.25;
+}
+
+/* Education degree + field: flow inline on the left; GPA aligns in grid right column */
+.resume-theme-base .resume-entry-degree-line > div,
+.resume-theme-base .resume-entry-degree-line .ProseMirror,
+.resume-theme-base .resume-entry-degree-line p {
+  display: inline;
+  margin: 0;
 }
 
 .resume-theme-base h2 {
@@ -92,11 +174,14 @@
   width: 100%;
   max-width: var(--resume-page-width, 210mm);
   min-height: var(--resume-page-min-height, 297mm);
+  /* Let drag grips sit outside entry cards without clipping */
+  overflow-x: visible;
 }
 
 @media print {
   .resume-page-format .resume {
     width: var(--resume-page-width, 210mm);
     min-height: var(--resume-page-min-height, 297mm);
+    overflow-x: clip;
   }
 }

@@ -1,54 +1,76 @@
 "use client";
 
+import { fieldHasContent } from "@/lib/resume-field-content";
+import { cn } from "@/lib/utils";
+import { useResumeStore } from "@/stores/resumeStore";
+
 import { EditableText } from "./EditableText";
 import { BulletList } from "./BulletList";
 
+const rowHeader =
+  "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4";
+const rowSubtitle = "flex min-w-0 flex-wrap items-baseline gap-x-3";
+const primaryClass = "resume-entry-primary min-w-0 leading-snug";
+const metaClass =
+  "resume-entry-meta inline-block w-max max-w-none shrink-0 leading-tight";
+const dateGroupClass =
+  "text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm font-medium leading-tight";
+
 export function ExperienceBlock({ index }: { index: number }) {
+  const exp = useResumeStore((s) => s.resume?.experience?.[index]);
+  const showSubtitleRow =
+    fieldHasContent(exp?.title) || fieldHasContent(exp?.location);
+
   return (
-    <div className="mb-2">
-      <div className="mb-0.5 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <div className="min-w-0 flex-1">
-          <EditableText
-            path={`experience.${index}.company`}
-            mode="inline"
-            inlineWrap
-            className="text-base font-bold"
-          />
-        </div>
-        <div className="text-muted-foreground flex min-w-0 shrink-0 flex-wrap items-baseline gap-1 text-sm font-medium">
+    <div className="mb-2 min-w-0 space-y-0.5">
+      <div className={rowHeader}>
+        <EditableText
+          path={`experience.${index}.company`}
+          mode="inline"
+          inlineWrap
+          className={cn(primaryClass, "text-base font-bold")}
+          editorClassName="whitespace-normal leading-snug py-0"
+        />
+        <div className={dateGroupClass}>
           <EditableText
             path={`experience.${index}.start`}
             mode="inline"
-            inlineWrap
-            className="min-w-0"
+            className={metaClass}
+            editorClassName="whitespace-nowrap py-0 leading-tight"
           />
-          <span aria-hidden className="text-muted-foreground/60">
+          <span aria-hidden className="text-muted-foreground/60 shrink-0">
             –
           </span>
           <EditableText
             path={`experience.${index}.end`}
             mode="inline"
-            inlineWrap
-            className="min-w-0"
+            className={metaClass}
+            editorClassName="whitespace-nowrap py-0 leading-tight"
           />
         </div>
       </div>
-      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 leading-tight">
-        <div className="min-w-0 flex-1">
+
+      {showSubtitleRow ? (
+        <div className={rowSubtitle}>
           <EditableText
             path={`experience.${index}.title`}
             mode="inline"
             inlineWrap
-            className="italic"
+            className={cn(primaryClass, "text-sm italic")}
+            editorClassName="whitespace-normal leading-snug py-0"
+          />
+          <EditableText
+            path={`experience.${index}.location`}
+            mode="inline"
+            className={cn(
+              metaClass,
+              "text-muted-foreground text-sm italic",
+            )}
+            editorClassName="whitespace-nowrap py-0 leading-tight"
           />
         </div>
-        <EditableText
-          path={`experience.${index}.location`}
-          mode="inline"
-          inlineWrap
-          className="text-muted-foreground min-w-0 text-right text-sm italic"
-        />
-      </div>
+      ) : null}
+
       <BulletList expIdx={index} section="experience" />
     </div>
   );

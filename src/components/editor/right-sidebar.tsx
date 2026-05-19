@@ -40,7 +40,7 @@ export function RightSidebar({ phase, resumeId }: RightSidebarProps) {
           label="Changes"
         />
       </div>
-      <div className="min-h-0 flex-1">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {tab === "assistant" && (
           <AiAssistantPanel enabled={phase === "resume"} />
         )}
@@ -69,15 +69,15 @@ function TabButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-all",
+        "flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-2 text-xs font-semibold transition-all",
         active
           ? "bg-slate-100 text-slate-900 shadow-sm"
           : "text-slate-500 hover:bg-slate-50 hover:text-slate-700",
       )}
       aria-pressed={active}
     >
-      {icon}
-      {label}
+      <span className="shrink-0">{icon}</span>
+      <span className="truncate">{label}</span>
     </button>
   );
 }

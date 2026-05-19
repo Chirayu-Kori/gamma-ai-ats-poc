@@ -140,8 +140,7 @@ export function SortableContactItem({
       ref={setNodeRef}
       style={style}
       className={cn(
-        "group relative flex min-w-0 max-w-full list-none items-center gap-1",
-        layout === "inline" && "items-start",
+        "group relative flex w-max max-w-none shrink-0 list-none items-center gap-1.5",
         isDragging && "rounded-md bg-accent/30",
       )}
     >
@@ -157,20 +156,15 @@ export function SortableContactItem({
         </span>
       ) : null}
       {grip}
-      <ContactIcon
-        icon={Icon}
-        className={layout === "inline" ? "mt-0.5" : undefined}
-        onAccent={onAccent}
-      />
+      <ContactIcon icon={Icon} onAccent={onAccent} />
       <EditableText
         path={`contact.${id}`}
         mode="inline"
-        inlineWrap
         className={cn(
-          "resume-contact-value min-w-0 break-words",
+          "resume-contact-value max-w-none! w-max leading-tight whitespace-nowrap",
           layout === "bar" && "text-center",
         )}
-        editorClassName="whitespace-normal break-words"
+        editorClassName="whitespace-nowrap leading-tight py-0"
       />
     </li>
   );

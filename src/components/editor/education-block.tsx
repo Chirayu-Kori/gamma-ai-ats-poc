@@ -1,9 +1,18 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { fieldHasContent } from "@/lib/resume-field-content";
 import { useResumeStore } from "@/stores/resumeStore";
+
 import { EditableText } from "./EditableText";
 
-const compactInline = "whitespace-nowrap break-normal";
+const rowBetween =
+  "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4";
+const primaryClass = "resume-entry-primary min-w-0 leading-snug";
+const metaClass =
+  "resume-entry-meta inline-block w-max max-w-none shrink-0 leading-tight";
+const dateGroupClass =
+  "text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm font-medium leading-tight";
 
 function shouldShowField(
   degree: string,
@@ -11,7 +20,7 @@ function shouldShowField(
 ): boolean {
   const f = field?.trim();
   if (!f) return false;
-  const d = degree.trim().toLowerCase();
+  const d = degree.replace(/<[^>]+>/g, "").trim().toLowerCase();
   const normalized = f.toLowerCase();
   if (d === normalized) return false;
   if (d.endsWith(normalized) || d.includes(` in ${normalized}`)) return false;
@@ -19,69 +28,36 @@ function shouldShowField(
 }
 
 function EducationDates({ index }: { index: number }) {
-  const start = useResumeStore((s) => s.resume?.education?.[index]?.start);
-  const end = useResumeStore((s) => s.resume?.education?.[index]?.end);
-  const hasStart = Boolean(start?.trim());
-  const hasEnd = Boolean(end?.trim());
-
-  const dateClass =
-    "text-muted-foreground flex min-w-0 shrink-0 flex-wrap items-center gap-1 text-sm";
-
-  if (hasStart && hasEnd) {
-    return (
-      <div className={dateClass}>
-        <EditableText
-          path={`education.${index}.start`}
-          mode="inline"
-            inlineWrap
-            className="min-w-0"
-        />
-        <span aria-hidden>–</span>
-        <EditableText
-          path={`education.${index}.end`}
-          mode="inline"
-            inlineWrap
-            className="min-w-0"
-        />
-      </div>
-    );
-  }
-
-  if (hasEnd) {
-    return (
-      <div className={dateClass}>
-        <EditableText
-          path={`education.${index}.end`}
-          mode="inline"
-            inlineWrap
-            className="min-w-0"
-        />
-      </div>
-    );
-  }
-
-  if (hasStart) {
-    return (
-      <div className={dateClass}>
-        <EditableText
-          path={`education.${index}.start`}
-          mode="inline"
-            inlineWrap
-            className="min-w-0"
-        />
-      </div>
-    );
-  }
+  const edu = useResumeStore((s) => s.resume?.education?.[index]);
+  const hasStart = fieldHasContent(edu?.start);
+  const hasEnd = fieldHasContent(edu?.end);
 
   return (
-    <div className={dateClass}>
-      <EditableText
-        path={`education.${index}.end`}
-        mode="inline"
-            inlineWrap
-            className="min-w-0"
-        placeholder="Graduation date"
-      />
+    <div className={dateGroupClass}>
+      {hasStart ? (
+        <>
+          <EditableText
+            path={`education.${index}.start`}
+            mode="inline"
+            className={metaClass}
+            editorClassName="whitespace-nowrap py-0 leading-tight"
+          />
+          {hasEnd ? (
+            <span aria-hidden className="text-muted-foreground/60 shrink-0">
+              –
+            </span>
+          ) : null}
+        </>
+      ) : null}
+      {hasEnd || !hasStart ? (
+        <EditableText
+          path={`education.${index}.end`}
+          mode="inline"
+          className={metaClass}
+          editorClassName="whitespace-nowrap py-0 leading-tight"
+          placeholder={!hasEnd && !hasStart ? "Graduation date" : undefined}
+        />
+      ) : null}
     </div>
   );
 }
@@ -89,60 +65,77 @@ function EducationDates({ index }: { index: number }) {
 export function EducationBlock({ index }: { index: number }) {
   const edu = useResumeStore((s) => s.resume?.education?.[index]);
   const degree = edu?.degree ?? "";
-  const showField = shouldShowField(degree, edu?.field);
-  const gpa = edu?.gpa?.trim();
+  const degreePlain = degree.replace(/<[^>]+>/g, "").trim();
+  const showField = shouldShowField(degreePlain, edu?.field);
   const highlights = edu?.highlights?.filter(Boolean) ?? [];
 
+  const showDegreeRow =
+    fieldHasContent(edu?.degree) ||
+    (showField && fieldHasContent(edu?.field)) ||
+    fieldHasContent(edu?.gpa);
+
   return (
-    <div className="mb-2 min-w-0">
-      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <div className="min-w-0 flex-1">
-          <EditableText
-            path={`education.${index}.institution`}
-            mode="inline"
-            inlineWrap
-            className="min-w-0 text-base font-bold"
-          />
-        </div>
+    <div className="mb-2 min-w-0 space-y-0.5">
+      <div className={rowBetween}>
+        <EditableText
+          path={`education.${index}.institution`}
+          mode="inline"
+          inlineWrap
+          className={cn(primaryClass, "text-base font-bold")}
+          editorClassName="whitespace-normal leading-snug py-0"
+        />
         <EducationDates index={index} />
       </div>
 
-      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <div className="text-muted-foreground min-w-0 flex-1 text-sm leading-snug italic">
-          <EditableText
-            path={`education.${index}.degree`}
-            mode="inline"
-            className="min-w-0"
-          />
-          {showField && (
-            <>
-              <span className="not-italic"> in </span>
-              <EditableText
-                path={`education.${index}.field`}
-                mode="inline"
-                className="min-w-0"
-              />
-            </>
-          )}
+      {showDegreeRow ? (
+        <div className={rowBetween}>
+          <div
+            className={cn(
+              primaryClass,
+              "resume-entry-degree-line text-muted-foreground min-w-0 text-sm leading-snug italic",
+            )}
+          >
+            <EditableText
+              path={`education.${index}.degree`}
+              mode="inline"
+              inlineWrap
+              className="inline min-w-0"
+              editorClassName="whitespace-normal leading-snug py-0"
+            />
+            {showField ? (
+              <>
+                <span className="not-italic"> in </span>
+                <EditableText
+                  path={`education.${index}.field`}
+                  mode="inline"
+                  inlineWrap
+                  className="inline min-w-0"
+                  editorClassName="whitespace-normal leading-snug py-0"
+                />
+              </>
+            ) : null}
+          </div>
+          {fieldHasContent(edu?.gpa) ? (
+            <EditableText
+              path={`education.${index}.gpa`}
+              mode="inline"
+              className={cn(
+                metaClass,
+                "text-muted-foreground justify-self-end text-right text-sm",
+              )}
+              editorClassName="whitespace-nowrap py-0 leading-tight"
+            />
+          ) : null}
         </div>
-        {gpa ? (
-          <EditableText
-            path={`education.${index}.gpa`}
-            mode="inline"
-            inlineWrap
-            className="text-muted-foreground min-w-0 shrink-0 text-sm"
-            placeholder="GPA"
-          />
-        ) : null}
-      </div>
+      ) : null}
 
-      {highlights.length > 0 && (
+      {highlights.length > 0 ? (
         <ul className="mt-1 list-disc space-y-0.5 pl-5 text-sm leading-relaxed">
           {highlights.map((item, i) => (
             <li key={i}>{item}</li>
           ))}
         </ul>
-      )}
+      ) : null}
     </div>
   );
 }

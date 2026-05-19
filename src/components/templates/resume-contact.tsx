@@ -22,7 +22,7 @@ export function ResumeContactInline({
     <SortableContactList
       contact={contact}
       layout="inline"
-      className={className}
+      className={cn("justify-start gap-x-4", className)}
       onAccent={onAccent}
       keys={keys}
     />

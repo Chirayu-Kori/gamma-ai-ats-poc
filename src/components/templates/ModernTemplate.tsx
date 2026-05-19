@@ -48,7 +48,7 @@ export function ModernTemplate() {
         </div>
 
         <div>
-          <h2 className="resume-section-title mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-[0.1em] uppercase">
+          <h2 className="resume-section-title mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase">
             <Mail className="resume-contact-icon size-3.5" strokeWidth={2} aria-hidden />
             Contact
           </h2>
@@ -62,7 +62,7 @@ export function ModernTemplate() {
           <div id={`section-${skillsSection.id}`} className="scroll-mt-24">
             <EditableSectionTitle
               sectionId={skillsSection.id}
-              className="mb-2 text-xs font-semibold tracking-[0.1em] uppercase"
+              className="mb-2 text-xs font-semibold tracking-widest uppercase"
             />
             <div className="text-sm">
               <SortableSkillsList />
