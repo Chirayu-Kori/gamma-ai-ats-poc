@@ -3,8 +3,9 @@
   color: var(--color-text);
   background: var(--color-bg);
   font-family: var(--font-body);
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .resume-theme-base .font-heading,
@@ -15,6 +16,45 @@
 
 .resume-theme-base .ProseMirror {
   max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Header name / headline — wrap on narrow page widths */
+.resume-theme-base #resume-header .ProseMirror {
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Section titles — avoid mid-word breaks (e.g. SUMMAR + Y) */
+.resume-theme-base .resume-section-title {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: manual;
+  text-wrap: balance;
+  min-width: 0;
+}
+
+.resume-theme-base .resume-section-title .ProseMirror {
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  display: inline;
+  max-width: 100%;
+}
+
+/* Contact icons — follow theme accent (or --color-icon when set) */
+.resume-theme-base .resume-contact-icon {
+  color: var(--color-icon, var(--color-accent));
+}
+
+.resume-theme-base .resume-contact-on-accent .resume-contact-icon {
+  color: var(--color-icon-on-accent, rgba(255, 255, 255, 0.92));
+}
+
+.resume-theme-base .resume-contact-value,
+.resume-theme-base .resume-contact-value .ProseMirror {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -34,6 +74,13 @@
 .resume-theme-base .resume ol {
   list-style-type: decimal;
   margin-left: 1.25rem;
+}
+
+/* Sidebar / main columns shrink correctly */
+.resume-theme-base .resume-main-column,
+.resume-theme-base .modern-main,
+.resume-theme-base main.min-w-0 {
+  min-width: 0;
 }
 
 /* Page size — dimensions from theme via CSS variables on wrapper */

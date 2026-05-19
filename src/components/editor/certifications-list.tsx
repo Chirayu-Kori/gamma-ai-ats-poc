@@ -41,6 +41,7 @@ export function CertificationsList() {
           <EditableText
             path={`certifications.${index}`}
             mode="inline"
+            inlineWrap
             className="min-w-0 flex-1 text-sm"
             placeholder="Certification name"
           />

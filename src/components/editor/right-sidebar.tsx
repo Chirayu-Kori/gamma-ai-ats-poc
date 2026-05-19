@@ -16,13 +16,17 @@ type RightSidebarProps = {
 type Tab = "assistant" | "changes" | "design";
 
 export function RightSidebar({ phase, resumeId }: RightSidebarProps) {
-  const [tab, setTab] = useState<Tab>(
-    phase === "upload" ? "design" : "assistant",
-  );
+  const [tab, setTab] = useState<Tab>("design");
 
   return (
     <div className="bg-background flex h-full min-h-0 flex-col">
       <div className="flex shrink-0 items-center gap-1 border-b p-2">
+        <TabButton
+          active={tab === "design"}
+          onClick={() => setTab("design")}
+          icon={<SlidersHorizontal className="size-3.5" />}
+          label="Design"
+        />
         <TabButton
           active={tab === "assistant"}
           onClick={() => setTab("assistant")}
@@ -34,12 +38,6 @@ export function RightSidebar({ phase, resumeId }: RightSidebarProps) {
           onClick={() => setTab("changes")}
           icon={<Sparkles className="size-3.5" />}
           label="Changes"
-        />
-        <TabButton
-          active={tab === "design"}
-          onClick={() => setTab("design")}
-          icon={<SlidersHorizontal className="size-3.5" />}
-          label="Design"
         />
       </div>
       <div className="min-h-0 flex-1">

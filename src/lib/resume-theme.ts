@@ -108,6 +108,8 @@ export function resumeThemeToCssVars(theme: Record<string, string>) {
     "--color-bg": theme.backgroundColor ?? DEFAULT_RESUME_THEME.backgroundColor,
     "--color-sidebar":
       theme.sidebarColor ?? theme.accent ?? DEFAULT_RESUME_THEME.sidebarColor,
+    "--color-icon":
+      theme.iconColor ?? theme.accent ?? DEFAULT_RESUME_THEME.accent,
     "--font-heading": theme.fontHeading ?? DEFAULT_RESUME_THEME.fontHeading,
     "--font-body": theme.fontBody ?? DEFAULT_RESUME_THEME.fontBody,
   } as CSSProperties;

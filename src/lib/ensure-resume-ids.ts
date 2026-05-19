@@ -43,6 +43,7 @@ function ensureProjectIds(items: Project[] | undefined): Project[] | undefined {
   if (!items) return items;
   return items.map((proj) => ({
     ...proj,
+    id: proj.id ?? createId("proj"),
     bullets: ensureBulletIds(proj.bullets),
   }));
 }

@@ -107,8 +107,24 @@ export function pageSizeCssVars(
   const dims = resolvePageDimensions(theme);
   return {
     "--resume-page-width": toCssLength(dims.width, dims.unit),
+    "--resume-page-height": toCssLength(dims.height, dims.unit),
     "--resume-page-min-height": toCssLength(dims.height, dims.unit),
   } as CSSProperties;
+}
+
+/** CSS px at 96dpi (standard for mm/in length conversion). */
+export function dimensionToPx(value: number, unit: PageSizeUnit): number {
+  if (unit === "mm") return (value * 96) / 25.4;
+  return value * 96;
+}
+
+export function resolvePageDimensionsPx(theme: Record<string, string>) {
+  const dims = resolvePageDimensions(theme);
+  return {
+    ...dims,
+    widthPx: dimensionToPx(dims.width, dims.unit),
+    heightPx: dimensionToPx(dims.height, dims.unit),
+  };
 }
 
 export function getPageFormatLabel(theme: Record<string, string>): string {

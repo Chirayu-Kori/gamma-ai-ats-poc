@@ -3,7 +3,7 @@
 .compact-theme .compact-label {
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent);
 }

@@ -25,7 +25,7 @@ function EducationDates({ index }: { index: number }) {
   const hasEnd = Boolean(end?.trim());
 
   const dateClass =
-    "text-muted-foreground flex shrink-0 items-center gap-1 text-sm";
+    "text-muted-foreground flex min-w-0 shrink-0 flex-wrap items-center gap-1 text-sm";
 
   if (hasStart && hasEnd) {
     return (
@@ -33,13 +33,15 @@ function EducationDates({ index }: { index: number }) {
         <EditableText
           path={`education.${index}.start`}
           mode="inline"
-          className={compactInline}
+            inlineWrap
+            className="min-w-0"
         />
         <span aria-hidden>–</span>
         <EditableText
           path={`education.${index}.end`}
           mode="inline"
-          className={compactInline}
+            inlineWrap
+            className="min-w-0"
         />
       </div>
     );
@@ -51,7 +53,8 @@ function EducationDates({ index }: { index: number }) {
         <EditableText
           path={`education.${index}.end`}
           mode="inline"
-          className={compactInline}
+            inlineWrap
+            className="min-w-0"
         />
       </div>
     );
@@ -63,7 +66,8 @@ function EducationDates({ index }: { index: number }) {
         <EditableText
           path={`education.${index}.start`}
           mode="inline"
-          className={compactInline}
+            inlineWrap
+            className="min-w-0"
         />
       </div>
     );
@@ -74,7 +78,8 @@ function EducationDates({ index }: { index: number }) {
       <EditableText
         path={`education.${index}.end`}
         mode="inline"
-        className={compactInline}
+            inlineWrap
+            className="min-w-0"
         placeholder="Graduation date"
       />
     </div>
@@ -90,18 +95,19 @@ export function EducationBlock({ index }: { index: number }) {
 
   return (
     <div className="mb-2 min-w-0">
-      <div className="mb-1 flex min-w-0 items-baseline justify-between gap-4">
-        <div className="min-w-0 flex-1 overflow-hidden">
+      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <div className="min-w-0 flex-1">
           <EditableText
             path={`education.${index}.institution`}
             mode="inline"
-            className={`min-w-0 text-base font-bold ${compactInline}`}
+            inlineWrap
+            className="min-w-0 text-base font-bold"
           />
         </div>
         <EducationDates index={index} />
       </div>
 
-      <div className="mb-1 flex min-w-0 items-baseline justify-between gap-4">
+      <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <div className="text-muted-foreground min-w-0 flex-1 text-sm leading-snug italic">
           <EditableText
             path={`education.${index}.degree`}
@@ -123,7 +129,8 @@ export function EducationBlock({ index }: { index: number }) {
           <EditableText
             path={`education.${index}.gpa`}
             mode="inline"
-            className={`text-muted-foreground shrink-0 text-sm ${compactInline}`}
+            inlineWrap
+            className="text-muted-foreground min-w-0 shrink-0 text-sm"
             placeholder="GPA"
           />
         ) : null}

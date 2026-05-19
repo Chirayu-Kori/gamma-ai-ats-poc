@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Menu,
@@ -38,6 +38,14 @@ type EditorLayoutProps = {
 };
 
 import { DocumentOutline } from "./document-outline";
+import { ResizableSidebar } from "./resizable-sidebar";
+
+const LEFT_SIDEBAR_DEFAULT = 200;
+const LEFT_SIDEBAR_MIN = 160;
+const LEFT_SIDEBAR_MAX = 360;
+const RIGHT_SIDEBAR_DEFAULT = 300;
+const RIGHT_SIDEBAR_MIN = 220;
+const RIGHT_SIDEBAR_MAX = 480;
 
 export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const router = useRouter();
@@ -59,7 +67,17 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const [rightOpen, setRightOpen] = useState(false);
   const [isLeftCollapsed, setIsLeftCollapsed] = useState(false);
   const [isRightCollapsed, setIsRightCollapsed] = useState(false);
+  const [leftWidth, setLeftWidth] = useState(LEFT_SIDEBAR_DEFAULT);
+  const [rightWidth, setRightWidth] = useState(RIGHT_SIDEBAR_DEFAULT);
   const [persistError, setPersistError] = useState<string | null>(null);
+
+  const handleLeftWidthChange = useCallback((width: number) => {
+    setLeftWidth(width);
+  }, []);
+
+  const handleRightWidthChange = useCallback((width: number) => {
+    setRightWidth(width);
+  }, []);
 
   const {
     data: record,
@@ -277,9 +295,9 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 
   const LeftPanelContent = () => (
     <div className="bg-background flex h-full min-h-0 flex-col">
-      <div className="border-b p-5">
-        <h2 className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
-          Document Outline
+      <div className="border-b px-3 py-2.5">
+        <h2 className="text-muted-foreground text-[11px] font-semibold tracking-wider uppercase">
+          Outline
         </h2>
       </div>
       <div className="custom-scrollbar flex-1 overflow-y-auto">
@@ -307,19 +325,18 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           </span>
         </div>
       )}
-      <div className="flex min-h-0 flex-1 overflow-hidden lg:gap-0">
-        <div
-          className={cn(
-            "bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-r backdrop-blur-sm transition-all duration-300 ease-in-out md:block",
-            isLeftCollapsed
-              ? "w-0 border-transparent opacity-0"
-              : "w-64 opacity-100",
-          )}
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <ResizableSidebar
+          side="left"
+          width={leftWidth}
+          minWidth={LEFT_SIDEBAR_MIN}
+          maxWidth={LEFT_SIDEBAR_MAX}
+          collapsed={isLeftCollapsed}
+          onWidthChange={handleLeftWidthChange}
+          className="hidden md:flex"
         >
-          <div className="h-full w-64">
-            <LeftPanelContent />
-          </div>
-        </div>
+          <LeftPanelContent />
+        </ResizableSidebar>
 
         <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
           {phase === "upload" && <UploadCanvas onParsed={handleParsed} />}
@@ -332,18 +349,17 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           {phase === "resume" && <ResumeCanvas />}
         </main>
 
-        <div
-          className={cn(
-            "bg-background/50 z-0 hidden h-full shrink-0 overflow-hidden border-l backdrop-blur-sm transition-all duration-300 ease-in-out lg:block",
-            isRightCollapsed
-              ? "w-0 border-transparent opacity-0"
-              : "w-80 opacity-100",
-          )}
+        <ResizableSidebar
+          side="right"
+          width={rightWidth}
+          minWidth={RIGHT_SIDEBAR_MIN}
+          maxWidth={RIGHT_SIDEBAR_MAX}
+          collapsed={isRightCollapsed}
+          onWidthChange={handleRightWidthChange}
+          className="hidden lg:flex"
         >
-          <div className="h-full w-80">
-            <RightSidebar phase={phase} resumeId={activeResumeId} />
-          </div>
-        </div>
+          <RightSidebar phase={phase} resumeId={activeResumeId} />
+        </ResizableSidebar>
       </div>
     </div>
   );

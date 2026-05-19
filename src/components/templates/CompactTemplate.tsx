@@ -5,14 +5,13 @@ import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactInline } from "./resume-contact";
 import "./compact-theme.css";
 
 export function CompactTemplate() {
   const resume = useResumeStore((s) => s.resume);
   const theme = useResumeStore((s) => s.theme);
   if (!resume) return null;
-
-  const contact = resume.contact ?? ({} as ContactInfo);
 
   return (
     <article
@@ -24,23 +23,24 @@ export function CompactTemplate() {
         data-section-type="headline"
         className="compact-header mb-4 scroll-mt-24 border-b pb-3"
       >
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-2">
           <EditableText
             path="name"
             mode="inline"
-            className="font-heading text-xl font-bold"
+            inlineWrap
+            className="font-heading min-w-0 text-xl font-bold"
           />
           <EditableText
             path="headline"
             mode="inline"
-            className="text-xs font-medium tracking-wide uppercase opacity-70"
+            inlineWrap
+            className="min-w-0 text-xs font-medium tracking-wide uppercase opacity-70"
           />
         </div>
-        <div className="mt-1 flex flex-wrap gap-x-3 text-[11px] opacity-75">
-          {contact.email && <span>{contact.email}</span>}
-          {contact.phone && <span>{contact.phone}</span>}
-          {contact.location && <span>{contact.location}</span>}
-        </div>
+        <ResumeContactInline
+          contact={resume.contact ?? ({} as ContactInfo)}
+          className="mt-1 justify-start gap-x-3 gap-y-1 text-[11px] opacity-75"
+        />
       </header>
 
       <ResumeDynamicSections titleVariant="compact" sectionClassName="mb-4" />

@@ -18,14 +18,18 @@ interface EditableTextProps {
   path: string;
   mode?: "inline" | "block";
   className?: string;
+  editorClassName?: string;
   placeholder?: string;
+  inlineWrap?: boolean;
 }
 
 export function EditableText({
   path,
   mode = "inline",
   className,
+  editorClassName,
   placeholder,
+  inlineWrap,
 }: EditableTextProps) {
   const resume = useResumeStore((s) => s.resume);
   const status = useResumeStore((s) => s.status);
@@ -48,7 +52,8 @@ export function EditableText({
       syncContent
       fieldPath={path}
       className={className}
-      editorClassName={className}
+      editorClassName={editorClassName ?? className}
+      inlineWrap={inlineWrap}
       placeholder={placeholder}
       onFieldApply={(html) => {
         if (status === "streaming") return;

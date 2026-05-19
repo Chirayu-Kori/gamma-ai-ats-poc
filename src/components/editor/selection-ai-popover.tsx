@@ -6,6 +6,9 @@ import { Loader2, Sparkles, Wand2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useRewriteField } from "@/hooks/useRewriteField";
+import { buildResumeContextText } from "@/lib/section-ai";
+import { useResumeStore } from "@/stores/resumeStore";
+import { useUploadStore } from "@/stores/uploadStore";
 
 type SelectionAIPopoverProps = {
   editor: Editor;
@@ -23,6 +26,8 @@ export function SelectionAIPopover({
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState<string | null>(null);
   const rewrite = useRewriteField();
+  const resume = useResumeStore((s) => s.resume);
+  const jdText = useUploadStore((s) => s.jdText);
 
   const runRewrite = async (instruction?: string) => {
     setError(null);
@@ -35,6 +40,7 @@ export function SelectionAIPopover({
         path: fieldPath,
         field_html: fieldHtml,
         selection_text: selectionText || undefined,
+        resume_context: buildResumeContextText(resume, { jdText }),
         instruction: instruction ?? (prompt.trim() || undefined),
       });
       const revised = result.revised_html;

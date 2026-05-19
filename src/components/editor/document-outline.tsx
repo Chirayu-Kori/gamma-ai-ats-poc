@@ -38,12 +38,14 @@ function OutlineSectionRow({
   sectionId,
   title,
   visible,
+  selected,
   onScroll,
   onToggleVisible,
 }: {
   sectionId: string;
   title: string;
   visible: boolean;
+  selected: boolean;
   onScroll: () => void;
   onToggleVisible: () => void;
 }) {
@@ -69,6 +71,7 @@ function OutlineSectionRow({
       className={cn(
         "flex items-center gap-1 rounded-md px-1 py-0.5",
         !visible && "opacity-50",
+        selected && "bg-violet-50 ring-1 ring-violet-200",
       )}
     >
       <button
@@ -83,7 +86,7 @@ function OutlineSectionRow({
       <button
         type="button"
         onClick={onScroll}
-        className="hover:bg-muted min-w-0 flex-1 rounded-md px-2 py-1.5 text-left text-sm font-medium"
+        className="hover:bg-muted min-w-0 flex-1 rounded-md px-1.5 py-1 text-left text-xs font-medium"
       >
         <span className="truncate">{title.replace(/<[^>]+>/g, "") || "Untitled"}</span>
       </button>
@@ -105,6 +108,8 @@ export function DocumentOutline() {
   const reorderSections = useResumeStore((s) => s.reorderSections);
   const addSection = useResumeStore((s) => s.addSection);
   const toggleSectionVisible = useResumeStore((s) => s.toggleSectionVisible);
+  const selectedSectionId = useResumeStore((s) => s.selectedSectionId);
+  const setSelectedSectionId = useResumeStore((s) => s.setSelectedSectionId);
   const triggerAutosave = useDebouncedAutosave();
 
   const sections = [...(resume?.sections ?? [])].sort((a, b) => a.order - b.order);
@@ -132,6 +137,7 @@ export function DocumentOutline() {
   };
 
   const scrollToSection = (sectionId: string) => {
+    setSelectedSectionId(sectionId);
     document.getElementById(`section-${sectionId}`)?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -146,7 +152,10 @@ export function DocumentOutline() {
         .getState()
         .resume?.sections?.filter((section) => section.type === type)
         .at(-1);
-      if (added) scrollToSection(added.id);
+      if (added) {
+        setSelectedSectionId(added.id);
+        scrollToSection(added.id);
+      }
     });
   };
 
@@ -159,11 +168,11 @@ export function DocumentOutline() {
   }
 
   return (
-    <div className="space-y-2 p-3">
+    <div className="space-y-1.5 p-2">
       <button
         type="button"
         onClick={scrollToHeader}
-        className="hover:bg-muted w-full rounded-md px-3 py-2 text-left text-sm font-medium"
+        className="hover:bg-muted w-full rounded-md px-2 py-1.5 text-left text-xs font-medium"
       >
         Personal Info
       </button>
@@ -185,6 +194,7 @@ export function DocumentOutline() {
                 sectionId={section.id}
                 title={section.title || DEFAULT_SECTION_TITLES[section.type]}
                 visible={section.visible}
+                selected={selectedSectionId === section.id}
                 onScroll={() => scrollToSection(section.id)}
                 onToggleVisible={() => {
                   toggleSectionVisible(section.id);

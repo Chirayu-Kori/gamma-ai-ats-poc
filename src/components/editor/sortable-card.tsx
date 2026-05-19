@@ -5,7 +5,10 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type { DraggableAttributes } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { GripVertical, Plus, ArrowUp, Trash2 } from "lucide-react";
+import { GripVertical, Plus, ArrowUp, Sparkles, Trash2 } from "lucide-react";
+
+import type { ResumeSectionConfig } from "@/lib/types/resume";
+import { SectionAIPanel } from "./section-ai-panel";
 
 import { cn } from "@/lib/utils";
 import {
@@ -23,6 +26,9 @@ type SortableCardProps = {
   className?: string;
   selected?: boolean;
   onSelect?: () => void;
+  /** When set, grip menu includes “Edit with AI” for this resume section. */
+  section?: ResumeSectionConfig;
+  onSectionAiOpen?: () => void;
   onAdd?: () => void;
   onDelete?: () => void;
   onMoveUp?: () => void;
@@ -34,11 +40,14 @@ export function SortableCard({
   className,
   selected = false,
   onSelect,
+  section,
+  onSectionAiOpen,
   onAdd,
   onDelete,
   onMoveUp,
 }: SortableCardProps) {
   const [open, setOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
 
   const {
     attributes,
@@ -47,12 +56,12 @@ export function SortableCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id, disabled: open });
+  } = useSortable({ id, disabled: open || aiOpen });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 50 : open ? 40 : 1,
+    zIndex: isDragging ? 50 : open || aiOpen ? 40 : 1,
     opacity: isDragging ? 0.85 : 1,
   };
 
@@ -68,10 +77,17 @@ export function SortableCard({
     >
       <CardActions
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(next) => {
+          setOpen(next);
+          if (!next) setAiOpen(false);
+        }}
+        aiOpen={aiOpen}
+        onAiOpenChange={setAiOpen}
         isDragging={isDragging}
         attributes={attributes}
-        listeners={open ? undefined : listeners}
+        listeners={open || aiOpen ? undefined : listeners}
+        section={section}
+        onSectionAiOpen={onSectionAiOpen}
         onAdd={onAdd}
         onDelete={onDelete}
         onMoveUp={onMoveUp}
@@ -109,9 +125,13 @@ export function SortableCard({
 interface CardActionsProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  aiOpen: boolean;
+  onAiOpenChange: (open: boolean) => void;
   isDragging: boolean;
   attributes: DraggableAttributes;
   listeners?: SyntheticListenerMap;
+  section?: ResumeSectionConfig;
+  onSectionAiOpen?: () => void;
   onAdd?: () => void;
   onDelete?: () => void;
   onMoveUp?: () => void;
@@ -120,9 +140,13 @@ interface CardActionsProps {
 function CardActions({
   open,
   onOpenChange,
+  aiOpen,
+  onAiOpenChange,
   isDragging,
   attributes,
   listeners,
+  section,
+  onSectionAiOpen,
   onAdd,
   onDelete,
   onMoveUp,
@@ -193,8 +217,18 @@ function CardActions({
     [onOpenChange],
   );
 
+  const menuOpen = open || aiOpen;
+
   return (
-    <DropdownMenu open={open} onOpenChange={onOpenChange}>
+    <DropdownMenu
+      open={menuOpen}
+      onOpenChange={(next) => {
+        if (!next) {
+          onOpenChange(false);
+          onAiOpenChange(false);
+        }
+      }}
+    >
       <div className="relative mt-1 shrink-0">
         {/* Invisible anchor for menu positioning — not the drag handle */}
         <DropdownMenuTrigger asChild>
@@ -208,16 +242,16 @@ function CardActions({
           type="button"
           className={cn(
             "text-muted-foreground relative z-10 cursor-grab touch-none rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing data-[state=open]:opacity-100",
-            open && "opacity-100",
+            menuOpen && "opacity-100",
             isDragging && "opacity-100",
           )}
           {...attributes}
           {...(listeners ?? {})}
           onPointerDown={handleGripPointerDown}
           onClick={handleGripClick}
-          aria-label="Drag card or open actions"
+          aria-label="Drag card or open section actions"
           aria-haspopup="menu"
-          aria-expanded={open}
+          aria-expanded={menuOpen}
         >
           <GripVertical className="size-4" />
         </button>
@@ -225,38 +259,84 @@ function CardActions({
 
       <DropdownMenuContent
         side="top"
-        align="center"
-        className="border-border flex w-auto min-w-0 flex-row gap-0.5 rounded-lg bg-white/95 p-1 shadow-2xl backdrop-blur-md"
-        onCloseAutoFocus={(e) => e.preventDefault()}
-      >
-        <DropdownMenuItem
-          disabled={!onAdd}
-          onSelect={() => runAction(onAdd)}
-          className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-blue-50 hover:text-blue-600"
-          title="Add Below"
-        >
-          <Plus className="size-4" />
-        </DropdownMenuItem>
-
-        {onMoveUp && (
-          <DropdownMenuItem
-            onSelect={() => runAction(onMoveUp)}
-            className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-slate-100"
-            title="Move Up"
-          >
-            <ArrowUp className="size-4" />
-          </DropdownMenuItem>
+        align="start"
+        className={cn(
+          "border-border rounded-lg bg-white/95 p-0 shadow-2xl backdrop-blur-md",
+          aiOpen ? "w-72" : "w-auto min-w-0",
         )}
+        onCloseAutoFocus={(e) => e.preventDefault()}
+        onInteractOutside={(e) => {
+          if ((e.target as HTMLElement)?.closest?.("[data-section-ai]")) {
+            e.preventDefault();
+          }
+        }}
+      >
+        {aiOpen && section ? (
+          <div className="border-b border-violet-100 bg-violet-50/50 px-2 py-1.5">
+            <p className="text-[10px] font-semibold tracking-wide text-violet-700 uppercase">
+              {section.title || section.type}
+            </p>
+          </div>
+        ) : null}
 
-        <DropdownMenuItem
-          disabled={!onDelete}
-          onSelect={() => runAction(onDelete)}
-          variant="destructive"
-          className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-rose-50 hover:text-rose-600"
-          title="Delete Card"
-        >
-          <Trash2 className="size-4" />
-        </DropdownMenuItem>
+        {!aiOpen ? (
+          <div className="flex flex-row gap-0.5 p-1">
+            <DropdownMenuItem
+              disabled={!onAdd}
+              onSelect={() => runAction(onAdd)}
+              className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-blue-50 hover:text-blue-600"
+              title="Add below"
+            >
+              <Plus className="size-4" />
+            </DropdownMenuItem>
+
+            {onMoveUp && (
+              <DropdownMenuItem
+                onSelect={() => runAction(onMoveUp)}
+                className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-slate-100"
+                title="Move up"
+              >
+                <ArrowUp className="size-4" />
+              </DropdownMenuItem>
+            )}
+
+            {section && (
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  onSectionAiOpen?.();
+                  onAiOpenChange(true);
+                  onOpenChange(true);
+                }}
+                className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-violet-50 hover:text-violet-700"
+                title="Edit section with AI"
+              >
+                <Sparkles className="size-4" />
+              </DropdownMenuItem>
+            )}
+
+            <DropdownMenuItem
+              disabled={!onDelete}
+              onSelect={() => runAction(onDelete)}
+              variant="destructive"
+              className="flex cursor-pointer items-center justify-center rounded-lg p-2 transition-all hover:bg-rose-50 hover:text-rose-600"
+              title="Delete"
+            >
+              <Trash2 className="size-4" />
+            </DropdownMenuItem>
+          </div>
+        ) : null}
+
+        {aiOpen && section ? (
+          <SectionAIPanel
+            section={section}
+            compact
+            onDone={() => {
+              onAiOpenChange(false);
+              onOpenChange(false);
+            }}
+          />
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

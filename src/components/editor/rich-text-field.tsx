@@ -36,6 +36,8 @@ export type RichTextFieldProps = {
   /** Dot path for AI rewrite (e.g. experience.0.bullets.1.text) */
   fieldPath?: string;
   onFieldApply?: (html: string) => void;
+  /** Allow inline text to wrap (section titles, contact fields) */
+  inlineWrap?: boolean;
 };
 
 const textStyleExtensions = [
@@ -92,6 +94,7 @@ export function RichTextField({
   forceSync = false,
   fieldPath,
   onFieldApply,
+  inlineWrap = false,
 }: RichTextFieldProps) {
   const extensions = useMemo(
     () => buildExtensions(mode, placeholder),
@@ -100,7 +103,12 @@ export function RichTextField({
 
   const baseEditorClass =
     mode === "inline"
-      ? "outline-none focus:outline-none transition-colors p-1 -m-1 whitespace-nowrap break-normal [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none"
+      ? cn(
+          "outline-none focus:outline-none transition-colors p-1 -m-1 [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none",
+          inlineWrap
+            ? "whitespace-normal break-words"
+            : "whitespace-nowrap break-normal",
+        )
       : "outline-none focus:outline-none transition-colors break-words p-1.5 -mx-1.5 [&_ul]:!list-disc [&_ul]:list-outside [&_ul]:ml-6 [&_ul]:space-y-1 [&_ol]:!list-decimal [&_ol]:list-outside [&_ol]:ml-6 [&_ol]:space-y-1 [&_p]:m-0 [&_.is-editor-empty:first-child::before]:text-muted-foreground [&_.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_.is-editor-empty:first-child::before]:float-left [&_.is-editor-empty:first-child::before]:h-0 [&_.is-editor-empty:first-child::before]:pointer-events-none";
 
   const editor = useEditor({

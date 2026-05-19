@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ContactInfo(BaseModel):
@@ -49,6 +49,7 @@ class SkillGroup(BaseModel):
 
 
 class Project(BaseModel):
+    id: Optional[str] = None
     name: str = ""
     description: str = ""
     url: Optional[str] = None
@@ -66,9 +67,12 @@ class ResumeSectionConfig(BaseModel):
 
 
 class Resume(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     name: str = ""
     headline: str = ""
     contact: ContactInfo = Field(default_factory=ContactInfo)
+    contact_order: Optional[list[str]] = Field(default=None, alias="contactOrder")
     summary: str = ""
     experience: list[Experience] = Field(default_factory=list)
     education: list[Education] = Field(default_factory=list)

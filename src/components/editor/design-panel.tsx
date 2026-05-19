@@ -25,8 +25,7 @@ import {
 } from "@/components/templates/registry";
 import { cn } from "@/lib/utils";
 import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
-import { CustomThemePanel } from "@/components/editor/custom-theme-panel";
-
+import { AccentColorCanvas } from "@/components/editor/accent-color-canvas";
 type DesignPanelProps = {
   phase: "upload" | "generate" | "resume";
 };
@@ -77,6 +76,37 @@ function DesignSelect<T extends string | number>({
         {options.map((opt) => (
           <SelectItem key={String(opt)} value={String(opt)}>
             {formatLabel ? formatLabel(opt) : String(opt)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+function TypographySelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (fontId: string) => void;
+}) {
+  const selected =
+    FONT_OPTIONS.find((font) => font.id === value) ?? FONT_OPTIONS[0];
+
+  return (
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger
+        className="h-10 w-full rounded-lg border-slate-200 bg-white text-sm text-slate-700 shadow-sm transition-all focus:ring-2 focus:ring-blue-100"
+        style={{ fontFamily: selected.fontBody }}
+      >
+        <SelectValue asChild>
+          <span style={{ fontFamily: selected.fontBody }}>{selected.label}</span>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {FONT_OPTIONS.map((font) => (
+          <SelectItem key={font.id} value={font.id} className="text-base">
+            <span style={{ fontFamily: font.fontBody }}>{font.label}</span>
           </SelectItem>
         ))}
       </SelectContent>
@@ -478,7 +508,11 @@ export function DesignPanel({ phase }: DesignPanelProps) {
                 aria-checked={activeAccent === color.id}
                 title={color.id}
                 onClick={() =>
-                  applyTheme({ accent: color.value, sidebarColor: color.value })
+                  applyTheme({
+                    accent: color.value,
+                    sidebarColor: color.value,
+                    iconColor: color.value,
+                  })
                 }
                 className={cn(
                   "h-8 w-8 rounded-full border shadow-sm transition-all hover:scale-105",
@@ -490,13 +524,16 @@ export function DesignPanel({ phase }: DesignPanelProps) {
             ))}
           </div>
 
+          <AccentColorCanvas
+            className="mb-4"
+            value={mergedTheme.accent}
+            onChange={(accent) =>
+              applyTheme({ accent, sidebarColor: accent, iconColor: accent })
+            }
+          />
+
           <h3 className="mb-3 text-sm font-semibold">Custom Colors</h3>
           <div className="space-y-2">
-            <ColorInput
-              label="Accent"
-              value={mergedTheme.accent}
-              onChange={(accent) => applyTheme({ accent })}
-            />
             <ColorInput
               label="Sidebar"
               value={mergedTheme.sidebarColor}
@@ -532,44 +569,18 @@ export function DesignPanel({ phase }: DesignPanelProps) {
         <Separator />
 
         <div>
-          <h3 className="mb-3 text-sm font-semibold">Custom theme</h3>
-          <CustomThemePanel onApplied={() => triggerAutosave()} />
-        </div>
-
-        <Separator />
-
-        <div>
-          <h3 className="mb-4 text-sm font-semibold">Typography</h3>
-          <div className="space-y-2">
-            {FONT_OPTIONS.map((font) => {
-              const selected = activeFont === font.id;
-              return (
-                <Button
-                  key={font.id}
-                  type="button"
-                  variant="outline"
-                  onClick={() =>
-                    applyTheme({
-                      fontHeading: font.fontHeading,
-                      fontBody: font.fontBody,
-                    })
-                  }
-                  className={cn(
-                    "h-10 w-full justify-between",
-                    font.sampleClassName,
-                    selected && "border-primary bg-primary/5",
-                  )}
-                  aria-pressed={selected}
-                  style={{ fontFamily: font.fontBody }}
-                >
-                  {font.label}
-                  <span className="text-muted-foreground text-xs tracking-widest uppercase">
-                    aa
-                  </span>
-                </Button>
-              );
-            })}
-          </div>
+          <h3 className="mb-3 text-sm font-semibold">Typography</h3>
+          <TypographySelect
+            value={activeFont}
+            onChange={(id) => {
+              const font = FONT_OPTIONS.find((f) => f.id === id);
+              if (!font) return;
+              applyTheme({
+                fontHeading: font.fontHeading,
+                fontBody: font.fontBody,
+              });
+            }}
+          />
         </div>
       </div>
     </div>

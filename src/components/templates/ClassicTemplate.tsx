@@ -5,21 +5,13 @@ import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactInline } from "./resume-contact";
 import "./classic-theme.css";
 
 export function ClassicTemplate() {
   const resume = useResumeStore((s) => s.resume);
   const theme = useResumeStore((s) => s.theme);
   if (!resume) return null;
-
-  const contact = resume.contact ?? ({} as ContactInfo);
-  const contactParts = [
-    contact.email,
-    contact.phone,
-    contact.location,
-    contact.linkedin,
-    contact.website,
-  ].filter(Boolean);
 
   return (
     <article
@@ -35,18 +27,19 @@ export function ClassicTemplate() {
         <EditableText
           path="name"
           mode="inline"
+          inlineWrap
           className="font-heading block text-3xl font-bold tracking-wide"
         />
         <EditableText
           path="headline"
           mode="inline"
-          className="mt-2 block text-sm tracking-[0.2em] uppercase opacity-70"
+          inlineWrap
+          className="mt-2 block text-sm tracking-[0.12em] uppercase opacity-70"
         />
-        {contactParts.length > 0 && (
-          <p className="mt-3 text-xs tracking-wide opacity-80">
-            {contactParts.join("  ·  ")}
-          </p>
-        )}
+        <ResumeContactInline
+          contact={resume.contact ?? ({} as ContactInfo)}
+          className="mt-3 justify-center text-xs opacity-80"
+        />
         <div className="classic-rule mt-4" />
       </header>
 

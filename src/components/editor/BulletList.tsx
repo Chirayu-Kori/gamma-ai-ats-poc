@@ -16,7 +16,6 @@ import {
 } from "@dnd-kit/sortable";
 import { useResumeStore } from "../../stores/resumeStore";
 import { SortableBullet } from "./SortableBullet";
-import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
 
 interface BulletListProps {
   expIdx: number;
@@ -33,8 +32,8 @@ export function BulletList({
       ? resume?.experience?.[expIdx]?.bullets
       : resume?.projects?.[expIdx]?.bullets;
 
-  const reorder = useResumeStore((s) => s.reorderBullets);
-  const { modifiers } = useScaleAwareDnd();
+  const reorderExperienceBullets = useResumeStore((s) => s.reorderBullets);
+  const reorderProjectBullets = useResumeStore((s) => s.reorderProjectBullets);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -49,9 +48,10 @@ export function BulletList({
     const { active, over } = event;
     if (over && active.id !== over.id) {
       if (section === "experience") {
-        reorder(expIdx, String(active.id), String(over.id));
+        reorderExperienceBullets(expIdx, String(active.id), String(over.id));
+      } else {
+        reorderProjectBullets(expIdx, String(active.id), String(over.id));
       }
-      // Reordering for projects can be added similarly
     }
   };
 
@@ -61,7 +61,6 @@ export function BulletList({
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
-      modifiers={modifiers}
     >
       <SortableContext
         id={`bullets-sortable-${section}-${expIdx}`}

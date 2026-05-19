@@ -5,22 +5,8 @@ import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactInline } from "./resume-contact";
 import "./executive-theme.css";
-
-function ContactLine({ contact }: { contact: ContactInfo }) {
-  const parts: string[] = [];
-  if (contact?.email) parts.push(contact.email);
-  if (contact?.phone) parts.push(contact.phone);
-  if (contact?.location) parts.push(contact.location);
-  if (contact?.linkedin) parts.push(contact.linkedin);
-  if (contact?.website) parts.push(contact.website);
-  if (!parts.length) return null;
-  return (
-    <p className="mt-2 text-sm tracking-wide text-slate-600">
-      {parts.join("   •   ")}
-    </p>
-  );
-}
 
 export function ExecutiveTemplate() {
   const resume = useResumeStore((s) => s.resume);
@@ -41,14 +27,19 @@ export function ExecutiveTemplate() {
         <EditableText
           path="name"
           mode="inline"
+          inlineWrap
           className="resume-heading block text-4xl font-black uppercase"
         />
         <EditableText
           path="headline"
           mode="inline"
-          className="mt-2 block text-sm tracking-[0.25em] text-slate-500 uppercase"
+          inlineWrap
+          className="mt-2 block text-sm tracking-[0.15em] text-slate-500 uppercase"
         />
-        <ContactLine contact={resume.contact || ({} as ContactInfo)} />
+        <ResumeContactInline
+          contact={resume.contact || ({} as ContactInfo)}
+          className="mt-3 justify-center text-slate-600"
+        />
       </header>
 
       <ResumeDynamicSections titleVariant="executive" />

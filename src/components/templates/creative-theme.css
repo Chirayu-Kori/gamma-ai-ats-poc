@@ -12,7 +12,7 @@
 .creative-theme .creative-section-title {
   font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
@@ -25,16 +25,12 @@
 .creative-theme .creative-sidebar-title {
   font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent);
 }
 
 .creative-theme .creative-chip {
-  display: inline-block;
-  padding: 0.15rem 0.6rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
   background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));
   color: var(--color-text);
 }

@@ -26,12 +26,13 @@ export function EditableSectionTitle({
   if (!section) return null;
 
   return (
-    <Tag className={cn("min-w-0", className)}>
+    <Tag className={cn("resume-section-title min-w-0 max-w-full", className)}>
       <RichTextField
         mode="inline"
+        inlineWrap
         content={section.title}
-        className="min-w-0"
-        editorClassName="min-w-0"
+        className="min-w-0 max-w-full"
+        editorClassName="min-w-0 max-w-full"
         placeholder="Section title"
         onUpdate={({ text }) => {
           updateSectionTitle(sectionId, text);

@@ -23,7 +23,17 @@ import { SortableCard } from "./sortable-card";
 import { EditableSectionTitle } from "./editable-section-title";
 import { ResumeSectionContent } from "./resume-section-content";
 import { cn } from "@/lib/utils";
-import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  return Boolean(
+    target.closest(".ProseMirror") ||
+      target.closest("button") ||
+      target.closest("input") ||
+      target.closest("textarea") ||
+      target.closest("[data-section-ai]"),
+  );
+}
 
 export type SectionTitleVariant =
   | "default"
@@ -36,19 +46,33 @@ export type SectionTitleVariant =
   | "bold"
   | "stripe";
 
+const TITLE_BASE = "resume-section-title max-w-full";
+
 const TITLE_CLASSES: Record<SectionTitleVariant, string> = {
-  default:
-    "mb-3 pb-1 font-semibold tracking-wider uppercase text-[color:var(--color-accent)]",
-  executive:
-    "resume-heading mb-3 text-xs font-bold tracking-[0.2em] uppercase text-[color:var(--color-accent)] border-b-2 border-[color:var(--color-accent)] pb-1",
-  modern:
-    "mb-2 text-sm font-bold tracking-wider uppercase text-[color:var(--color-accent)]",
-  compact: "compact-label mb-2",
-  creative: "creative-section-title mb-2",
-  atlantic: "atlantic-main-heading mb-2",
-  classic: "classic-section-title mb-3 text-center text-sm font-bold tracking-[0.3em] uppercase",
-  bold: "mb-3 text-xs font-black tracking-[0.25em] uppercase text-[color:var(--color-accent)] border-l-4 border-[color:var(--color-accent)] pl-3",
-  stripe: "stripe-section-title mb-3",
+  default: cn(
+    TITLE_BASE,
+    "mb-3 pb-1 text-sm font-semibold tracking-[0.12em] uppercase text-[color:var(--color-accent)]",
+  ),
+  executive: cn(
+    TITLE_BASE,
+    "resume-heading mb-3 text-xs font-bold tracking-[0.12em] uppercase text-[color:var(--color-accent)] border-b-2 border-[color:var(--color-accent)] pb-1",
+  ),
+  modern: cn(
+    TITLE_BASE,
+    "mb-2 text-sm font-bold tracking-[0.1em] uppercase text-[color:var(--color-accent)]",
+  ),
+  compact: cn(TITLE_BASE, "compact-label mb-2"),
+  creative: cn(TITLE_BASE, "creative-section-title mb-2"),
+  atlantic: cn(TITLE_BASE, "atlantic-main-heading mb-2"),
+  classic: cn(
+    TITLE_BASE,
+    "classic-section-title mb-3 text-center text-sm font-bold tracking-[0.15em] uppercase",
+  ),
+  bold: cn(
+    TITLE_BASE,
+    "mb-3 text-xs font-black tracking-[0.12em] uppercase text-[color:var(--color-accent)] border-l-4 border-[color:var(--color-accent)] pl-3",
+  ),
+  stripe: cn(TITLE_BASE, "stripe-section-title mb-3"),
 };
 
 type ResumeDynamicSectionsProps = {
@@ -70,8 +94,9 @@ export function ResumeDynamicSections({
   const reorderSections = useResumeStore((s) => s.reorderSections);
   const removeSection = useResumeStore((s) => s.removeSection);
   const addSection = useResumeStore((s) => s.addSection);
+  const selectedSectionId = useResumeStore((s) => s.selectedSectionId);
+  const setSelectedSectionId = useResumeStore((s) => s.setSelectedSectionId);
   const triggerAutosave = useDebouncedAutosave();
-  const { modifiers } = useScaleAwareDnd();
 
   const sections = getVisibleSections(resume).filter(
     (section) => !excludeTypes.includes(section.type),
@@ -96,6 +121,11 @@ export function ResumeDynamicSections({
           className="text-primary text-sm font-medium hover:underline"
           onClick={() => {
             addSection("summary");
+            const added = useResumeStore
+              .getState()
+              .resume?.sections?.filter((s) => s.type === "summary")
+              .at(-1);
+            if (added) setSelectedSectionId(added.id);
             triggerAutosave();
           }}
         >
@@ -115,19 +145,28 @@ export function ResumeDynamicSections({
 
   const titleClass = TITLE_CLASSES[titleVariant];
 
-  const renderSection = (section: (typeof sections)[number], index: number) => (
-    <section
-      id={`section-${section.id}`}
-      data-section-type={section.type}
-      className={cn("mb-6 min-w-0 scroll-mt-24", sectionClassName)}
-    >
-      <EditableSectionTitle
-        sectionId={section.id}
-        className={titleClass}
-      />
-      <ResumeSectionContent section={section} />
-    </section>
-  );
+  const renderSection = (section: (typeof sections)[number], index: number) => {
+    const isSelected = selectedSectionId === section.id;
+    return (
+      <section
+        id={`section-${section.id}`}
+        data-section-type={section.type}
+        data-section-id={section.id}
+        className={cn(
+          "mb-6 min-w-0 scroll-mt-24 rounded-lg transition-shadow",
+          sectionClassName,
+          isSelected && "ring-2 ring-violet-400/80 ring-offset-2 ring-offset-white",
+        )}
+        onClick={(e) => {
+          if (isEditableTarget(e.target)) return;
+          setSelectedSectionId(section.id);
+        }}
+      >
+        <EditableSectionTitle sectionId={section.id} className={titleClass} />
+        <ResumeSectionContent section={section} />
+      </section>
+    );
+  };
 
   if (!editable) {
     return (
@@ -145,7 +184,6 @@ export function ResumeDynamicSections({
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
-      modifiers={modifiers}
     >
       <SortableContext
         id="resume-sections-sortable"
@@ -157,8 +195,13 @@ export function ResumeDynamicSections({
             <SortableCard
               key={section.id}
               id={section.id}
+              section={section}
+              selected={selectedSectionId === section.id}
+              onSectionAiOpen={() => setSelectedSectionId(section.id)}
               onAdd={() => {
                 addSection("custom", section.id);
+                const added = useResumeStore.getState().resume?.sections?.at(-1);
+                if (added) setSelectedSectionId(added.id);
                 triggerAutosave();
               }}
               onDelete={() => {

@@ -12,7 +12,13 @@ import {
 import type { TemplateLayout } from "../components/templates/registry";
 import { DEFAULT_RESUME_THEME } from "../lib/resume-theme";
 import type { StreamSectionTarget } from "../lib/stream-section-parser";
-import type { Resume, ResumeSectionConfig, ResumeSectionType } from "../lib/types/resume";
+import { normalizeContactOrder } from "../lib/contact-order";
+import type {
+  ContactKey,
+  Resume,
+  ResumeSectionConfig,
+  ResumeSectionType,
+} from "../lib/types/resume";
 
 export type Status =
   | "idle"
@@ -33,6 +39,7 @@ interface ResumeState {
   streamingSectionTarget: StreamSectionTarget | null;
   lastSavedAt: string | null;
   hasUnsavedChanges: boolean;
+  selectedSectionId: string | null;
 
   setResume: (partial: Partial<Resume> | null) => void;
   applyStreamPartial: (partial: Partial<Resume>) => void;
@@ -49,7 +56,10 @@ interface ResumeState {
   reorderExperience: (fromId: string, toId: string) => void;
   reorderEducation: (fromId: string, toId: string) => void;
   reorderSkills: (fromId: string, toId: string) => void;
+  reorderProjects: (fromId: string, toId: string) => void;
+  reorderProjectBullets: (projIdx: number, fromId: string, toId: string) => void;
   reorderSections: (fromId: string, toId: string) => void;
+  reorderContact: (fromKey: ContactKey, toKey: ContactKey) => void;
   addExperience: (index: number) => void;
   removeExperience: (index: number) => void;
   addEducation: (index: number) => void;
@@ -73,6 +83,7 @@ interface ResumeState {
   setLastSavedAt: (iso: string | null) => void;
   markUnsaved: () => void;
   clearUnsaved: () => void;
+  setSelectedSectionId: (sectionId: string | null) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,7 +126,9 @@ function ensurePathForStreamUpdate(obj: any, path: string) {
 }
 
 function normalizeResume(partial: Partial<Resume>): Partial<Resume> {
-  return ensureResumeSections(ensureResumeIds(partial));
+  const next = ensureResumeSections(ensureResumeIds(partial));
+  next.contactOrder = normalizeContactOrder(next.contactOrder);
+  return next;
 }
 
 function ensureSectionContent(
@@ -172,6 +185,7 @@ function ensureSectionContent(
       if (!resume.projects?.length) {
         resume.projects = [
           {
+            id: createId("proj"),
             name: "Project Name",
             description: "Project description",
             url: null,
@@ -204,6 +218,7 @@ export const useResumeStore = create<ResumeState>()(
       streamingSectionTarget: null,
       lastSavedAt: null,
       hasUnsavedChanges: false,
+      selectedSectionId: null,
 
       setResume: (partial) =>
         set((s) => {
@@ -289,6 +304,11 @@ export const useResumeStore = create<ResumeState>()(
           s.hasUnsavedChanges = false;
         }),
 
+      setSelectedSectionId: (sectionId) =>
+        set((s) => {
+          s.selectedSectionId = sectionId;
+        }),
+
       updateField: (path, value) =>
         set((s) => {
           setByPath(s.resume, path, value);
@@ -346,6 +366,34 @@ export const useResumeStore = create<ResumeState>()(
           }
         }),
 
+      reorderProjects: (fromId, toId) =>
+        set((s) => {
+          const list = s.resume?.projects;
+          if (!list) return;
+          const oldIndex = list.findIndex((p) => p.id === fromId);
+          const newIndex = list.findIndex((p) => p.id === toId);
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = list.splice(oldIndex, 1);
+            list.splice(newIndex, 0, item);
+          }
+        }),
+
+      reorderProjectBullets: (projIdx, fromId, toId) =>
+        set((s) => {
+          if (!s.resume?.projects?.[projIdx]?.bullets) return;
+          const bullets = s.resume.projects[projIdx].bullets;
+          const oldIndex = bullets.findIndex(
+            (b: { id?: string }) => b.id === fromId,
+          );
+          const newIndex = bullets.findIndex(
+            (b: { id?: string }) => b.id === toId,
+          );
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = bullets.splice(oldIndex, 1);
+            bullets.splice(newIndex, 0, item);
+          }
+        }),
+
       reorderSections: (fromId, toId) =>
         set((s) => {
           const list = s.resume?.sections;
@@ -358,6 +406,19 @@ export const useResumeStore = create<ResumeState>()(
             list.forEach((section, index) => {
               section.order = index;
             });
+          }
+        }),
+
+      reorderContact: (fromKey, toKey) =>
+        set((s) => {
+          if (!s.resume) return;
+          const order = normalizeContactOrder(s.resume.contactOrder);
+          const oldIndex = order.indexOf(fromKey);
+          const newIndex = order.indexOf(toKey);
+          if (oldIndex !== -1 && newIndex !== -1) {
+            const [item] = order.splice(oldIndex, 1);
+            order.splice(newIndex, 0, item);
+            s.resume.contactOrder = order;
           }
         }),
 

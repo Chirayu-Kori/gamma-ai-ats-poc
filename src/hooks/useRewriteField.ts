@@ -10,6 +10,7 @@ export type RewriteRequest = {
   field_html: string;
   selection_text?: string;
   instruction?: string;
+  resume_context?: string;
 };
 
 export type RewriteResponse = {

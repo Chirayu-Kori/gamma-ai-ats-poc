@@ -5,6 +5,7 @@ import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactInline } from "./resume-contact";
 import "./bold-theme.css";
 
 export function BoldTemplate() {
@@ -12,11 +13,9 @@ export function BoldTemplate() {
   const theme = useResumeStore((s) => s.theme);
   if (!resume) return null;
 
-  const contact = resume.contact ?? ({} as ContactInfo);
-
   return (
     <article
-      className="resume bold-theme resume-theme-base ring-border mx-auto w-full max-w-4xl min-w-0 overflow-hidden rounded-sm shadow-lg ring-1"
+      className="resume bold-theme resume-theme-base ring-border mx-auto w-full max-w-4xl min-w-0 overflow-x-clip rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
       <header
@@ -27,19 +26,20 @@ export function BoldTemplate() {
         <EditableText
           path="name"
           mode="inline"
+          inlineWrap
           className="font-heading block text-4xl font-black tracking-tight"
         />
         <EditableText
           path="headline"
           mode="inline"
+          inlineWrap
           className="mt-2 block text-base opacity-90"
         />
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm opacity-85">
-          {contact.email && <span>{contact.email}</span>}
-          {contact.phone && <span>{contact.phone}</span>}
-          {contact.location && <span>{contact.location}</span>}
-          {contact.linkedin && <span>{contact.linkedin}</span>}
-        </div>
+        <ResumeContactInline
+          contact={resume.contact ?? ({} as ContactInfo)}
+          onAccent
+          className="mt-4 justify-start text-sm opacity-90"
+        />
       </header>
 
       <div className="space-y-2 p-8 sm:p-10">

@@ -18,6 +18,9 @@ REWRITE_SCHEMA = {
 
 REWRITE_SYSTEM = """You edit resume content for a single field.
 
+You may receive FULL RESUME CONTEXT — use it so the rewrite is specific to this candidate,
+not generic. Stay consistent with employers, roles, skills, and dates in the context.
+
 Rules:
 - Return JSON only: {"revised_html": "<full field HTML after edit>"}.
 - Preserve valid HTML tags used in the input (p, ul, ol, li, strong, em, u, span).
@@ -33,9 +36,17 @@ def rewrite_resume_field(
     field_path: str,
     field_html: str,
     selection_text: Optional[str] = None,
+    resume_context: Optional[str] = None,
     instruction: Optional[str] = None,
 ) -> str:
-    parts = [f"FIELD PATH: {field_path}", f"FULL FIELD CONTENT:\n{field_html.strip()}"]
+    parts: list[str] = []
+    if resume_context and resume_context.strip():
+        parts.append(
+            "FULL RESUME CONTEXT:\n" + resume_context.strip()[:12000]
+        )
+    parts.extend(
+        [f"FIELD PATH: {field_path}", f"FULL FIELD CONTENT:\n{field_html.strip()}"]
+    )
     if selection_text and selection_text.strip():
         parts.append(f"SELECTION TO REWRITE:\n{selection_text.strip()}")
     if instruction and instruction.strip():

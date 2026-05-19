@@ -7,6 +7,7 @@ import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sectio
 import { EditableSectionTitle } from "@/components/editor/editable-section-title";
 import { ResumeSectionContent } from "@/components/editor/resume-section-content";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactChips } from "./resume-contact";
 import "./creative-theme.css";
 
 export function CreativeTemplate() {
@@ -23,7 +24,7 @@ export function CreativeTemplate() {
 
   return (
     <article
-      className="resume creative-theme resume-theme-base ring-border mx-auto w-full max-w-5xl min-w-0 overflow-hidden rounded-sm shadow-lg ring-1"
+      className="resume creative-theme resume-theme-base ring-border mx-auto w-full max-w-5xl min-w-0 overflow-x-clip rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
       <div className="creative-accent-bar" />
@@ -35,38 +36,36 @@ export function CreativeTemplate() {
         <EditableText
           path="name"
           mode="inline"
+          inlineWrap
           className="font-heading block text-4xl font-black"
         />
         <EditableText
           path="headline"
           mode="inline"
+          inlineWrap
           className="mt-1 block text-lg opacity-75"
         />
-        <div className="mt-3 flex flex-wrap gap-3 text-sm">
-          {contact.email && (
-            <EditableText path="contact.email" mode="inline" className="creative-chip" />
-          )}
-          {contact.phone && (
-            <EditableText path="contact.phone" mode="inline" className="creative-chip" />
-          )}
-          {contact.location && (
-            <EditableText path="contact.location" mode="inline" className="creative-chip" />
-          )}
-        </div>
+        <ResumeContactChips
+          contact={contact}
+          keys={["email", "phone", "location", "linkedin", "github", "website"]}
+          chipClassName="creative-chip"
+          className="mt-3"
+        />
       </header>
 
-      <div className="grid grid-cols-1 gap-6 px-8 pb-8 sm:grid-cols-[1fr_280px] sm:px-10">
+      <div className="grid min-w-0 grid-cols-1 gap-6 px-8 pb-8 sm:grid-cols-[minmax(0,1fr)_minmax(11rem,280px)] sm:px-10">
         <ResumeDynamicSections
           titleVariant="creative"
           excludeTypes={["skills", "certifications"]}
         />
 
         {sidebarSections.length > 0 && (
-          <aside className="creative-sidebar space-y-5 rounded-xl p-5">
+          <aside className="creative-sidebar min-w-0 space-y-5 rounded-xl p-5">
             {sidebarSections.map((section) => (
               <section
                 key={section.id}
                 id={`section-${section.id}`}
+                data-section-id={section.id}
                 className="scroll-mt-24"
               >
                 <EditableSectionTitle

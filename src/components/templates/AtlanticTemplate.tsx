@@ -1,5 +1,7 @@
 "use client";
 
+import { Mail } from "lucide-react";
+
 import { resumeThemeToCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
@@ -7,27 +9,8 @@ import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sectio
 import { SortableSkillsList } from "@/components/editor/sortable-skills-list";
 import { EditableSectionTitle } from "@/components/editor/editable-section-title";
 import type { ContactInfo } from "@/lib/types/resume";
+import { ResumeContactSidebar } from "./resume-contact";
 import "./atlantic-theme.css";
-
-function SidebarContact({
-  label,
-  path,
-  value,
-}: {
-  label: string;
-  path: string;
-  value?: string | null;
-}) {
-  if (!value) return null;
-  return (
-    <div>
-      <div className="text-[10px] font-semibold tracking-wider uppercase opacity-60">
-        {label}
-      </div>
-      <EditableText path={path} mode="inline" className="text-sm" />
-    </div>
-  );
-}
 
 export function AtlanticTemplate() {
   const resume = useResumeStore((s) => s.resume);
@@ -41,10 +24,10 @@ export function AtlanticTemplate() {
 
   return (
     <article
-      className="resume atlantic-theme resume-theme-base ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[240px_1fr] overflow-hidden rounded-sm shadow-lg ring-1"
+      className="resume atlantic-theme resume-theme-base ring-border mx-auto grid w-full max-w-5xl min-w-0 grid-cols-[minmax(10rem,240px)_minmax(0,1fr)] overflow-x-clip rounded-sm shadow-lg ring-1"
       style={resumeThemeToCssVars(theme)}
     >
-      <aside className="atlantic-sidebar space-y-6 p-6">
+      <aside className="atlantic-sidebar min-w-0 space-y-6 p-6">
         <div
           id="resume-header"
           data-section-type="headline"
@@ -53,21 +36,26 @@ export function AtlanticTemplate() {
           <EditableText
             path="name"
             mode="inline"
-            className="font-heading block text-xl font-bold leading-tight"
+            inlineWrap
+            className="font-heading block text-xl leading-tight font-bold"
           />
           <EditableText
             path="headline"
             mode="inline"
+            inlineWrap
             className="mt-1 block text-xs opacity-75"
           />
         </div>
 
-        <div className="space-y-3">
-          <h2 className="atlantic-sidebar-heading">Contact</h2>
-          <SidebarContact label="Email" path="contact.email" value={contact.email} />
-          <SidebarContact label="Phone" path="contact.phone" value={contact.phone} />
-          <SidebarContact label="Location" path="contact.location" value={contact.location} />
-          <SidebarContact label="LinkedIn" path="contact.linkedin" value={contact.linkedin} />
+        <div>
+          <h2 className="atlantic-sidebar-heading resume-section-title mb-2 flex items-center gap-1.5">
+            <Mail className="resume-contact-icon size-3.5" strokeWidth={2} aria-hidden />
+            Contact
+          </h2>
+          <ResumeContactSidebar
+            contact={contact}
+            keys={["email", "phone", "location", "linkedin", "github", "website"]}
+          />
         </div>
 
         {skillsSection && resume.skills && resume.skills.length > 0 && (
@@ -83,7 +71,7 @@ export function AtlanticTemplate() {
         )}
       </aside>
 
-      <main className="p-8">
+      <main className="resume-main-column min-w-0 p-8">
         <ResumeDynamicSections
           titleVariant="atlantic"
           excludeTypes={["skills"]}

@@ -7,6 +7,8 @@ export interface ContactInfo {
   website: string | null;
 }
 
+export type ContactKey = keyof ContactInfo;
+
 export interface Bullet {
   text: string;
   impact_score?: number | null;
@@ -42,6 +44,7 @@ export interface SkillGroup {
 }
 
 export interface Project {
+  id?: string;
   name: string;
   description: string;
   url: string | null;
@@ -72,6 +75,8 @@ export interface Resume {
   name: string;
   headline: string;
   contact: ContactInfo;
+  /** Display order for contact fields (email, phone, …). */
+  contactOrder?: ContactKey[] | null;
   summary: string;
   experience: Experience[];
   education: Education[];

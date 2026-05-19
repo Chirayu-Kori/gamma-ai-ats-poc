@@ -10,6 +10,7 @@ from typing import Any, AsyncGenerator, Optional
 
 from schemas.resume import Bullet, Resume
 from services.gemini import _generate_content_rest, _stream_generate_content_rest
+from services.resume_context import build_resume_context
 from services.resume_topics import UpgradeSection, plan_upgrade_sections
 
 log = logging.getLogger("resume_upgrade")
@@ -18,8 +19,11 @@ MAX_SECTION_TOKENS = int(os.getenv("GEMINI_SECTION_MAX_TOKENS", "2048"))
 
 SYSTEM_BASE = """You are an expert ATS resume writer.
 
+You receive FULL RESUME CONTEXT plus the specific section to upgrade. Use the candidate's real
+name, roles, companies, skills, and facts from context — never generic placeholder content.
+
 Return ONLY valid JSON. No markdown fences. No prose outside JSON.
-Never invent employers, dates, metrics, or tools not implied by the source.
+Never invent employers, dates, metrics, or tools not implied by the source or context.
 Use strong action verbs. Quantify ONLY when the source already has numbers."""
 
 
@@ -80,8 +84,20 @@ def _parse_section_json(buffer: str) -> dict[str, Any]:
 def _section_prompt(
     section: UpgradeSection,
     *,
+    resume: Resume,
     jd_text: Optional[str] = None,
+    target_role: Optional[str] = None,
 ) -> tuple[str, str]:
+    context_block = build_resume_context(
+        resume,
+        jd_text=jd_text,
+        target_role=target_role,
+        editing_section_type=section.kind,
+        editing_section_title=section.header,
+    )
+    context_prefix = (
+        f"FULL RESUME CONTEXT:\n{context_block}\n\n" if context_block else ""
+    )
     topics_block = (
         "\n".join(f"- {t}" for t in section.topics)
         if section.topics
@@ -100,6 +116,7 @@ def _section_prompt(
 
     if section.kind == "headline":
         human = (
+            f"{context_prefix}"
             f'Section header: "{section.header}"\n'
             f"Themes from resume:\n{topics_block}\n\n"
             'Return JSON: {{"headline":"<one line, max 120 chars>"}}'
@@ -109,6 +126,7 @@ def _section_prompt(
 
     if section.kind == "summary":
         human = (
+            f"{context_prefix}"
             f'Section: "{section.header}"\n'
             f"Key themes to reflect:\n{topics_block}\n\n"
             'Return JSON: {{"summary":"<2-3 sentences, max 400 chars>"}}'
@@ -118,18 +136,20 @@ def _section_prompt(
 
     if section.kind == "experience":
         human = (
+            f"{context_prefix}"
             f'Job: "{section.header}"\n'
             f"Topic headers from original bullets (cover each with a strong bullet):\n"
             f"{topics_block}\n\n"
             f"Original bullets:\n{bullets_block}\n\n"
             f"Write one improved bullet per topic where possible (max 6). "
-            f"Keep facts; improve clarity and impact.\n"
+            f"Keep facts from context and originals; improve clarity and impact.\n"
             f'Return JSON: {{"index":{section.index},"bullets":[{{"text":"..."}}]}}'
             f"{jd_block}"
         )
         return SYSTEM_BASE, human
 
     human = (
+        f"{context_prefix}"
         f'Project: "{section.header}"\n'
         f"Topics:\n{topics_block}\n\n"
         f"Original content:\n{bullets_block}\n\n"
@@ -198,7 +218,12 @@ async def upgrade_resume(
         jd_text = (jd_text or "") + f"\n\nExtra instruction: {extra}"
 
     for section in sections:
-        system, human = _section_prompt(section, jd_text=jd_text)
+        system, human = _section_prompt(
+            section,
+            resume=working,
+            jd_text=jd_text,
+            target_role=target_role,
+        )
         try:
             text = await asyncio.to_thread(_generate_section_sync, system, human)
             data = _parse_section_json(text)
@@ -243,7 +268,12 @@ async def upgrade_resume_stream_sse(
             }
         )
 
-        system, human = _section_prompt(section, jd_text=jd_text)
+        system, human = _section_prompt(
+            section,
+            resume=working,
+            jd_text=jd_text,
+            target_role=target_role,
+        )
         buffer = ""
         try:
             async for delta in _stream_section_text(system, human):

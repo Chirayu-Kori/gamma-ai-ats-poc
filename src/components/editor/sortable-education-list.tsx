@@ -18,7 +18,6 @@ import {
 import { useResumeStore } from "@/stores/resumeStore";
 import { SortableCard } from "./sortable-card";
 import { EducationBlock } from "./education-block";
-import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
 
 export function SortableEducationList() {
   const education = useResumeStore((s) => s.resume?.education);
@@ -30,8 +29,6 @@ export function SortableEducationList() {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
-  const { modifiers } = useScaleAwareDnd();
-
   if (!education?.length) return null;
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -47,7 +44,6 @@ export function SortableEducationList() {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
-      modifiers={modifiers}
     >
       <SortableContext
         id="education-sortable"

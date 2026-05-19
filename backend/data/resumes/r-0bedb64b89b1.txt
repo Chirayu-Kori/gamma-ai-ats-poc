@@ -12,7 +12,15 @@
       "github": "Sruti-sahini",
       "website": null
     },
-    "summary": "",
+    "contact_order": [
+      "phone",
+      "email",
+      "location",
+      "linkedin",
+      "github",
+      "website"
+    ],
+    "summary": "Experienced Machine Learning Engineer with a strong background in Reinforcement Learning with Human Feedback (RLHF) and Vision Language Models (VLMs). Proven ability to fine-tune models using DPO and SFT, develop evaluation benchmarks, and provide structured feedback to improve model performance and dataset quality. Skilled in Python, PyTorch, Pandas, and scikit-learn, with experience in detecting reward-hacking behavior in LLMs and reducing hallucinations in VLM predictions.",
     "experience": [
       {
         "id": "exp-edae42f0-0066-411f-bd2d-9b32e9410cbd",
@@ -206,6 +214,7 @@
     ],
     "projects": [
       {
+        "id": "proj-d4455837-460f-4da4-9fe9-f8c96f1d6809",
         "name": "CineSense - Movie Genre Detection",
         "description": "",
         "url": "Notebook Link",
@@ -260,7 +269,7 @@
         "title": "Publications",
         "visible": true,
         "order": 2,
-        "custom_content": "VIT-Pro: Visual instruction tuning for product images Show Publication"
+        "custom_content": "<p>VIT-Pro: Visual instruction tuning for product images Show  Publication            </p>"
       },
       {
         "id": "sec-017c6e50-9f94-48f6-8bb4-0005bf355448",
@@ -307,6 +316,7 @@
       "github": "Sruti-sahini",
       "website": null
     },
+    "contact_order": null,
     "summary": "",
     "experience": [
       {
@@ -501,6 +511,7 @@
     ],
     "projects": [
       {
+        "id": null,
         "name": "CineSense - Movie Genre Detection",
         "description": "",
         "url": "Notebook Link",
@@ -552,22 +563,22 @@
     ]
   },
   "theme": {
-    "accent": "#7c3aed",
+    "accent": "#17357e",
     "textColor": "#1e293b",
     "headingColor": "#0f172a",
     "backgroundColor": "#ffffff",
-    "sidebarColor": "#7c3aed",
-    "fontHeading": "\"Open Sans\", sans-serif",
-    "fontBody": "\"Open Sans\", sans-serif",
-    "pageLayout": "sidebar-right",
+    "sidebarColor": "#17357e",
+    "fontHeading": "\"Inter\", sans-serif",
+    "fontBody": "\"Inter\", sans-serif",
+    "pageLayout": "single",
     "pageFormat": "A4",
     "pageWidth": "210",
     "pageHeight": "297",
     "pageUnit": "mm"
   },
-  "template_id": "creative",
+  "template_id": "minimal",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T08:49:42.167553+00:00",
-  "updated_at": "2026-05-19T10:02:22.738478+00:00"
+  "updated_at": "2026-05-19T11:30:45.777782+00:00"
 }

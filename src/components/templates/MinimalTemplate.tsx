@@ -4,42 +4,9 @@ import { resumeThemeToCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "../../stores/resumeStore";
 import { EditableText } from "../editor/EditableText";
 import { ResumeDynamicSections } from "../editor/resume-dynamic-sections";
-import { ContactInfo } from "../../lib/types/resume";
+import type { ContactInfo } from "../../lib/types/resume";
+import { ResumeContactBar } from "./resume-contact";
 import "./minimal-theme.css";
-
-function ContactBar({ contact }: { contact: ContactInfo }) {
-  if (!contact) return null;
-  const parts: { key: keyof ContactInfo; value: string }[] = [];
-  if (contact.email) parts.push({ key: "email", value: contact.email });
-  if (contact.phone) parts.push({ key: "phone", value: contact.phone });
-  if (contact.location)
-    parts.push({ key: "location", value: contact.location });
-  if (contact.linkedin)
-    parts.push({ key: "linkedin", value: contact.linkedin });
-  if (contact.github) parts.push({ key: "github", value: contact.github });
-  if (contact.website) parts.push({ key: "website", value: contact.website });
-
-  return (
-    <div className="text-muted-foreground mt-2 flex w-full min-w-0 items-center text-sm">
-      {parts.map((p, i) => (
-        <span key={p.key} className="contents">
-          <span className="flex min-w-0 flex-1 basis-0 items-center justify-center overflow-hidden px-2 text-center">
-            <EditableText
-              path={`contact.${p.key}`}
-              mode="inline"
-              className="w-full whitespace-nowrap break-normal"
-            />
-          </span>
-          {i < parts.length - 1 ? (
-            <span className="text-border shrink-0 px-0.5 text-xs" aria-hidden>
-              •
-            </span>
-          ) : null}
-        </span>
-      ))}
-    </div>
-  );
-}
 
 export function MinimalTemplate() {
   const resume = useResumeStore((s) => s.resume);
@@ -49,12 +16,12 @@ export function MinimalTemplate() {
   if (!resume) {
     return (
       <div className="animate-pulse space-y-4">
-        <div className="bg-muted mx-auto h-10 w-1/3 rounded"></div>
-        <div className="bg-muted mx-auto h-4 w-1/2 rounded"></div>
+        <div className="bg-muted mx-auto h-10 w-1/3 rounded" />
+        <div className="bg-muted mx-auto h-4 w-1/2 rounded" />
         <div className="mt-8 space-y-2">
-          <div className="bg-muted h-4 w-1/4 rounded"></div>
-          <div className="bg-muted h-4 w-full rounded"></div>
-          <div className="bg-muted h-4 w-full rounded"></div>
+          <div className="bg-muted h-4 w-1/4 rounded" />
+          <div className="bg-muted h-4 w-full rounded" />
+          <div className="bg-muted h-4 w-full rounded" />
         </div>
       </div>
     );
@@ -73,14 +40,16 @@ export function MinimalTemplate() {
         <EditableText
           path="name"
           mode="inline"
+          inlineWrap
           className="font-heading block text-3xl font-black tracking-tight"
         />
         <EditableText
           path="headline"
           mode="inline"
+          inlineWrap
           className="text-muted-foreground mt-1 block text-lg"
         />
-        <ContactBar contact={resume.contact || ({} as ContactInfo)} />
+        <ResumeContactBar contact={resume.contact || ({} as ContactInfo)} />
       </header>
 
       <ResumeDynamicSections titleVariant="default" />
