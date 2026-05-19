@@ -275,25 +275,25 @@
     "certifications": null,
     "sections": [
       {
-        "id": "sec-3b71b8e4-921d-489f-91c7-153b34dd9351",
-        "type": "summary",
-        "title": "Summary",
-        "visible": true,
-        "order": 0,
-        "custom_content": null
-      },
-      {
         "id": "sec-98971cdd-ed38-4858-83f3-33cbc0c73473",
         "type": "experience",
         "title": "Experience",
         "visible": true,
-        "order": 1,
+        "order": 0,
         "custom_content": null
       },
       {
         "id": "sec-aa5eec5e-ea97-489c-974b-c74eff1618db",
         "type": "education",
         "title": "Education",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-3b71b8e4-921d-489f-91c7-153b34dd9351",
+        "type": "summary",
+        "title": "Summary",
         "visible": true,
         "order": 2,
         "custom_content": null
@@ -555,9 +555,9 @@
     "fontHeading": "\"Lato\", sans-serif",
     "fontBody": "\"Lato\", sans-serif"
   },
-  "template_id": "modern",
+  "template_id": "executive",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T08:26:08.491662+00:00",
-  "updated_at": "2026-05-19T08:27:07.713896+00:00"
+  "updated_at": "2026-05-19T08:31:13.872385+00:00"
 }

@@ -15,7 +15,7 @@
     "summary": "",
     "experience": [
       {
-        "id": null,
+        "id": "exp-2f47efd1-5a7a-4801-acb2-4795814c5554",
         "company": "Turing Global India",
         "title": "",
         "start": "",
@@ -23,27 +23,27 @@
         "location": null,
         "bullets": [
           {
-            "text": "Working on Reinforcement Learning with Human Feedback (RLHF) to detect and document reward-hacking behavior in LLM code-completion tasks using deliberately incomplete Python codebases.",
-            "impact_score": null,
-            "keywords": [],
-            "id": null
-          },
-          {
             "text": "Analyzing how models handle PR-style tasks with failing test cases, comparing step-by-step reasoning versus one-shot solutions, and collecting preference data based on code quality and correctness.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-c14c9f76-7c78-498b-a082-c1bb0b9f723f"
           },
           {
             "text": "Identifying hacky approaches such as hardcoding test cases, and providing structured human feedback and instructional prompts to guide models toward principled, test-driven coding behavior.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-9cea2d91-4542-4317-9b69-0c2360afe5fa"
+          },
+          {
+            "text": "Working on Reinforcement Learning with Human Feedback (RLHF) to detect and document reward-hacking behavior in LLM code-completion tasks using deliberately incomplete Python codebases.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-0dbd3bf4-9882-48e1-ae07-c48da1438e59"
           }
         ]
       },
       {
-        "id": null,
+        "id": "exp-a0ba8f86-4a9b-44c8-b82a-c59c4ee43639",
         "company": "Amazon India",
         "title": "",
         "start": "Jan",
@@ -54,36 +54,36 @@
             "text": "Worked on the Image Verification Project in the Central Machine Learning team to reduce hallucinations in predictions from VIT-Pro, Amazon's internal vision-language model fine-tuned from the pretrained IDEFICS model",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-9967696b-f3f1-4754-9ea6-4d1f366f4291"
           },
           {
             "text": "Fine-tuned VIT-Pro using both Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT) for one-word and descriptive responses.",
             "impact_score": null,
             "keywords": [],
-            "id": null
-          },
-          {
-            "text": "Created high-quality preference pairs and provided iterative feedback to human annotators to enhance dataset quality.",
-            "impact_score": null,
-            "keywords": [],
-            "id": null
+            "id": "bullet-76cd4861-145d-46e6-8e15-d91fbe59f517"
           },
           {
             "text": "Built a segment-level hallucination evaluation benchmark for descriptive outputs using Claude v3, and evaluated one-word answers using the weighted Fl-score.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-88d99686-4af9-485b-a005-506391667ffe"
+          },
+          {
+            "text": "Created high-quality preference pairs and provided iterative feedback to human annotators to enhance dataset quality.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-63dd250c-cdfc-42d8-84b1-2416dad2c109"
           },
           {
             "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, Greenland",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-81a28aee-5cd6-42ad-860c-3e758b528fc7"
           }
         ]
       },
       {
-        "id": null,
+        "id": "exp-c0fc3489-28d0-4954-a5a2-24d514632ab2",
         "company": "Amazon India",
         "title": "",
         "start": "May",
@@ -94,38 +94,38 @@
             "text": "Worked on the Image Verification Project as part of the Central Machine Learning team, which utilizes a Vision Language Model (VLM) to automate the verification of images submitted by customers during concession claims.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-362c4e3d-f05e-49bb-9184-ba3503105f55"
           },
           {
             "text": "Built a comprehensive evaluation benchmark for Vision Language Models by conducting different ablation experiments on five models, namely, ClaudeV3, IDEFICS 8B, IDEFICS 9B, and the fine-tuned versions of IDEFICS, while also generating PR curves and performing qualitative analysis.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-830303e6-8dba-4c49-a594-7223273c473f"
           },
           {
             "text": "Proposed optimal settings for the developed model and identified vital areas of improvement basis the study.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-067430c7-0122-4f43-95c4-0dfe05f82a53"
           },
           {
             "text": "Reviewed state-of-the-art literature and prompt engineering principles, drawing inspiration from innovative evaluation methods to advance expertise in this field.",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-af2b5e4b-e082-48d2-a5e2-796ebbb7a75a"
           },
           {
             "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, EC2",
             "impact_score": null,
             "keywords": [],
-            "id": null
+            "id": "bullet-462535df-8339-4efa-8944-2ac9f08bd3db"
           }
         ]
       }
     ],
     "education": [
       {
-        "id": null,
+        "id": "edu-d75f4e25-bf85-4fb1-aee7-479611124341",
         "institution": "Indian Institute of Technology Patna",
         "degree": "Bachelor of Technology",
         "field": null,
@@ -135,7 +135,7 @@
         "highlights": []
       },
       {
-        "id": null,
+        "id": "edu-b4b849f6-4a03-4661-a9cc-b754ee0f134f",
         "institution": "FIITJEE Junior College",
         "degree": "Class 12th",
         "field": "Andhra Pradesh Board of Intermediate Education",
@@ -145,7 +145,7 @@
         "highlights": []
       },
       {
-        "id": null,
+        "id": "edu-5ecfdf9a-8c12-43a0-85e9-24db3485adaf",
         "institution": "Timpany Senior Secondary School",
         "degree": "Class 10th",
         "field": "Central Board of Secondary Education",
@@ -202,37 +202,55 @@
     ],
     "projects": [
       {
-        "name": "CineSense - Movie Genre Detection",
-        "description": "",
+        "name": "",
+        "description": "Project description",
         "url": null,
-        "tech_stack": [
-          "BERT",
-          "ResNet152",
-          "PyTorch"
-        ],
+        "tech_stack": [],
         "bullets": [
           {
-            "text": "Utilised the MMIMDb dataset with movie synopses and posters as inputs, and relevant genres as output labels.",
+            "text": "Key outcome...",
             "impact_score": null,
             "keywords": [],
-            "id": null
-          },
-          {
-            "text": "Employed BERT for text encoding and ResNet-152 for image encoding and the concatenated features were classified via a feed-forward neural network across 26 possible genres.",
-            "impact_score": null,
-            "keywords": [],
-            "id": null
-          },
-          {
-            "text": "Evaluated the performance of the model by using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
-            "impact_score": null,
-            "keywords": [],
-            "id": null
+            "id": "bullet-a1ff56ed-6020-4a77-b179-7958a462b6ea"
           }
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": [
+      {
+        "id": "sec-3630106f-5745-4273-91ff-beb02f46eeab",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-30a50fe9-aeb1-4d30-a77d-834b886e9445",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-1339fe92-2643-4081-84db-4ac2248f88a9",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-823af0cd-095b-4b0c-b82e-f2ef49dd2b8c",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      }
+    ]
   },
   "original_resume": {
     "name": "SAHINI VENKATA SITARAM SRUTI",
@@ -465,12 +483,21 @@
         ]
       }
     ],
-    "certifications": null
+    "certifications": null,
+    "sections": null
   },
-  "theme": {},
-  "template_id": "minimal",
+  "theme": {
+    "accent": "#2563eb",
+    "textColor": "#1e293b",
+    "headingColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "sidebarColor": "#2563eb",
+    "fontHeading": "\"Open Sans\", sans-serif",
+    "fontBody": "\"Open Sans\", sans-serif"
+  },
+  "template_id": "classic",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-18T10:57:48.436479+00:00",
-  "updated_at": "2026-05-18T10:57:48.436479+00:00"
+  "updated_at": "2026-05-19T09:53:51.161627+00:00"
 }

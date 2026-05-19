@@ -18,6 +18,7 @@ import {
 import { useResumeStore } from "@/stores/resumeStore";
 import { SortableCard } from "./sortable-card";
 import { ExperienceBlock } from "./experience-block";
+import { useScaleAwareDnd } from "@/hooks/use-scale-aware-dnd";
 
 export function SortableExperienceList() {
   const experience = useResumeStore((s) => s.resume?.experience);
@@ -29,8 +30,10 @@ export function SortableExperienceList() {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
+  const { modifiers } = useScaleAwareDnd();
 
   if (!experience?.length) return null;
+
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -45,6 +48,7 @@ export function SortableExperienceList() {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
+      modifiers={modifiers}
     >
       <SortableContext
         id="experience-sortable"
