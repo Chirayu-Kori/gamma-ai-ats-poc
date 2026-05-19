@@ -1,0 +1,621 @@
+{
+  "id": "r-93fb1f1e27c0",
+  "label": "Aryan Gupta",
+  "resume": {
+    "name": "Aryan Gupta",
+    "headline": "Python Backend Developer",
+    "contact": {
+      "email": "aryangupta.dec@gmail.com",
+      "phone": "+91 6260762909",
+      "location": "Indore, Madhya Pradesh, India",
+      "linkedin": "https://www.linkedin.com/in/aryangupta2002",
+      "github": "https://github.com/AryanGupta1211/",
+      "website": null
+    },
+    "summary": "Developed and deployed robust Python backend services for AI/ML solutions, engineering RESTful APIs and database integrations to power RAG-based chatbots. Prototyped Generative AI applications, including advanced chatbots, and built an ML-based recommendation engine to enhance user experience.",
+    "experience": [
+      {
+        "id": "exp-2c3ad79e-9a67-48c0-ae81-bad2988fe37d",
+        "company": "Nine A Business Connect Pvt. Ltd.",
+        "title": "",
+        "start": "October 2024",
+        "end": "Present",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Developed and deployed robust Python backend services for AI/ML solutions, including an Invoice Intelligence System adopted by Welspun Group and an AI-powered HRMS portal implemented by 5+ companies.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-04ee448a-0683-4b83-8f2c-e7dfeeeec759"
+          },
+          {
+            "text": "Engineered RESTful APIs and integrated databases for RAG-based chatbots and LLM-powered agents, enabling faster insights from diverse data sources including contracts, policies, and SQL databases.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-0739d76f-c199-4518-9e6a-646739142187"
+          },
+          {
+            "text": "Fine-tuned open-source LLMs (StarCoder) to reduce dependency on proprietary APIs, achieving significant cost savings through optimized backend processes.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-9abe60a4-2c94-48a3-ba52-9163c9b84fcf"
+          },
+          {
+            "text": "Managed end-to-end AI pipelines from prototyping to production deployment, contributing to a 4-member agile team focused on scalable Python backend architectures.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-e80caf67-e982-49a4-a45a-f003d76ed2e9"
+          }
+        ]
+      },
+      {
+        "id": "exp-e683adf2-c59e-4041-a503-d042131478a4",
+        "company": "Nine A Business Connect Pvt. Ltd.",
+        "title": "",
+        "start": "June 2024",
+        "end": "September 2024",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Prototyped Generative AI applications, including chatbots, multimodal modules, and content generators, emphasizing backend integration and API development using Google Gemini, Flux.1, and Streamlit.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-dfec1c13-b899-4f61-b3c7-d9d7a840b9c6"
+          },
+          {
+            "text": "Built an ML-based recommendation engine, developing Python backend services for real-time content suggestions as a production exploration project.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-336a6779-5c79-4e6e-aa08-d44562c21d3b"
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-677745c7-3fdb-4762-902a-a9d619e28f15",
+        "institution": "Medicaps University, Indore, India",
+        "degree": "Bachelor of Technology",
+        "field": "Computer Science (AI Specialization)",
+        "start": null,
+        "end": "2024",
+        "gpa": null,
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "category": "Technical",
+        "items": [
+          "Python",
+          "FastAPI",
+          "Flask",
+          "REST APIs",
+          "SQLAlchemy",
+          "MySQL",
+          "MS SQL Server",
+          "MongoDB",
+          "PostgreSQL",
+          "Git",
+          "GitHub Actions",
+          "Docker",
+          "AWS (ECS, Fargate)",
+          "CI/CD",
+          "LLMs",
+          "RAG Pipelines",
+          "Agentic AI",
+          "Fine-Tuning",
+          "Embeddings",
+          "Prompt Engineering",
+          "HuggingFace Transformers",
+          "LangChain",
+          "LangGraph",
+          "PyTorch",
+          "TensorFlow",
+          "Scikit-learn",
+          "NLP",
+          "Vector Databases (FAISS, ChromaDB, AstraDB, Pinecone)",
+          "DeepEval",
+          "RAGAS"
+        ]
+      },
+      {
+        "category": "Soft",
+        "items": [
+          "Problem-solving",
+          "Communication",
+          "Interpersonal Skills",
+          "Agile Methodologies",
+          "Time Management",
+          "Prioritization",
+          "Independent Work",
+          "Technical Documentation",
+          "Proactive Attitude"
+        ]
+      },
+      {
+        "category": "Other",
+        "items": [
+          "100 Days of Code: Complete Python Bootcamp",
+          "Master Git and GitHub",
+          "Introduction to Generative AI (Google Cloud)",
+          "Generative AI Tools Workshop",
+          "IEEE Publication: Sentiment Analysis Using CNN"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "CareerxIQ.ai (AI-powered HRMS)",
+        "description": "Led end-to-end backend development of an AI-driven HRMS platform, implementing modules for automated Resume Parsing, AI Interviewing, and context-aware JD generation.",
+        "url": null,
+        "tech_stack": [
+          "Python",
+          "Django",
+          "Ollama",
+          "RAG",
+          "Vector DB",
+          "SQL Server",
+          "Agentic Workflows",
+          "API Development",
+          "Database Management"
+        ],
+        "bullets": [
+          {
+            "text": "Engineered a hybrid RAG chatbot leveraging tool-routing logic to dynamically switch between vector search (company data) and structured SQL (employee data via SQL Server) based on query intent, ensuring efficient data retrieval.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ad6de5f4-ea54-499e-a139-4f4ee0dd5ffd"
+          },
+          {
+            "text": "Built automated evaluation pipelines for candidate ranking, extracting structured JSON from PDFs and semantically comparing against job descriptions using robust backend logic.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ce4383ff-3b0f-45c7-a8fb-073b58ce7e9d"
+          },
+          {
+            "text": "Designed and implemented the dynamic AI Interview engine, generating role-specific questions and conducting structured 30-minute candidate evaluation sessions with speech-enabled backend interactions.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-37229448-d644-45ec-ad1f-5e72828644a1"
+          }
+        ]
+      },
+      {
+        "name": "Document Intelligence Portal",
+        "description": "Developed a production-ready RAG platform with advanced backend modules and a robust LLMOps pipeline.",
+        "url": null,
+        "tech_stack": [
+          "Gemini",
+          "LangChain",
+          "FAISS",
+          "FastAPI",
+          "Docker",
+          "AWS ECS (Fargate)",
+          "GitHub Actions",
+          "DeepEval",
+          "Python",
+          "REST APIs",
+          "CI/CD"
+        ],
+        "bullets": [
+          {
+            "text": "Built a production-ready RAG platform using FastAPI, incorporating specialized backend modules for document analysis, multi-document comparison, and semantic chat.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-cdfd2823-6422-4d86-aa48-2ab7cb3422c9"
+          },
+          {
+            "text": "Improved retrieval quality by integrating MMR and Contextual Compression into the backend, reducing hallucinations and boosting context diversity.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-9ba8b0f0-ebda-47d4-a445-f5fec491d679"
+          },
+          {
+            "text": "Architected a robust LLMOps pipeline with JWT session isolation, Pytest automation, and containerized deployment on AWS ECS (Fargate) via GitHub Actions CI/CD for scalable backend services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-72a8b412-23d9-4de6-b7ff-008dbbf883c1"
+          },
+          {
+            "text": "Established an automated LLM evaluation pipeline using DeepEval, measuring Faithfulness, Relevancy, and Hallucination metrics within the backend system.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-d4fbd354-65c2-458a-8701-a6449d1f2edc"
+          }
+        ]
+      },
+      {
+        "name": "Agentic Research Assistant",
+        "description": "Architected and implemented an agentic research assistant with advanced multi-agent orchestration, real-time knowledge retrieval, and human-in-the-loop feedback for autonomous report generation.",
+        "url": null,
+        "tech_stack": [
+          "Python",
+          "LangGraph",
+          "OpenAI",
+          "Tavily",
+          "FastAPI",
+          "Docker",
+          "AWS",
+          "REST APIs"
+        ],
+        "bullets": [
+          {
+            "text": "Architected a multi-agent research workflow using LangGraph StateGraph for autonomous structured report generation, implemented with a Python backend.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-b56594a3-62e2-4f72-b4c6-93c1254586b2"
+          },
+          {
+            "text": "Implemented Human-in-the-Loop (HITL) feedback cycles, allowing users to refine agent personas via graph interruption and state checkpointing within the backend.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-8953a60b-8f37-4f6f-9d1c-f0064148d7f0"
+          },
+          {
+            "text": "Developed parallel orchestration using the Send() pattern for concurrent analyst interviews, significantly reducing report latency through optimized backend processing.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-3165f963-0c88-4027-a3a2-88f28c2a1848"
+          },
+          {
+            "text": "Integrated real-time knowledge retrieval via Tavily Search and Wikipedia APIs, ensuring synthesized content is grounded in cited external data and managed through backend services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ddcaad90-9ffc-445d-ad5e-8fd333794b75"
+          }
+        ]
+      }
+    ],
+    "certifications": [
+      "100 Days of Code: Complete Python Bootcamp",
+      "Master Git and GitHub",
+      "Introduction to Generative AI (Google Cloud)",
+      "Generative AI Tools Workshop"
+    ],
+    "sections": [
+      {
+        "id": "sec-bcbd91de-ce15-4d1d-afa0-e8477bc224f7",
+        "type": "summary",
+        "title": "Summary",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-17487d58-b0f6-493d-9963-e8508a838751",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-93f99943-3230-482a-bca5-24609901c122",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-a579376c-547c-4c71-b3d9-0735d8fe14e2",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      },
+      {
+        "id": "sec-1dafd7a7-a493-462e-ae8a-eb0dda8ad433",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 4,
+        "custom_content": null
+      },
+      {
+        "id": "sec-3e275483-59e5-4538-a78d-2d06d894f788",
+        "type": "certifications",
+        "title": "Certifications",
+        "visible": true,
+        "order": 5,
+        "custom_content": null
+      }
+    ]
+  },
+  "original_resume": {
+    "name": "Aryan Gupta",
+    "headline": "Python Backend Developer",
+    "contact": {
+      "email": "aryangupta.dec@gmail.com",
+      "phone": "+91 6260762909",
+      "location": "Indore, Madhya Pradesh, India",
+      "linkedin": "https://www.linkedin.com/in/aryangupta2002",
+      "github": "https://github.com/AryanGupta1211/",
+      "website": null
+    },
+    "summary": "AI/ML Engineer with 1.5+ years of experience (including projects) in building and deploying production-grade Generative AI, LLM, and Deep Learning solutions. Strong proficiency in Python backend development, designing and implementing robust RESTful APIs with FastAPI, and managing database interactions (MySQL, SQL Server). Expertise extends to containerized cloud deployments on AWS, Git for version control, and contributing to high-performance, scalable backend services.",
+    "experience": [
+      {
+        "id": null,
+        "company": "Nine A Business Connect Pvt. Ltd.",
+        "title": "",
+        "start": "October 2024",
+        "end": "Present",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Developed and deployed robust Python backend services for AI/ML solutions, including an Invoice Intelligence System adopted by Welspun Group and an AI-powered HRMS portal implemented by 5+ companies.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Engineered RESTful APIs and database integrations for RAG-based chatbots and LLM-powered agents, enabling faster insights from diverse data sources (contracts, policies, SQL databases).",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Fine-tuned open-source LLMs (StarCoder) to reduce dependency on proprietary APIs, achieving significant cost savings through optimized backend processes.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Managed end-to-end AI pipelines from prototyping to production deployment, contributing to a 4-member agile team focused on scalable Python backend architectures.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "id": null,
+        "company": "Nine A Business Connect Pvt. Ltd.",
+        "title": "",
+        "start": "June 2024",
+        "end": "September 2024",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Prototyped Generative AI applications (chatbots, multimodal modules, content generators) with a focus on backend integration and API development using Google Gemini, Flux.1, and Streamlit.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built an ML-based recommendation engine, developing Python backend services for real-time content suggestions as a production exploration project.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": null,
+        "institution": "Medicaps University, Indore, India",
+        "degree": "Bachelor of Technology",
+        "field": "Computer Science (AI Specialization)",
+        "start": null,
+        "end": "2024",
+        "gpa": null,
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "category": "Technical",
+        "items": [
+          "Python",
+          "FastAPI",
+          "Flask",
+          "REST APIs",
+          "SQLAlchemy",
+          "MySQL",
+          "MS SQL Server",
+          "MongoDB",
+          "PostgreSQL",
+          "Git",
+          "GitHub Actions",
+          "Docker",
+          "AWS (ECS, Fargate)",
+          "CI/CD",
+          "LLMs",
+          "RAG Pipelines",
+          "Agentic AI",
+          "Fine-Tuning",
+          "Embeddings",
+          "Prompt Engineering",
+          "HuggingFace Transformers",
+          "LangChain",
+          "LangGraph",
+          "PyTorch",
+          "TensorFlow",
+          "Scikit-learn",
+          "NLP",
+          "Vector Databases (FAISS, ChromaDB, AstraDB, Pinecone)",
+          "DeepEval",
+          "RAGAS"
+        ]
+      },
+      {
+        "category": "Soft",
+        "items": [
+          "Problem-solving",
+          "Communication",
+          "Interpersonal Skills",
+          "Agile Methodologies",
+          "Time Management",
+          "Prioritization",
+          "Independent Work",
+          "Technical Documentation",
+          "Proactive Attitude"
+        ]
+      },
+      {
+        "category": "Other",
+        "items": [
+          "100 Days of Code: Complete Python Bootcamp",
+          "Master Git and GitHub",
+          "Introduction to Generative AI (Google Cloud)",
+          "Generative AI Tools Workshop",
+          "IEEE Publication: Sentiment Analysis Using CNN"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "CareerxIQ.ai (AI-powered HRMS)",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Python",
+          "Django",
+          "Ollama",
+          "RAG",
+          "Vector DB",
+          "SQL Server",
+          "Agentic Workflows",
+          "API Development",
+          "Database Management"
+        ],
+        "bullets": [
+          {
+            "text": "Led end-to-end backend development of an AI-driven HRMS platform, implementing modules for automated Resume Parsing, AI Interviewing, and context-aware JD generation using Python and Django.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Engineered a hybrid RAG chatbot leveraging tool-routing logic to dynamically switch between vector search (company data) and structured SQL (employee data via SQL Server) based on query intent, ensuring efficient data retrieval.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built automated evaluation pipelines for candidate ranking, extracting structured JSON from PDFs and semantically comparing against job descriptions using robust backend logic.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Designed and implemented the dynamic AI Interview engine, generating role-specific questions and conducting structured 30-minute candidate evaluation sessions with speech-enabled backend interactions.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "Document Intelligence Portal",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Gemini",
+          "LangChain",
+          "FAISS",
+          "FastAPI",
+          "Docker",
+          "AWS ECS (Fargate)",
+          "GitHub Actions",
+          "DeepEval",
+          "Python",
+          "REST APIs",
+          "CI/CD"
+        ],
+        "bullets": [
+          {
+            "text": "Built a production-ready RAG platform with specialized backend modules for document analysis, multi-document comparison, and semantic chat using FastAPI.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Improved retrieval quality via MMR and Contextual Compression, integrating these techniques into the backend for reduced hallucinations and boosted context diversity.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Architected a robust LLMOps pipeline including JWT session isolation, Pytest automation, and containerized deployment on AWS ECS (Fargate) via GitHub Actions CI/CD for scalable backend services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Established an automated LLM evaluation pipeline using DeepEval, measuring Faithfulness, Relevancy, and Hallucination metrics within the backend system.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "name": "Agentic Research Assistant",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Python",
+          "LangGraph",
+          "OpenAI",
+          "Tavily",
+          "FastAPI",
+          "Docker",
+          "AWS",
+          "REST APIs"
+        ],
+        "bullets": [
+          {
+            "text": "Architected a multi-agent research workflow using LangGraph StateGraph for autonomous structured report generation, implemented with a Python backend.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Implemented Human-in-the-Loop (HITL) feedback cycles, allowing users to refine agent personas via graph interruption and state checkpointing within the backend.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Developed parallel orchestration using the Send() pattern for concurrent analyst interviews, significantly reducing report latency through optimized backend processing.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Integrated real-time knowledge retrieval via Tavily Search and Wikipedia APIs, ensuring synthesized content is grounded in cited external data and managed through backend services.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "certifications": [
+      "100 Days of Code: Complete Python Bootcamp",
+      "Master Git and GitHub",
+      "Introduction to Generative AI (Google Cloud)",
+      "Generative AI Tools Workshop"
+    ],
+    "sections": []
+  },
+  "theme": {
+    "accent": "#2563eb",
+    "textColor": "#1e293b",
+    "headingColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "sidebarColor": "#2563eb",
+    "fontHeading": "\"Inter\", sans-serif",
+    "fontBody": "\"Inter\", sans-serif"
+  },
+  "template_id": "minimal",
+  "source_text": null,
+  "jd_text": null,
+  "created_at": "2026-05-19T08:33:18.310564+00:00",
+  "updated_at": "2026-05-19T08:36:14.652094+00:00"
+}

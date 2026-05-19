@@ -28,6 +28,7 @@ export function ClassicTemplate() {
     >
       <header
         id="resume-header"
+        data-section-type="headline"
         className="classic-header mb-8 scroll-mt-24 text-center"
       >
         <div className="classic-rule mb-4" />

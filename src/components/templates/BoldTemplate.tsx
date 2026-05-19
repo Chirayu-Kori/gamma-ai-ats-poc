@@ -21,6 +21,7 @@ export function BoldTemplate() {
     >
       <header
         id="resume-header"
+        data-section-type="headline"
         className="bold-header scroll-mt-24 px-8 py-10 text-white sm:px-12"
       >
         <EditableText

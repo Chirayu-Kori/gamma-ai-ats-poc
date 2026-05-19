@@ -4,7 +4,7 @@ import { resumeThemeToCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
-import { SkillsRow } from "@/components/editor/skills-row";
+import { SortableSkillsList } from "@/components/editor/sortable-skills-list";
 import { EditableSectionTitle } from "@/components/editor/editable-section-title";
 import type { ContactInfo } from "@/lib/types/resume";
 import "./atlantic-theme.css";
@@ -45,7 +45,11 @@ export function AtlanticTemplate() {
       style={resumeThemeToCssVars(theme)}
     >
       <aside className="atlantic-sidebar space-y-6 p-6">
-        <div id="resume-header" className="scroll-mt-24">
+        <div
+          id="resume-header"
+          data-section-type="headline"
+          className="scroll-mt-24"
+        >
           <EditableText
             path="name"
             mode="inline"
@@ -72,10 +76,8 @@ export function AtlanticTemplate() {
               sectionId={skillsSection.id}
               className="atlantic-sidebar-heading mb-2"
             />
-            <div className="space-y-2 text-sm">
-              {resume.skills.map((_, i) => (
-                <SkillsRow key={i} index={i} />
-              ))}
+            <div className="text-sm">
+              <SortableSkillsList />
             </div>
           </div>
         )}

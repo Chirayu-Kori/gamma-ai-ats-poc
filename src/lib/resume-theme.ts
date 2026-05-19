@@ -1,5 +1,12 @@
 import type { CSSProperties } from "react";
 
+import {
+  normalizePageFormatId,
+  type PageFormatId,
+  type PageSizeUnit,
+} from "@/lib/page-size";
+import type { TemplateLayout } from "@/components/templates/registry";
+
 export const DEFAULT_RESUME_THEME = {
   accent: "#2563eb",
   textColor: "#1e293b",
@@ -8,6 +15,11 @@ export const DEFAULT_RESUME_THEME = {
   sidebarColor: "#2563eb",
   fontHeading: '"Inter", sans-serif',
   fontBody: '"Inter", sans-serif',
+  pageLayout: "single" as TemplateLayout,
+  pageFormat: "A4" as PageFormatId,
+  pageWidth: "210",
+  pageHeight: "297",
+  pageUnit: "mm" as PageSizeUnit,
 } as const;
 
 export type ResumeThemeKey = keyof typeof DEFAULT_RESUME_THEME;
@@ -117,3 +129,26 @@ export function getActiveAccentId(theme: Record<string, string>) {
 export function mergeThemeDefaults(theme: Record<string, string>) {
   return { ...DEFAULT_RESUME_THEME, ...theme };
 }
+
+export function getPageLayout(theme: Record<string, string>): TemplateLayout {
+  const layout = theme.pageLayout as TemplateLayout | undefined;
+  const valid: TemplateLayout[] = [
+    "single",
+    "sidebar-left",
+    "sidebar-right",
+    "band-header",
+    "stripe",
+    "two-column",
+  ];
+  return layout && valid.includes(layout) ? layout : "single";
+}
+
+export function getPageFormat(theme: Record<string, string>): PageFormatId {
+  return normalizePageFormatId(theme.pageFormat);
+}
+
+export {
+  resolvePageDimensions,
+  pageSizeCssVars,
+  getPageFormatLabel,
+} from "@/lib/page-size";

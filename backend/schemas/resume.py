@@ -43,6 +43,7 @@ class Education(BaseModel):
 
 
 class SkillGroup(BaseModel):
+    id: Optional[str] = None
     category: str = ""
     items: list[str] = Field(default_factory=list)
 

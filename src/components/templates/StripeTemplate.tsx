@@ -22,7 +22,11 @@ export function StripeTemplate() {
       <div className="stripe-layout flex min-h-full">
         <div className="stripe-bar shrink-0" aria-hidden />
         <div className="min-w-0 flex-1 p-8 sm:p-10">
-          <header id="resume-header" className="mb-8 scroll-mt-24">
+          <header
+            id="resume-header"
+            data-section-type="headline"
+            className="mb-8 scroll-mt-24"
+          >
             <EditableText
               path="name"
               mode="inline"

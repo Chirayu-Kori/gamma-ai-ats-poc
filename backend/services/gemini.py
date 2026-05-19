@@ -26,6 +26,7 @@ from typing import AsyncGenerator, Optional
 import httpx
 
 from schemas.resume import Bullet, Resume, ResumeUpgradeDelta
+from services.resume_sections import normalize_resume_sections
 
 log = logging.getLogger("gemini")
 
@@ -127,7 +128,13 @@ PARSE_SYSTEM_PROMPT = """You extract resume content from documents and images.
 
 Return a JSON object that matches the schema exactly. If a field is unknown leave
 it empty (empty string, null, or empty list). Never invent companies, dates, or
-numbers. Preserve original phrasing - this is parsing, not rewriting."""
+numbers. Preserve original phrasing - this is parsing, not rewriting.
+
+For non-standard blocks (Achievements, Publications, Awards, Volunteer work, etc.):
+- Add each as an entry in `sections` with type "custom".
+- Set `title` to the EXACT heading from the resume (e.g. "Achievements", "Publications").
+  Never use generic names like "Custom Section".
+- Put the section body in `custom_content` (plain text or simple HTML)."""
 
 
 UPGRADE_DELTA_SYSTEM_PROMPT = """You improve resume wording. You receive a compact JSON snapshot of a resume.
@@ -424,12 +431,14 @@ def parse_resume_file(
         raise RuntimeError(f"Gemini returned non-JSON: {exc}") from exc
 
     try:
-        return Resume.model_validate(data)
+        resume = Resume.model_validate(data)
     except Exception as exc:
         log.error(
             "Parse schema validation failed for: %s", json.dumps(data)[:500]
         )
         raise RuntimeError(f"Parsed JSON failed Resume schema: {exc}") from exc
+
+    return normalize_resume_sections(resume)
 
 
 def generate_theme(prompt: str) -> dict:
@@ -600,8 +609,27 @@ async def _yield_json_chunks(
         await asyncio.sleep(0.008)
 
 
-async def stream_resume_to_sse(**kwargs) -> AsyncGenerator[str, None]:
-    """Deprecated — use POST /api/resumes/generate (JSON) instead."""
+async def stream_resume_to_sse(
+    *,
+    base_resume: Optional[Resume] = None,
+    jd_text: Optional[str] = None,
+    target_role: Optional[str] = None,
+    instruction: Optional[str] = None,
+    **_,
+) -> AsyncGenerator[str, None]:
+    """Stream section-by-section upgrade as resume JSON SSE deltas."""
 
-    err = json.dumps({"error": "Streaming is disabled. Use POST /api/resumes/generate."})
-    yield f"data: {err}\n\n"
+    from services.langchain_upgrade import upgrade_resume_stream_sse
+
+    if base_resume is None:
+        err = json.dumps({"error": "Resume upgrade requires a parsed base resume."})
+        yield f"data: {err}\n\n"
+        return
+
+    async for frame in upgrade_resume_stream_sse(
+        base_resume=base_resume,
+        jd_text=jd_text,
+        target_role=target_role,
+        instruction=instruction,
+    ):
+        yield frame

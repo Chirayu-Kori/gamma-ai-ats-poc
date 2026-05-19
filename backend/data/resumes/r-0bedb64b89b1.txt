@@ -1,0 +1,565 @@
+{
+  "id": "r-0bedb64b89b1",
+  "label": "SAHINI VENKATA SITARAM SRUTI",
+  "resume": {
+    "name": "SAHINI VENKATA SITARAM SRUTI",
+    "headline": "",
+    "contact": {
+      "email": "sahinisruti@gmail.com",
+      "phone": "+91 7995341736",
+      "location": null,
+      "linkedin": "srutisahini210149",
+      "github": "Sruti-sahini",
+      "website": null
+    },
+    "summary": "",
+    "experience": [
+      {
+        "id": "exp-edae42f0-0066-411f-bd2d-9b32e9410cbd",
+        "company": "Turing Global India",
+        "title": "",
+        "start": "Present",
+        "end": null,
+        "location": null,
+        "bullets": [
+          {
+            "text": "Working on Reinforcement Learning with Human Feedback (RLHF) to detect and document reward-hacking behavior in LLM code-completion tasks using deliberately incomplete Python codebases.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-33b96324-e07c-43e2-bb7e-bb61b6a98d66"
+          },
+          {
+            "text": "Analyzing how models handle PR-style tasks with failing test cases, comparing step-by-step reasoning versus one-shot solutions, and collecting preference data based on code quality and correctness.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-f0f39cda-62d5-4f05-b465-12635d8f5237"
+          },
+          {
+            "text": "Identifying hacky approaches such as hardcoding test cases, and providing structured human feedback and instructional prompts to guide models toward principled, test-driven coding behavior.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-248fbe5a-362e-4c78-a106-e014209c95b4"
+          }
+        ]
+      },
+      {
+        "id": "exp-4f433c24-230f-4ff8-bfa7-9a54cbcb8e6b",
+        "company": "Amazon India",
+        "title": "",
+        "start": "Jan",
+        "end": "June",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Worked on the Image Verification Project in the Central Machine Learning team to reduce hallucinations in predictions from VIT-Pro, Amazon's internal vision-language model fine-tuned from the pretrained IDEFICS model",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-f03fac91-9cd2-4fcb-87ed-acbca3684e43"
+          },
+          {
+            "text": "Fine-tuned VIT-Pro using both Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT) for one-word and descriptive responses.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-b12dc9a4-686d-4e20-b0f4-6e6562f4a00c"
+          },
+          {
+            "text": "Created high-quality preference pairs and provided iterative feedback to human annotators to enhance dataset quality.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a8ab72f9-4460-408c-b1fa-2ba3117b16a8"
+          },
+          {
+            "text": "Built a segment-level hallucination evaluation benchmark for descriptive outputs using Claude v3, and evaluated one-word answers using the weighted Fl-score.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-2efe4157-420c-433f-97cf-dc91bbf980a4"
+          },
+          {
+            "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, Greenland",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-806ee4be-334d-4018-a3ac-19d0c1b23ca3"
+          }
+        ]
+      },
+      {
+        "id": "exp-bd9648c4-5b7c-4912-83fb-e8e9782e121b",
+        "company": "Amazon India",
+        "title": "",
+        "start": "May",
+        "end": "July",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Worked on the Image Verification Project as part of the Central Machine Learning team, which utilizes a Vision Language Model (VLM) to automate the verification of images submitted by customers during concession claims.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-2fdf6a76-02e1-4983-9178-69ddafb557ae"
+          },
+          {
+            "text": "Built a comprehensive evaluation benchmark for Vision Language Models by conducting different ablation experiments on five models, namely, ClaudeV3, IDEFICS 8B, IDEFICS 9B, and the fine-tuned versions of IDEFICS, while also generating PR curves and performing qualitative analysis.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-537d5cfc-4009-4c11-b15a-a636a563dc2f"
+          },
+          {
+            "text": "Proposed optimal settings for the developed model and identified vital areas of improvement basis the study.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-7d64d2b2-ef71-493e-be2c-8d8301fb8422"
+          },
+          {
+            "text": "Reviewed state-of-the-art literature and prompt engineering principles, drawing inspiration from innovative evaluation methods to advance expertise in this field.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-61c83674-0ba9-44db-9ff9-cd2e5e8884db"
+          },
+          {
+            "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, EC2",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-c91dae6f-ebac-4a76-9716-7b4531774478"
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-8c9644e8-7962-4eec-a0b1-57b75053f313",
+        "institution": "Indian Institute of Technology Patna",
+        "degree": "Bachelor of Technology",
+        "field": null,
+        "start": "2021",
+        "end": "2025",
+        "gpa": "7.74",
+        "highlights": []
+      },
+      {
+        "id": "edu-4a842cc1-5840-49d3-8c1b-e542af4fea48",
+        "institution": "FIITJEE Junior College",
+        "degree": "Class 12th",
+        "field": "Andhra Pradesh Board of Intermediate Education",
+        "start": "2019",
+        "end": "2020",
+        "gpa": "96.2%",
+        "highlights": []
+      },
+      {
+        "id": "edu-076a120d-d396-4f10-a3f0-4cbf0a8045d6",
+        "institution": "Timpany Senior Secondary School",
+        "degree": "Class 10th",
+        "field": "Central Board of Secondary Education",
+        "start": "2017",
+        "end": "2018",
+        "gpa": "92%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-e1815a19-1695-4754-9962-e89b224e8349",
+        "category": "Programming Skills",
+        "items": [
+          "C/C++",
+          "HTML/CSS",
+          "JavaScript",
+          "Python",
+          "OOPS"
+        ]
+      },
+      {
+        "id": "skill-3287c765-e964-44ab-8704-971f29f867f1",
+        "category": "Frameworks/Databases",
+        "items": [
+          "PyTorch",
+          "Pandas",
+          "scikit-learn",
+          "ReactJs",
+          "Node.js",
+          "Express.js",
+          "MongoDB"
+        ]
+      },
+      {
+        "id": "skill-99439e89-aa93-4d39-870f-7cee04da39a8",
+        "category": "Developer Tools",
+        "items": [
+          "Git",
+          "Github",
+          "Visual Studio Code",
+          "Jupyter Notebook",
+          "Canva"
+        ]
+      },
+      {
+        "id": "skill-81f5d3c9-a097-41a0-aa97-2a88ab052bae",
+        "category": "Course work",
+        "items": [
+          "Linear Algebra",
+          "Probabilty",
+          "Programming",
+          "Data Structures and Algorithms",
+          "Data Science",
+          "Machine Learning"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "CineSense - Movie Genre Detection",
+        "description": "",
+        "url": "Notebook Link",
+        "tech_stack": [
+          "BERT",
+          "ResNet152",
+          "PyTorch"
+        ],
+        "bullets": [
+          {
+            "text": "Utilised the MMIMDb dataset with movie synopses and posters as inputs, and relevant genres as output labels.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-cab81a02-e149-41dc-8d80-defc56fc033e"
+          },
+          {
+            "text": "Employed BERT for text encoding and ResNet-152 for image encoding and the concatenated features were classified via a feed-forward neural network across 26 possible genres.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-cd212554-1627-419f-b229-3a6a72ffaabc"
+          },
+          {
+            "text": "Evaluated the performance of the model by using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-2bd17d37-520a-41a8-b633-57eb93f602ce"
+          }
+        ]
+      }
+    ],
+    "certifications": null,
+    "sections": [
+      {
+        "id": "achievements",
+        "type": "custom",
+        "title": "Achievements",
+        "visible": true,
+        "order": 0,
+        "custom_content": "Selected as one of the top 30 women students for the 2024 Mercari Women Hackathon in India.Selected among the top 3000 students nationwide for the Amazon ML Summer School 2023.Solved 500+ Problems on various coding platforms like Leetcode Geeksforgeeks Coding Ninjas."
+      },
+      {
+        "id": "publications",
+        "type": "custom",
+        "title": "Publications",
+        "visible": true,
+        "order": 1,
+        "custom_content": "VIT-Pro: Visual instruction tuning for product images Show Publication"
+      },
+      {
+        "id": "sec-017c6e50-9f94-48f6-8bb4-0005bf355448",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-8f983f89-ac16-48d3-8f20-b925c7d84775",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      },
+      {
+        "id": "sec-b89b9c84-7b3c-42d8-a646-f91e5e90015b",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 4,
+        "custom_content": null
+      },
+      {
+        "id": "sec-0e5dfbaa-f460-491c-9618-9f90e88ddeee",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 5,
+        "custom_content": null
+      }
+    ]
+  },
+  "original_resume": {
+    "name": "SAHINI VENKATA SITARAM SRUTI",
+    "headline": "",
+    "contact": {
+      "email": "sahinisruti@gmail.com",
+      "phone": "+91 7995341736",
+      "location": null,
+      "linkedin": "srutisahini210149",
+      "github": "Sruti-sahini",
+      "website": null
+    },
+    "summary": "",
+    "experience": [
+      {
+        "id": null,
+        "company": "Turing Global India",
+        "title": "",
+        "start": "Present",
+        "end": null,
+        "location": null,
+        "bullets": [
+          {
+            "text": "Working on Reinforcement Learning with Human Feedback (RLHF) to detect and document reward-hacking behavior in LLM code-completion tasks using deliberately incomplete Python codebases.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Analyzing how models handle PR-style tasks with failing test cases, comparing step-by-step reasoning versus one-shot solutions, and collecting preference data based on code quality and correctness.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Identifying hacky approaches such as hardcoding test cases, and providing structured human feedback and instructional prompts to guide models toward principled, test-driven coding behavior.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "id": null,
+        "company": "Amazon India",
+        "title": "",
+        "start": "Jan",
+        "end": "June",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Worked on the Image Verification Project in the Central Machine Learning team to reduce hallucinations in predictions from VIT-Pro, Amazon's internal vision-language model fine-tuned from the pretrained IDEFICS model",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Fine-tuned VIT-Pro using both Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT) for one-word and descriptive responses.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Created high-quality preference pairs and provided iterative feedback to human annotators to enhance dataset quality.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built a segment-level hallucination evaluation benchmark for descriptive outputs using Claude v3, and evaluated one-word answers using the weighted Fl-score.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, Greenland",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      },
+      {
+        "id": null,
+        "company": "Amazon India",
+        "title": "",
+        "start": "May",
+        "end": "July",
+        "location": null,
+        "bullets": [
+          {
+            "text": "Worked on the Image Verification Project as part of the Central Machine Learning team, which utilizes a Vision Language Model (VLM) to automate the verification of images submitted by customers during concession claims.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Built a comprehensive evaluation benchmark for Vision Language Models by conducting different ablation experiments on five models, namely, ClaudeV3, IDEFICS 8B, IDEFICS 9B, and the fine-tuned versions of IDEFICS, while also generating PR curves and performing qualitative analysis.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Proposed optimal settings for the developed model and identified vital areas of improvement basis the study.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Reviewed state-of-the-art literature and prompt engineering principles, drawing inspiration from innovative evaluation methods to advance expertise in this field.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Tech Stack: VLMs (Idefics), LLMs (Claude), PyTorch, HuggingFace's Transformers, LoRA, EC2",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": null,
+        "institution": "Indian Institute of Technology Patna",
+        "degree": "Bachelor of Technology",
+        "field": null,
+        "start": "2021",
+        "end": "2025",
+        "gpa": "7.74",
+        "highlights": []
+      },
+      {
+        "id": null,
+        "institution": "FIITJEE Junior College",
+        "degree": "Class 12th",
+        "field": "Andhra Pradesh Board of Intermediate Education",
+        "start": "2019",
+        "end": "2020",
+        "gpa": "96.2%",
+        "highlights": []
+      },
+      {
+        "id": null,
+        "institution": "Timpany Senior Secondary School",
+        "degree": "Class 10th",
+        "field": "Central Board of Secondary Education",
+        "start": "2017",
+        "end": "2018",
+        "gpa": "92%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "id": null,
+        "category": "Programming Skills",
+        "items": [
+          "C/C++",
+          "HTML/CSS",
+          "JavaScript",
+          "Python",
+          "OOPS"
+        ]
+      },
+      {
+        "id": null,
+        "category": "Frameworks/Databases",
+        "items": [
+          "PyTorch",
+          "Pandas",
+          "scikit-learn",
+          "ReactJs",
+          "Node.js",
+          "Express.js",
+          "MongoDB"
+        ]
+      },
+      {
+        "id": null,
+        "category": "Developer Tools",
+        "items": [
+          "Git",
+          "Github",
+          "Visual Studio Code",
+          "Jupyter Notebook",
+          "Canva"
+        ]
+      },
+      {
+        "id": null,
+        "category": "Course work",
+        "items": [
+          "Linear Algebra",
+          "Probabilty",
+          "Programming",
+          "Data Structures and Algorithms",
+          "Data Science",
+          "Machine Learning"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "CineSense - Movie Genre Detection",
+        "description": "",
+        "url": "Notebook Link",
+        "tech_stack": [
+          "BERT",
+          "ResNet152",
+          "PyTorch"
+        ],
+        "bullets": [
+          {
+            "text": "Utilised the MMIMDb dataset with movie synopses and posters as inputs, and relevant genres as output labels.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Employed BERT for text encoding and ResNet-152 for image encoding and the concatenated features were classified via a feed-forward neural network across 26 possible genres.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          },
+          {
+            "text": "Evaluated the performance of the model by using macro and micro F1 scores, achieving 0.549 and 0.636, respectively.",
+            "impact_score": null,
+            "keywords": [],
+            "id": null
+          }
+        ]
+      }
+    ],
+    "certifications": null,
+    "sections": [
+      {
+        "id": "achievements",
+        "type": "custom",
+        "title": "",
+        "visible": true,
+        "order": 0,
+        "custom_content": "Selected as one of the top 30 women students for the 2024 Mercari Women Hackathon in India.Selected among the top 3000 students nationwide for the Amazon ML Summer School 2023.Solved 500+ Problems on various coding platforms like Leetcode Geeksforgeeks Coding Ninjas."
+      },
+      {
+        "id": "publications",
+        "type": "custom",
+        "title": "",
+        "visible": true,
+        "order": 1,
+        "custom_content": "VIT-Pro: Visual instruction tuning for product images Show Publication"
+      }
+    ]
+  },
+  "theme": {
+    "accent": "#7c3aed",
+    "textColor": "#1e293b",
+    "headingColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "sidebarColor": "#7c3aed",
+    "fontHeading": "\"Open Sans\", sans-serif",
+    "fontBody": "\"Open Sans\", sans-serif",
+    "pageLayout": "sidebar-right",
+    "pageFormat": "A4",
+    "pageWidth": "210",
+    "pageHeight": "297",
+    "pageUnit": "mm"
+  },
+  "template_id": "creative",
+  "source_text": null,
+  "jd_text": null,
+  "created_at": "2026-05-19T08:49:42.167553+00:00",
+  "updated_at": "2026-05-19T09:53:38.692817+00:00"
+}

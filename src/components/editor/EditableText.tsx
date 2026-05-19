@@ -28,6 +28,7 @@ export function EditableText({
   placeholder,
 }: EditableTextProps) {
   const resume = useResumeStore((s) => s.resume);
+  const status = useResumeStore((s) => s.status);
   const value = getByPath(resume, path);
   const updateField = useResumeStore((s) => s.updateField);
   const triggerAutosave = useDebouncedAutosave();
@@ -43,10 +44,13 @@ export function EditableText({
     <RichTextField
       mode={mode}
       content={content}
+      forceSync={status === "streaming"}
+      syncContent
       className={className}
       editorClassName={className}
       placeholder={placeholder}
       onUpdate={({ html }) => {
+        if (status === "streaming") return;
         updateField(path, html);
         triggerAutosave();
       }}

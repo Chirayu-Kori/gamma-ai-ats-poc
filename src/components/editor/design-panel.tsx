@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -8,8 +9,15 @@ import {
   FONT_OPTIONS,
   getActiveAccentId,
   getActiveFontId,
+  getPageFormat,
   mergeThemeDefaults,
 } from "@/lib/resume-theme";
+import {
+  PAGE_FORMAT_OPTIONS,
+  type PageFormatId,
+  type PageSizeUnit,
+} from "@/lib/page-size";
+import type { PageSizePatch } from "@/stores/generateStore";
 import { useResumeStore } from "@/stores/resumeStore";
 import {
   TEMPLATES,
@@ -24,7 +32,7 @@ type DesignPanelProps = {
 };
 
 import { useGenerateStore } from "@/stores/generateStore";
-import { FileText, Languages } from "lucide-react";
+import { ChevronDown, FileText, Languages } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -33,7 +41,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const FORMAT_OPTIONS = ["A4", "Letter"] as const;
+const TEMPLATE_PREVIEW_COUNT = 4;
+
 const LANGUAGE_OPTIONS = [
   "English (US)",
   "English (UK)",
@@ -93,6 +102,118 @@ function DesignField({
         </span>
       </div>
       {children}
+    </div>
+  );
+}
+
+function PageSizeFields({
+  variant,
+  onAutosave,
+}: {
+  variant: "upload" | "resume";
+  onAutosave?: () => void;
+}) {
+  const theme = useResumeStore((s) => s.theme);
+  const setPageSize = useResumeStore((s) => s.setPageSize);
+  const genFormat = useGenerateStore((s) => s.format);
+  const genWidth = useGenerateStore((s) => s.pageWidth);
+  const genHeight = useGenerateStore((s) => s.pageHeight);
+  const genUnit = useGenerateStore((s) => s.pageUnit);
+  const setGenPageSize = useGenerateStore((s) => s.setPageSize);
+
+  const isUpload = variant === "upload";
+  const format: PageFormatId = isUpload ? genFormat : getPageFormat(theme);
+  const merged = mergeThemeDefaults(
+    isUpload
+      ? ({
+          pageFormat: genFormat,
+          pageWidth: genWidth,
+          pageHeight: genHeight,
+          pageUnit: genUnit,
+        } as Record<string, string>)
+      : theme,
+  );
+  const unit: PageSizeUnit = merged.pageUnit === "in" ? "in" : "mm";
+  const isCustom = format === "custom";
+
+  const apply = (patch: PageSizePatch) => {
+    if (isUpload) {
+      setGenPageSize(patch);
+    } else {
+      setPageSize(patch);
+      onAutosave?.();
+    }
+  };
+
+  return (
+    <div className="space-y-3">
+      <DesignField label="Page size" icon={FileText}>
+        <DesignSelect
+          value={format}
+          options={PAGE_FORMAT_OPTIONS.map((opt) => opt.id)}
+          formatLabel={(id) =>
+            PAGE_FORMAT_OPTIONS.find((opt) => opt.id === id)?.label ?? id
+          }
+          onChange={(id) => apply({ format: id as PageFormatId })}
+        />
+      </DesignField>
+
+      {isCustom && (
+        <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50/80 p-3">
+          <p className="text-xs font-medium text-slate-600">Custom dimensions</p>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="space-y-1">
+              <span className="text-[10px] font-semibold tracking-wide text-slate-500 uppercase">
+                Width
+              </span>
+              <input
+                type="number"
+                min={unit === "mm" ? 50 : 2}
+                max={unit === "mm" ? 2000 : 80}
+                step={unit === "mm" ? 1 : 0.1}
+                value={merged.pageWidth}
+                onChange={(e) =>
+                  apply({ width: Number(e.target.value), unit })
+                }
+                className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+              />
+            </label>
+            <label className="space-y-1">
+              <span className="text-[10px] font-semibold tracking-wide text-slate-500 uppercase">
+                Height
+              </span>
+              <input
+                type="number"
+                min={unit === "mm" ? 50 : 2}
+                max={unit === "mm" ? 2000 : 80}
+                step={unit === "mm" ? 1 : 0.1}
+                value={merged.pageHeight}
+                onChange={(e) =>
+                  apply({ height: Number(e.target.value), unit })
+                }
+                className="h-9 w-full rounded-md border border-slate-200 bg-white px-2 text-sm"
+              />
+            </label>
+          </div>
+          <div className="flex gap-2">
+            {(["mm", "in"] as const).map((u) => (
+              <button
+                key={u}
+                type="button"
+                onClick={() => apply({ unit: u })}
+                className={cn(
+                  "flex-1 rounded-md border px-2 py-1.5 text-xs font-medium transition-colors",
+                  unit === u
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
+                )}
+              >
+                {u === "mm" ? "Millimeters" : "Inches"}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -208,12 +329,24 @@ function TemplatePreview({
   );
 }
 
+function getVisibleTemplateIds(
+  allIds: string[],
+  selectedId: string,
+  showAll: boolean,
+): string[] {
+  if (showAll || allIds.length <= TEMPLATE_PREVIEW_COUNT) return allIds;
+  const first = allIds.slice(0, TEMPLATE_PREVIEW_COUNT);
+  if (first.includes(selectedId)) return first;
+  return [selectedId, ...first.filter((id) => id !== selectedId).slice(0, 3)];
+}
+
 export function DesignPanel({ phase }: DesignPanelProps) {
   const selectedTemplate = useResumeStore((s) => s.selectedTemplate);
   const theme = useResumeStore((s) => s.theme);
   const setTemplate = useResumeStore((s) => s.setTemplate);
   const setTheme = useResumeStore((s) => s.setTheme);
   const triggerAutosave = useDebouncedAutosave();
+  const [showAllTemplates, setShowAllTemplates] = useState(false);
 
   const applyTemplate = (id: string) => {
     setTemplate(id);
@@ -224,12 +357,17 @@ export function DesignPanel({ phase }: DesignPanelProps) {
     triggerAutosave();
   };
 
-  const { format, language, setFormat, setLanguage } = useGenerateStore();
+  const { language, setLanguage } = useGenerateStore();
 
   const mergedTheme = mergeThemeDefaults(theme);
   const activeAccent = getActiveAccentId(theme);
   const activeFont = getActiveFontId(theme);
   const templateIds = Object.keys(TEMPLATES);
+  const visibleTemplateIds = useMemo(
+    () => getVisibleTemplateIds(templateIds, selectedTemplate, showAllTemplates),
+    [templateIds, selectedTemplate, showAllTemplates],
+  );
+  const hasMoreTemplates = templateIds.length > TEMPLATE_PREVIEW_COUNT;
 
   if (phase === "upload") {
     return (
@@ -240,13 +378,7 @@ export function DesignPanel({ phase }: DesignPanelProps) {
           </h2>
         </div>
         <div className="custom-scrollbar flex-1 space-y-4 overflow-y-auto p-5">
-          <DesignField label="Format" icon={FileText}>
-            <DesignSelect
-              value={format}
-              options={FORMAT_OPTIONS}
-              onChange={setFormat}
-            />
-          </DesignField>
+          <PageSizeFields variant="upload" />
           <DesignField label="Language" icon={Languages}>
             <DesignSelect
               value={language}
@@ -272,10 +404,14 @@ export function DesignPanel({ phase }: DesignPanelProps) {
         </h2>
       </div>
       <div className="custom-scrollbar flex-1 space-y-8 overflow-y-auto p-5">
+        <PageSizeFields variant="resume" onAutosave={triggerAutosave} />
+
+        <Separator />
+
         <div>
           <h3 className="mb-3 text-sm font-semibold">Templates</h3>
           <div className="grid grid-cols-2 gap-3">
-            {templateIds.map((tid) => {
+            {visibleTemplateIds.map((tid) => {
               const tpl = TEMPLATES[tid];
               const selected = selectedTemplate === tid;
               return (
@@ -304,6 +440,25 @@ export function DesignPanel({ phase }: DesignPanelProps) {
               );
             })}
           </div>
+          {hasMoreTemplates && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground mt-3 w-full gap-1.5"
+              onClick={() => setShowAllTemplates((open) => !open)}
+            >
+              {showAllTemplates
+                ? "Show fewer templates"
+                : `Show ${templateIds.length - TEMPLATE_PREVIEW_COUNT} more`}
+              <ChevronDown
+                className={cn(
+                  "size-4 transition-transform",
+                  showAllTemplates && "rotate-180",
+                )}
+              />
+            </Button>
+          )}
         </div>
 
         <Separator />

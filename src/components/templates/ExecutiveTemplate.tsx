@@ -35,6 +35,7 @@ export function ExecutiveTemplate() {
     >
       <header
         id="resume-header"
+        data-section-type="headline"
         className="mb-8 scroll-mt-24 border-b-2 pb-6 text-center"
       >
         <EditableText
