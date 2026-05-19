@@ -239,19 +239,27 @@
     "certifications": null,
     "sections": [
       {
+        "id": "sec-4df3a2e2-f847-47a4-b0dc-c121004562f3",
+        "type": "summary",
+        "title": "Summary",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
         "id": "achievements",
         "type": "custom",
         "title": "Achievements",
         "visible": true,
-        "order": 0,
-        "custom_content": "Selected as one of the top 30 women students for the 2024 Mercari Women Hackathon in India.Selected among the top 3000 students nationwide for the Amazon ML Summer School 2023.Solved 500+ Problems on various coding platforms like Leetcode Geeksforgeeks Coding Ninjas."
+        "order": 1,
+        "custom_content": "<p>Selected as one of the top 30 women students for the 2024 Mercari Women Hackathon in India. Selected among the top 3000 students nationwide for the Amazon ML Summer School 2023. Solved 500+ problems on coding platforms including LeetCode, GeeksforGeeks, and Coding Ninjas.</p>"
       },
       {
         "id": "publications",
         "type": "custom",
         "title": "Publications",
         "visible": true,
-        "order": 1,
+        "order": 2,
         "custom_content": "VIT-Pro: Visual instruction tuning for product images Show Publication"
       },
       {
@@ -259,7 +267,7 @@
         "type": "experience",
         "title": "Experience",
         "visible": true,
-        "order": 2,
+        "order": 3,
         "custom_content": null
       },
       {
@@ -267,7 +275,7 @@
         "type": "education",
         "title": "Education",
         "visible": true,
-        "order": 3,
+        "order": 4,
         "custom_content": null
       },
       {
@@ -275,7 +283,7 @@
         "type": "skills",
         "title": "Skills",
         "visible": true,
-        "order": 4,
+        "order": 5,
         "custom_content": null
       },
       {
@@ -283,7 +291,7 @@
         "type": "projects",
         "title": "Projects",
         "visible": true,
-        "order": 5,
+        "order": 6,
         "custom_content": null
       }
     ]
@@ -561,5 +569,5 @@
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T08:49:42.167553+00:00",
-  "updated_at": "2026-05-19T09:53:38.692817+00:00"
+  "updated_at": "2026-05-19T10:02:22.738478+00:00"
 }

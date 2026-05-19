@@ -9,7 +9,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api import generate, parse, resumes, themes
+from api import ai_edit, generate, parse, resumes, themes
 
 app = FastAPI(title="Gamma ATS POC API", version="0.1.0")
 
@@ -31,6 +31,7 @@ app.add_middleware(
 app.include_router(parse.router)
 app.include_router(generate.router)
 app.include_router(resumes.router)
+app.include_router(ai_edit.router)
 app.include_router(themes.router)
 
 
