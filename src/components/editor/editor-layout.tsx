@@ -30,6 +30,7 @@ import { resumeQueryKeys } from "@/lib/query-keys";
 import type { ResumeRecord } from "@/lib/types/resume-meta";
 import { cn } from "@/lib/utils";
 import { useResumePersistence } from "@/hooks/useResumePersistence";
+import { useDownloadResumePdf } from "@/hooks/useDownloadResumePdf";
 
 type EditorPhase = "upload" | "generate" | "resume";
 
@@ -206,12 +207,13 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 
   const activeResumeId = resumeId ?? parsedResumeId ?? undefined;
   const { saveNow } = useResumePersistence();
+  const { downloadPdf, exporting } = useDownloadResumePdf();
   const saveStatus = useResumeStore((s) => s.status);
 
   const displayLabel = record?.label ?? resumeId;
 
   const TopBar = () => (
-    <header className="bg-background relative z-10 flex h-14 shrink-0 items-center justify-between border-b px-4 shadow-sm transition-all">
+    <header className="no-print bg-background relative z-10 flex h-14 shrink-0 items-center justify-between border-b px-4 shadow-sm transition-all">
       <div className="flex items-center gap-2">
         <Sheet open={leftOpen} onOpenChange={setLeftOpen}>
           <SheetTrigger asChild>
@@ -262,11 +264,11 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           variant="outline"
           size="sm"
           className="hover:bg-muted hidden font-medium transition-all sm:flex"
-          onClick={() => window.print()}
-          disabled={phase !== "resume"}
+          onClick={() => void downloadPdf()}
+          disabled={phase !== "resume" || exporting}
         >
           <Download className="mr-2 h-4 w-4" />
-          Export PDF
+          {exporting ? "Exporting…" : "Export PDF"}
         </Button>
         <Button variant="ghost" size="icon" className="ml-2 hidden sm:flex">
           <User className="h-5 w-5" />
@@ -316,7 +318,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     <div className="bg-background text-foreground flex h-screen w-full flex-col overflow-hidden font-sans">
       <TopBar />
       {persistError && (
-        <div className="flex items-center gap-2 border-b border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-800">
+        <div className="no-print flex items-center gap-2 border-b border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-800">
           <AlertTriangle className="size-4 shrink-0" />
           <span className="truncate">
             Couldn&apos;t save the upgraded resume to the backend:{" "}
@@ -333,12 +335,12 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           maxWidth={LEFT_SIDEBAR_MAX}
           collapsed={isLeftCollapsed}
           onWidthChange={handleLeftWidthChange}
-          className="hidden md:flex"
+          className="no-print hidden md:flex"
         >
           <LeftPanelContent />
         </ResizableSidebar>
 
-        <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
+        <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8 print:bg-white print:p-0">
           {phase === "upload" && <UploadCanvas onParsed={handleParsed} />}
           {phase === "generate" && (
             <GenerateStreamCanvas
@@ -356,7 +358,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
           maxWidth={RIGHT_SIDEBAR_MAX}
           collapsed={isRightCollapsed}
           onWidthChange={handleRightWidthChange}
-          className="hidden lg:flex"
+          className="no-print hidden lg:flex"
         >
           <RightSidebar phase={phase} resumeId={activeResumeId} />
         </ResizableSidebar>

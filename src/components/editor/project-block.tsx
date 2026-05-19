@@ -5,7 +5,7 @@ import { BulletList } from "./BulletList";
 
 export function ProjectBlock({ index }: { index: number }) {
   return (
-    <div className="mb-2">
+    <div className="resume-pdf-subsection mb-2">
       <EditableText
         path={`projects.${index}.name`}
         mode="inline"

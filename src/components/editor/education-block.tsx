@@ -94,7 +94,7 @@ export function EducationBlock({ index }: { index: number }) {
   const highlights = edu?.highlights?.filter(Boolean) ?? [];
 
   return (
-    <div className="mb-2 min-w-0">
+    <div className="resume-pdf-subsection mb-2 min-w-0">
       <div className="mb-1 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <div className="min-w-0 flex-1">
           <EditableText

@@ -229,7 +229,7 @@ function CardActions({
         }
       }}
     >
-      <div className="relative mt-1 shrink-0">
+      <div className="relative mt-1 shrink-0" data-export-ignore>
         {/* Invisible anchor for menu positioning — not the drag handle */}
         <DropdownMenuTrigger asChild>
           <span

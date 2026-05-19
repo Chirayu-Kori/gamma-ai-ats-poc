@@ -36,7 +36,7 @@ export function CertificationsList() {
   return (
     <ul className="space-y-2">
       {certifications.map((_, index) => (
-        <li key={index} className="group flex items-start gap-2">
+        <li key={index} className="resume-pdf-subsection group flex items-start gap-2">
           <span className="mt-2 size-1.5 shrink-0 rounded-full bg-current opacity-50" />
           <EditableText
             path={`certifications.${index}`}

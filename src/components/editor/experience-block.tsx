@@ -5,7 +5,7 @@ import { BulletList } from "./BulletList";
 
 export function ExperienceBlock({ index }: { index: number }) {
   return (
-    <div className="mb-2">
+    <div className="resume-pdf-subsection mb-2">
       <div className="mb-0.5 flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <div className="min-w-0 flex-1">
           <EditableText

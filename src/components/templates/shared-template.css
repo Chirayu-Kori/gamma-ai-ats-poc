@@ -95,8 +95,18 @@
 }
 
 @media print {
+  @page {
+    size: var(--resume-page-width, 210mm) var(--resume-page-height, 297mm);
+    margin: 10mm;
+  }
+
   .resume-page-format .resume {
     width: var(--resume-page-width, 210mm);
     min-height: var(--resume-page-min-height, 297mm);
+  }
+
+  .resume-pdf-subsection {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

@@ -68,6 +68,7 @@ export function SortableContactItem({
   const grip = (
     <button
       type="button"
+      data-export-ignore
       className={cn(
         "text-muted-foreground shrink-0 cursor-grab touch-none rounded p-0.5 opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing",
         onAccent && "text-white/70",
