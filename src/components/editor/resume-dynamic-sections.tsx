@@ -118,6 +118,7 @@ export function ResumeDynamicSections({
   const renderSection = (section: (typeof sections)[number], index: number) => (
     <section
       id={`section-${section.id}`}
+      data-section-type={section.type}
       className={cn("mb-6 min-w-0 scroll-mt-24", sectionClassName)}
     >
       <EditableSectionTitle

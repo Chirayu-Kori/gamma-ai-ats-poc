@@ -4,6 +4,7 @@ import type {
   Experience,
   Project,
   Resume,
+  SkillGroup,
 } from "./types/resume";
 
 export function createId(prefix: string): string {
@@ -46,12 +47,23 @@ function ensureProjectIds(items: Project[] | undefined): Project[] | undefined {
   }));
 }
 
+function ensureSkillIds(
+  items: SkillGroup[] | undefined,
+): SkillGroup[] | undefined {
+  if (!items) return items;
+  return items.map((group) => ({
+    ...group,
+    id: group.id ?? createId("skill"),
+  }));
+}
+
 /** Assign stable client-side ids for dnd-kit when missing (parsed/upgraded resumes). */
 export function ensureResumeIds<T extends Partial<Resume>>(resume: T): T {
   return {
     ...resume,
     experience: ensureExperienceIds(resume.experience),
     education: ensureEducationIds(resume.education),
+    skills: ensureSkillIds(resume.skills),
     projects: ensureProjectIds(resume.projects ?? undefined),
   };
 }

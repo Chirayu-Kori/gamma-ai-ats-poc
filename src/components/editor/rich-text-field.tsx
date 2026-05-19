@@ -31,6 +31,8 @@ export type RichTextFieldProps = {
   onUpdate?: (payload: { text: string; html: string }, editor: Editor) => void;
   /** When true, sync `content` prop into the editor without emitting updates */
   syncContent?: boolean;
+  /** During SSE streaming — always mirror prop into the editor */
+  forceSync?: boolean;
 };
 
 const textStyleExtensions = [
@@ -84,6 +86,7 @@ export function RichTextField({
   placeholder,
   onUpdate,
   syncContent = true,
+  forceSync = false,
 }: RichTextFieldProps) {
   const extensions = useMemo(
     () => buildExtensions(mode, placeholder),
@@ -112,18 +115,26 @@ export function RichTextField({
 
   useEffect(() => {
     if (!editor || !syncContent) return;
-    if (editor.isFocused) return;
+    if (!forceSync && editor.isFocused) return;
+
+    const incoming = content ?? "";
+    const looksLikeHtml = /<\/?[a-z][\s\S]*>/i.test(incoming);
+
+    if (!looksLikeHtml) {
+      if (incoming !== editor.getText()) {
+        editor.commands.setContent(incoming, { emitUpdate: false });
+      }
+      return;
+    }
 
     const current = editor.getHTML();
-    const incoming = content ?? "";
-
     const normalizedCurrent = current === "<p></p>" ? "" : current;
     const normalizedIncoming = incoming === "<p></p>" ? "" : incoming;
 
     if (normalizedIncoming !== normalizedCurrent) {
       editor.commands.setContent(normalizedIncoming, { emitUpdate: false });
     }
-  }, [content, editor, mode, syncContent]);
+  }, [content, editor, forceSync, mode, syncContent]);
 
   return (
     <div

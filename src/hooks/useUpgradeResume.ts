@@ -17,7 +17,7 @@ export function useUpgradeResume() {
   return useMutation({
     mutationFn: async (body: UpgradeRequestBody) => {
       const { data } = await apiClient.post<{ resume: Resume }>(
-        "/api/resumes/generate",
+        "/api/resumes/generate/sync",
         body,
       );
       return data.resume;

@@ -29,6 +29,7 @@ export function CreativeTemplate() {
       <div className="creative-accent-bar" />
       <header
         id="resume-header"
+        data-section-type="headline"
         className="scroll-mt-24 px-8 pt-8 pb-4 sm:px-10"
       >
         <EditableText

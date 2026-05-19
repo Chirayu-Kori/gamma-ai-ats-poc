@@ -145,3 +145,26 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+/* Active resume section while AI stream is writing */
+[data-streaming-highlight="true"] {
+  border-radius: 0.5rem;
+  background-color: rgb(240 249 255 / 0.92);
+  box-shadow: 0 1px 3px 0 rgb(14 165 233 / 0.12);
+  outline: 1px solid rgb(186 230 253);
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    outline-color 0.35s ease;
+}
+
+[data-section-type="headline"][data-streaming-highlight="true"] {
+  padding: 0.75rem 1rem;
+  margin-inline: -1rem;
+  margin-bottom: 0.5rem;
+}
+
+[data-section-type]:not([data-section-type="headline"])[data-streaming-highlight="true"] {
+  padding: 0.75rem;
+  margin-inline: -0.75rem;
+}

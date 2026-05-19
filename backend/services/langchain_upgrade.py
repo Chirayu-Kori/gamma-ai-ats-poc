@@ -1,4 +1,4 @@
-"""Resume upgrade — section-by-section, one-shot Gemini calls (no SSE)."""
+"""Resume upgrade — section-by-section Gemini calls with optional SSE streaming."""
 
 from __future__ import annotations
 
@@ -6,10 +6,10 @@ import asyncio
 import json
 import logging
 import os
-from typing import Any, Optional
+from typing import Any, AsyncGenerator, Optional
 
 from schemas.resume import Bullet, Resume
-from services.gemini import _generate_content_rest
+from services.gemini import _generate_content_rest, _stream_generate_content_rest
 from services.resume_topics import UpgradeSection, plan_upgrade_sections
 
 log = logging.getLogger("resume_upgrade")
@@ -150,6 +150,17 @@ def _generate_section_sync(system: str, human: str) -> str:
     )
 
 
+async def _stream_section_text(system: str, human: str) -> AsyncGenerator[str, None]:
+    async for delta in _stream_generate_content_rest(
+        user_text=human,
+        system_instruction=system,
+        temperature=0.25,
+        response_mime_type="application/json",
+        max_output_tokens=MAX_SECTION_TOKENS,
+    ):
+        yield delta
+
+
 def _apply_section(
     working: Resume, section: UpgradeSection, data: dict[str, Any]
 ) -> None:
@@ -161,6 +172,10 @@ def _apply_section(
         _apply_experience_bullets(working, section.index, data)
     elif section.kind == "project" and section.index is not None:
         _apply_project_bullets(working, section.index, data)
+
+
+def _sse(data: dict[str, Any]) -> str:
+    return f"data: {json.dumps(data, ensure_ascii=False)}\n\n"
 
 
 async def upgrade_resume(
@@ -193,3 +208,77 @@ async def upgrade_resume(
             log.warning("Section %s skipped: %s", section.section_id, exc)
 
     return working
+
+
+async def upgrade_resume_stream_sse(
+    *,
+    base_resume: Resume,
+    jd_text: Optional[str] = None,
+    target_role: Optional[str] = None,
+    instruction: Optional[str] = None,
+) -> AsyncGenerator[str, None]:
+    """Stream upgrade progress as SSE resume JSON deltas + section events."""
+
+    working = base_resume.model_copy(deep=True)
+    sections = plan_upgrade_sections(working)
+
+    if target_role and not working.headline:
+        working.headline = target_role.strip()[:200]
+
+    extra = (instruction or "").strip()
+    if extra:
+        jd_text = (jd_text or "") + f"\n\nExtra instruction: {extra}"
+
+    yield _sse({"event": "start", "total_sections": len(sections)})
+
+    for index, section in enumerate(sections):
+        yield _sse(
+            {
+                "event": "section_start",
+                "section_id": section.section_id,
+                "header": section.header,
+                "kind": section.kind,
+                "index": index,
+                "total": len(sections),
+            }
+        )
+
+        system, human = _section_prompt(section, jd_text=jd_text)
+        buffer = ""
+        try:
+            async for delta in _stream_section_text(system, human):
+                buffer += delta
+                yield _sse(
+                    {
+                        "event": "section_delta",
+                        "section_id": section.section_id,
+                        "delta": delta,
+                    }
+                )
+
+            data = _parse_section_json(buffer)
+            _apply_section(working, section, data)
+            log.info("Stream upgraded section %s", section.section_id)
+
+            yield _sse(
+                {
+                    "event": "section_done",
+                    "section_id": section.section_id,
+                    "header": section.header,
+                    "kind": section.kind,
+                    "index": index,
+                    "total": len(sections),
+                }
+            )
+        except Exception as exc:
+            log.warning("Stream section %s skipped: %s", section.section_id, exc)
+            yield _sse(
+                {
+                    "event": "section_error",
+                    "section_id": section.section_id,
+                    "error": str(exc),
+                }
+            )
+
+    yield _sse({"event": "done", "resume": working.model_dump(mode="json")})
+    yield "data: [DONE]\n\n"

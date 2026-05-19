@@ -5,7 +5,7 @@ import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "./EditableText";
 import { SortableExperienceList } from "./sortable-experience-list";
 import { SortableEducationList } from "./sortable-education-list";
-import { SkillsRow } from "./skills-row";
+import { SortableSkillsList } from "./sortable-skills-list";
 import { ProjectsList } from "./projects-list";
 import { CertificationsList } from "./certifications-list";
 import type { ResumeSectionConfig } from "@/lib/types/resume";
@@ -33,13 +33,7 @@ export function ResumeSectionContent({ section }: ResumeSectionContentProps) {
     case "education":
       return <SortableEducationList />;
     case "skills":
-      return (
-        <div className="space-y-2">
-          {(resume?.skills ?? []).map((_, index) => (
-            <SkillsRow key={index} index={index} />
-          ))}
-        </div>
-      );
+      return <SortableSkillsList />;
     case "projects":
       return <ProjectsList />;
     case "certifications":

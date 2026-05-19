@@ -67,6 +67,7 @@ export function MinimalTemplate() {
     >
       <header
         id="resume-header"
+        data-section-type="headline"
         className="mb-8 min-w-0 shrink-0 scroll-mt-24 text-center"
       >
         <EditableText

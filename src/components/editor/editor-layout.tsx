@@ -18,10 +18,12 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { RightSidebar } from "./right-sidebar";
 import { UploadCanvas } from "./upload-canvas";
-import { GenerateLoadingCanvas } from "./generate-loading-canvas";
+import { GenerateStreamCanvas } from "./generate-stream-canvas";
 import { ResumeCanvas } from "@/components/ResumeCanvas";
 import { useResumeStore } from "@/stores/resumeStore";
 import { useUploadStore } from "@/stores/uploadStore";
+import { useGenerateStore } from "@/stores/generateStore";
+import { normalizePageFormatId } from "@/lib/page-size";
 import { apiClient } from "@/lib/api-client";
 import { resumeQueryKeys } from "@/lib/query-keys";
 import type { ResumeRecord } from "@/lib/types/resume-meta";
@@ -42,6 +44,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
   const setStatus = useResumeStore((s) => s.setStatus);
   const setTheme = useResumeStore((s) => s.setTheme);
   const setTemplate = useResumeStore((s) => s.setTemplate);
+  const setPageSize = useResumeStore((s) => s.setPageSize);
   const resetUpload = useUploadStore((s) => s.reset);
   const parsedResumeId = useUploadStore((s) => s.parsedResumeId);
 
@@ -100,7 +103,18 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     if (record.theme && Object.keys(record.theme).length > 0) {
       setTheme(record.theme);
     }
-    if (record.template_id) setTemplate(record.template_id);
+    if (record.template_id) {
+      setTemplate(record.template_id);
+    }
+    if (record.theme) {
+      const t = record.theme;
+      useGenerateStore.getState().setPageSize({
+        format: normalizePageFormatId(t.pageFormat),
+        width: Number(t.pageWidth),
+        height: Number(t.pageHeight),
+        unit: t.pageUnit === "in" ? "in" : "mm",
+      });
+    }
     setStatus("editing");
     setPhase("resume");
   }, [
@@ -110,6 +124,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
     setStatus,
     setTheme,
     setTemplate,
+    setPageSize,
     resetUpload,
   ]);
 
@@ -119,6 +134,13 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 
   const handleGenerateComplete = async () => {
     setPersistError(null);
+    const gen = useGenerateStore.getState();
+    setPageSize({
+      format: gen.format,
+      width: Number(gen.pageWidth),
+      height: Number(gen.pageHeight),
+      unit: gen.pageUnit,
+    });
     const parsedId = useUploadStore.getState().parsedResumeId ?? resumeId;
     const currentResume = useResumeStore.getState().resume;
     const currentTheme = useResumeStore.getState().theme;
@@ -273,7 +295,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
         <main className="custom-scrollbar min-h-0 flex-1 overflow-y-auto bg-linear-to-b from-sky-50/80 via-slate-100/50 to-slate-100/50 p-4 sm:p-6 lg:p-8">
           {phase === "upload" && <UploadCanvas onParsed={handleParsed} />}
           {phase === "generate" && (
-            <GenerateLoadingCanvas
+            <GenerateStreamCanvas
               resumeId={resumeId}
               onComplete={handleGenerateComplete}
             />
@@ -301,7 +323,7 @@ export function EditorLayout({ resumeId }: EditorLayoutProps) {
 function PhaseBadge({ phase }: { phase: EditorPhase }) {
   const cfg: Record<EditorPhase, { label: string; className: string }> = {
     upload: { label: "Upload", className: "bg-amber-100 text-amber-700" },
-    generate: { label: "Upgrading", className: "bg-blue-100 text-blue-700" },
+    generate: { label: "Streaming", className: "bg-blue-100 text-blue-700" },
     resume: { label: "Editing", className: "bg-green-100 text-green-700" },
   };
   const c = cfg[phase];

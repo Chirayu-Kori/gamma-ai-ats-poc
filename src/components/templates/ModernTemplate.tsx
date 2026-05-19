@@ -5,7 +5,7 @@ import { getSectionTitle } from "@/lib/resume-sections";
 import { useResumeStore } from "@/stores/resumeStore";
 import { EditableText } from "@/components/editor/EditableText";
 import { ResumeDynamicSections } from "@/components/editor/resume-dynamic-sections";
-import { SkillsRow } from "@/components/editor/skills-row";
+import { SortableSkillsList } from "@/components/editor/sortable-skills-list";
 import { EditableSectionTitle } from "@/components/editor/editable-section-title";
 import type { ContactInfo } from "@/lib/types/resume";
 import "./modern-theme.css";
@@ -50,7 +50,11 @@ export function ModernTemplate() {
       style={resumeThemeToCssVars(theme)}
     >
       <aside className="modern-sidebar space-y-7 p-6">
-        <div id="resume-header" className="scroll-mt-24">
+        <div
+          id="resume-header"
+          data-section-type="headline"
+          className="scroll-mt-24"
+        >
           <EditableText
             path="name"
             mode="inline"
@@ -105,10 +109,8 @@ export function ModernTemplate() {
               sectionId={skillsSection.id}
               className="mb-2 text-xs font-semibold tracking-wider uppercase"
             />
-            <div className="space-y-2 text-sm">
-              {resume.skills.map((_, i) => (
-                <SkillsRow key={i} index={i} />
-              ))}
+            <div className="text-sm">
+              <SortableSkillsList />
             </div>
           </div>
         )}

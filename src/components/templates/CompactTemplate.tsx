@@ -21,6 +21,7 @@ export function CompactTemplate() {
     >
       <header
         id="resume-header"
+        data-section-type="headline"
         className="compact-header mb-4 scroll-mt-24 border-b pb-3"
       >
         <div className="flex flex-wrap items-baseline justify-between gap-2">

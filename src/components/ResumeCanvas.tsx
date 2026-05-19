@@ -2,15 +2,24 @@
 
 import { useEffect, useRef } from "react";
 import { FileText } from "lucide-react";
-import { TransformWrapper, TransformComponent, ReactZoomPanPinchRef } from "react-zoom-pan-pinch";
+import {
+  TransformWrapper,
+  TransformComponent,
+  ReactZoomPanPinchRef,
+} from "react-zoom-pan-pinch";
 
+import { mergeThemeDefaults, pageSizeCssVars } from "@/lib/resume-theme";
 import { useResumeStore } from "../stores/resumeStore";
+import { StreamingSectionEffects } from "./editor/streaming-section-effects";
 import { TEMPLATES } from "./templates/registry";
+import "./templates/shared-template.css";
 
 export function ResumeCanvas() {
   const templateId = useResumeStore((s) => s.selectedTemplate);
+  const theme = useResumeStore((s) => s.theme);
   const resume = useResumeStore((s) => s.resume);
   const status = useResumeStore((s) => s.status);
+  const pageVars = pageSizeCssVars(mergeThemeDefaults(theme));
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const transformRef = useRef<ReactZoomPanPinchRef>(null);
@@ -42,7 +51,7 @@ export function ResumeCanvas() {
       !resume.summary &&
       (!resume.experience || resume.experience.length === 0));
 
-  if (isEmpty && status !== "generating") {
+  if (isEmpty && status !== "generating" && status !== "streaming") {
     return (
       <div className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center shadow-sm">
         <div className="rounded-full bg-blue-50 p-4">
@@ -75,9 +84,14 @@ export function ResumeCanvas() {
       >
         <TransformComponent
           wrapperStyle={{ width: "100%", height: "100%" }}
-          contentStyle={{ width: "100%", display: "flex", justifyContent: "center" }}
+          contentStyle={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
-          <div className="w-[800px] shrink-0 p-4 md:p-8 print:w-full print:p-0">
+          <div className="resume-page-format w-full min-w-0" style={pageVars}>
+            <StreamingSectionEffects />
             <Component />
           </div>
         </TransformComponent>

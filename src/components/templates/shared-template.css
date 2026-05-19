@@ -35,3 +35,21 @@
   list-style-type: decimal;
   margin-left: 1.25rem;
 }
+
+/* Page size — dimensions from theme via CSS variables on wrapper */
+.resume-page-format {
+  width: 100%;
+}
+
+.resume-page-format .resume {
+  width: 100%;
+  max-width: var(--resume-page-width, 210mm);
+  min-height: var(--resume-page-min-height, 297mm);
+}
+
+@media print {
+  .resume-page-format .resume {
+    width: var(--resume-page-width, 210mm);
+    min-height: var(--resume-page-min-height, 297mm);
+  }
+}
