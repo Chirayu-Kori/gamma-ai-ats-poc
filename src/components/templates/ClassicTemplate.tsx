@@ -28,12 +28,14 @@ export function ClassicTemplate() {
           path="name"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="font-heading block text-3xl font-bold tracking-wide"
         />
         <EditableText
           path="headline"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="mt-2 block text-sm tracking-[0.12em] uppercase opacity-70"
         />
         <ResumeContactInline

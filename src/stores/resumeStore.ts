@@ -3,6 +3,10 @@ import { immer } from "zustand/middleware/immer";
 import { subscribeWithSelector } from "zustand/middleware";
 import { createId, ensureResumeIds } from "../lib/ensure-resume-ids";
 import { DEFAULT_SECTION_TITLES, ensureResumeSections } from "../lib/resume-sections";
+import {
+  hasCertificationsContent,
+  normalizeCertificationsField,
+} from "../lib/certifications-content";
 import { getLayoutForTemplate } from "../lib/page-layout";
 import {
   PAGE_SIZE_PRESETS,
@@ -58,6 +62,21 @@ interface ResumeState {
   reorderSkills: (fromId: string, toId: string) => void;
   reorderProjects: (fromId: string, toId: string) => void;
   reorderProjectBullets: (projIdx: number, fromId: string, toId: string) => void;
+  addBullet: (
+    section: "experience" | "projects",
+    parentIdx: number,
+    afterBulletIdx: number,
+  ) => void;
+  removeBullet: (
+    section: "experience" | "projects",
+    parentIdx: number,
+    bulletIdx: number,
+  ) => void;
+  moveBulletToTop: (
+    section: "experience" | "projects",
+    parentIdx: number,
+    bulletId: string,
+  ) => void;
   reorderSections: (fromId: string, toId: string) => void;
   reorderContact: (fromKey: ContactKey, toKey: ContactKey) => void;
   addExperience: (index: number) => void;
@@ -128,6 +147,11 @@ function ensurePathForStreamUpdate(obj: any, path: string) {
 function normalizeResume(partial: Partial<Resume>): Partial<Resume> {
   const next = ensureResumeSections(ensureResumeIds(partial));
   next.contactOrder = normalizeContactOrder(next.contactOrder);
+  if (next.certifications !== undefined && next.certifications !== null) {
+    next.certifications = normalizeCertificationsField(
+      next.certifications as string | string[] | null | undefined,
+    );
+  }
   return next;
 }
 
@@ -196,8 +220,8 @@ function ensureSectionContent(
       }
       break;
     case "certifications":
-      if (!resume.certifications?.length) {
-        resume.certifications = ["Certification name"];
+      if (!hasCertificationsContent(resume.certifications)) {
+        resume.certifications = "";
       }
       break;
     case "custom":
@@ -392,6 +416,47 @@ export const useResumeStore = create<ResumeState>()(
             const [item] = bullets.splice(oldIndex, 1);
             bullets.splice(newIndex, 0, item);
           }
+        }),
+
+      addBullet: (section, parentIdx, afterBulletIdx) =>
+        set((s) => {
+          if (!s.resume) return;
+          const bullets =
+            section === "experience"
+              ? s.resume.experience?.[parentIdx]?.bullets
+              : s.resume.projects?.[parentIdx]?.bullets;
+          if (!bullets) return;
+          const insertAt =
+            afterBulletIdx < 0 ? bullets.length : afterBulletIdx + 1;
+          bullets.splice(insertAt, 0, {
+            id: createId("bullet"),
+            text: "Enter achievement...",
+          });
+        }),
+
+      removeBullet: (section, parentIdx, bulletIdx) =>
+        set((s) => {
+          if (!s.resume) return;
+          const bullets =
+            section === "experience"
+              ? s.resume.experience?.[parentIdx]?.bullets
+              : s.resume.projects?.[parentIdx]?.bullets;
+          if (!bullets || bulletIdx < 0 || bulletIdx >= bullets.length) return;
+          bullets.splice(bulletIdx, 1);
+        }),
+
+      moveBulletToTop: (section, parentIdx, bulletId) =>
+        set((s) => {
+          if (!s.resume) return;
+          const bullets =
+            section === "experience"
+              ? s.resume.experience?.[parentIdx]?.bullets
+              : s.resume.projects?.[parentIdx]?.bullets;
+          if (!bullets) return;
+          const index = bullets.findIndex((b) => b.id === bulletId);
+          if (index <= 0) return;
+          const [item] = bullets.splice(index, 1);
+          bullets.unshift(item);
         }),
 
       reorderSections: (fromId, toId) =>

@@ -24,6 +24,7 @@ export interface Experience {
   end: string | null;
   location: string | null;
   bullets: Bullet[];
+  bulletsStyle?: "unordered" | "ordered" | null;
 }
 
 export interface Education {
@@ -50,6 +51,7 @@ export interface Project {
   url: string | null;
   tech_stack: string[];
   bullets: Bullet[];
+  bulletsStyle?: "unordered" | "ordered" | null;
 }
 
 export type ResumeSectionType =
@@ -82,6 +84,6 @@ export interface Resume {
   education: Education[];
   skills: SkillGroup[];
   projects?: Project[] | null;
-  certifications?: string[] | null;
+  certifications?: string | null;
   sections?: ResumeSectionConfig[] | null;
 }

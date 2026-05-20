@@ -95,9 +95,9 @@ def build_resume_context(
                 lines.append(f"  • {name}" + (f": {desc}" if desc else ""))
 
     if resume.certifications and editing_section_type != "certifications":
-        certs = [c.strip() for c in (resume.certifications or []) if c and c.strip()]
-        if certs:
-            lines.append("Certifications: " + "; ".join(certs[:12]))
+        body = _strip_html(resume.certifications or "")[:500]
+        if body:
+            lines.append("Certifications: " + body)
 
     if resume.sections:
         for sec in resume.sections:

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import html
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ContactInfo(BaseModel):
@@ -66,6 +67,21 @@ class ResumeSectionConfig(BaseModel):
     custom_content: Optional[str] = None
 
 
+def _normalize_certifications(value: object) -> Optional[str]:
+    if value is None:
+        return None
+    if isinstance(value, str):
+        stripped = value.strip()
+        return stripped or None
+    if isinstance(value, list):
+        items = [str(item).strip() for item in value if item and str(item).strip()]
+        if not items:
+            return None
+        li = "".join(f"<li><p>{html.escape(item)}</p></li>" for item in items)
+        return f"<ul>{li}</ul>"
+    return None
+
+
 class Resume(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -78,8 +94,13 @@ class Resume(BaseModel):
     education: list[Education] = Field(default_factory=list)
     skills: list[SkillGroup] = Field(default_factory=list)
     projects: Optional[list[Project]] = None
-    certifications: Optional[list[str]] = None
+    certifications: Optional[str] = None
     sections: Optional[list[ResumeSectionConfig]] = None
+
+    @field_validator("certifications", mode="before")
+    @classmethod
+    def normalize_certifications(cls, value: object) -> Optional[str]:
+        return _normalize_certifications(value)
 
 
 class ExperienceUpgrade(BaseModel):

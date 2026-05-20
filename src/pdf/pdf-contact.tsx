@@ -23,7 +23,7 @@ export function PdfContactInline({
   contact: ContactInfo;
   order?: ContactKey[] | null;
   styles: PdfStyles;
-  tone?: "default" | "onAccent" | "sidebar";
+  tone?: "default" | "onAccent" | "sidebar" | "left";
 }) {
   const keys = getOrderedContactKeys(contact, order);
   if (!keys.length) return null;
@@ -33,7 +33,9 @@ export function PdfContactInline({
       ? styles.contactOnAccent
       : tone === "sidebar"
         ? styles.contactSidebar
-        : styles.contact;
+        : tone === "left"
+          ? styles.contactLeft
+          : styles.contact;
 
   return <Text style={lineStyle}>{keys.map((k) => contact[k]?.trim()).filter(Boolean).join("  •  ")}</Text>;
 }

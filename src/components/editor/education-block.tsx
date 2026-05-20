@@ -2,9 +2,11 @@
 
 import { cn } from "@/lib/utils";
 import { fieldHasContent } from "@/lib/resume-field-content";
+import { shouldShowFieldInDegreeLine } from "@/lib/degree-line";
 import { useResumeStore } from "@/stores/resumeStore";
 
 import { EditableText } from "./EditableText";
+import { EditableDegreeLine } from "./editable-degree-line";
 
 const rowBetween =
   "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4";
@@ -13,19 +15,6 @@ const metaClass =
   "resume-entry-meta inline-block w-max max-w-none shrink-0 leading-tight";
 const dateGroupClass =
   "text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm font-medium leading-tight";
-
-function shouldShowField(
-  degree: string,
-  field: string | null | undefined,
-): boolean {
-  const f = field?.trim();
-  if (!f) return false;
-  const d = degree.replace(/<[^>]+>/g, "").trim().toLowerCase();
-  const normalized = f.toLowerCase();
-  if (d === normalized) return false;
-  if (d.endsWith(normalized) || d.includes(` in ${normalized}`)) return false;
-  return true;
-}
 
 function EducationDates({ index }: { index: number }) {
   const edu = useResumeStore((s) => s.resume?.education?.[index]);
@@ -64,9 +53,8 @@ function EducationDates({ index }: { index: number }) {
 
 export function EducationBlock({ index }: { index: number }) {
   const edu = useResumeStore((s) => s.resume?.education?.[index]);
-  const degree = edu?.degree ?? "";
-  const degreePlain = degree.replace(/<[^>]+>/g, "").trim();
-  const showField = shouldShowField(degreePlain, edu?.field);
+  const degreePlain = (edu?.degree ?? "").replace(/<[^>]+>/g, "").trim();
+  const showField = shouldShowFieldInDegreeLine(degreePlain, edu?.field);
   const highlights = edu?.highlights?.filter(Boolean) ?? [];
 
   const showDegreeRow =
@@ -75,7 +63,7 @@ export function EducationBlock({ index }: { index: number }) {
     fieldHasContent(edu?.gpa);
 
   return (
-    <div className="mb-2 min-w-0 space-y-0.5">
+    <div className="mb-2 min-w-0 space-y-1.5">
       <div className={rowBetween}>
         <EditableText
           path={`education.${index}.institution`}
@@ -89,32 +77,13 @@ export function EducationBlock({ index }: { index: number }) {
 
       {showDegreeRow ? (
         <div className={rowBetween}>
-          <div
+          <EditableDegreeLine
+            index={index}
             className={cn(
               primaryClass,
-              "resume-entry-degree-line text-muted-foreground min-w-0 text-sm leading-snug italic",
+              "text-muted-foreground text-sm italic",
             )}
-          >
-            <EditableText
-              path={`education.${index}.degree`}
-              mode="inline"
-              inlineWrap
-              className="inline min-w-0"
-              editorClassName="whitespace-normal leading-snug py-0"
-            />
-            {showField ? (
-              <>
-                <span className="not-italic"> in </span>
-                <EditableText
-                  path={`education.${index}.field`}
-                  mode="inline"
-                  inlineWrap
-                  className="inline min-w-0"
-                  editorClassName="whitespace-normal leading-snug py-0"
-                />
-              </>
-            ) : null}
-          </div>
+          />
           {fieldHasContent(edu?.gpa) ? (
             <EditableText
               path={`education.${index}.gpa`}

@@ -28,12 +28,14 @@ export function ExecutiveTemplate() {
           path="name"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="resume-heading block text-4xl font-black uppercase"
         />
         <EditableText
           path="headline"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="mt-2 block text-sm tracking-[0.15em] text-slate-500 uppercase"
         />
         <ResumeContactInline

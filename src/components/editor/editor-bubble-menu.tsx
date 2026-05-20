@@ -27,8 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
 import { BUBBLE_FONT_OPTIONS, TEXT_COLORS } from "@/lib/resume-theme";
 import { cn } from "@/lib/utils";
+import { useResumeStore } from "@/stores/resumeStore";
 
 type EditorBubbleMenuProps = {
   editor: Editor | null;
@@ -36,6 +38,26 @@ type EditorBubbleMenuProps = {
   fieldPath?: string;
   onFieldApply?: (html: string) => void;
 };
+
+function getBulletsStylePath(fieldPath?: string): string | null {
+  if (!fieldPath) return null;
+  const bulletMatch = fieldPath.match(
+    /^(experience|projects)\.(\d+)\.bullets\.\d+\.text$/,
+  );
+  if (bulletMatch) return `${bulletMatch[1]}.${bulletMatch[2]}.bulletsStyle`;
+
+  return null;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getByPath(obj: any, path: string): any {
+  if (!obj) return undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return path.split(".").reduce((acc: any, part) => {
+    if (acc === undefined) return undefined;
+    return acc[isNaN(Number(part)) ? part : Number(part)];
+  }, obj);
+}
 
 function MenuButton({
   onClick,
@@ -56,11 +78,12 @@ function MenuButton({
       variant="ghost"
       size="icon-xs"
       className={cn(
-        "size-8 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+        "size-8 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900",
         active && "bg-slate-200 text-slate-900",
       )}
       onClick={onClick}
       disabled={disabled}
+      onMouseDown={(e) => e.preventDefault()}
       aria-label={label}
       title={label}
     >
@@ -80,7 +103,17 @@ export function EditorBubbleMenu({
   const [showColors, setShowColors] = useState(false);
   const [showAI, setShowAI] = useState(false);
   const showAIRef = useRef(false);
+  const selectOpenRef = useRef(false);
   showAIRef.current = showAI;
+
+  const resume = useResumeStore((s) => s.resume);
+  const updateField = useResumeStore((s) => s.updateField);
+  const triggerAutosave = useDebouncedAutosave();
+  const bulletsStylePath = getBulletsStylePath(fieldPath);
+  const resumeListStyle =
+    getByPath(resume, bulletsStylePath ?? "") === "ordered"
+      ? "ordered"
+      : "unordered";
 
   useEffect(() => {
     if (!editor) return;
@@ -103,17 +136,22 @@ export function EditorBubbleMenu({
       setVisible(true);
     };
 
+    const onBlur = () => {
+      window.setTimeout(() => {
+        if (!showAIRef.current && !selectOpenRef.current) {
+          setVisible(false);
+          setShowColors(false);
+          setShowAI(false);
+        }
+      }, 0);
+    };
+
     editor.on("selectionUpdate", update);
-    editor.on("blur", () => {
-      if (!showAIRef.current) {
-        setVisible(false);
-        setShowColors(false);
-        setShowAI(false);
-      }
-    });
+    editor.on("blur", onBlur);
 
     return () => {
       editor.off("selectionUpdate", update);
+      editor.off("blur", onBlur);
     };
   }, [editor]);
 
@@ -121,18 +159,43 @@ export function EditorBubbleMenu({
 
   const canUseAI = Boolean(fieldPath && onFieldApply);
 
+  const toggleBulletList = () => {
+    if (editor.isActive("orderedList")) {
+      editor.chain().focus().toggleOrderedList().toggleBulletList().run();
+      return;
+    }
+    editor.chain().focus().toggleBulletList().run();
+  };
+
+  const toggleOrderedList = () => {
+    if (editor.isActive("bulletList")) {
+      editor.chain().focus().toggleBulletList().toggleOrderedList().run();
+      return;
+    }
+    editor.chain().focus().toggleOrderedList().run();
+  };
+
+  const setResumeListStyle = (style: "unordered" | "ordered") => {
+    if (!bulletsStylePath) return;
+    updateField(bulletsStylePath, style);
+    triggerAutosave();
+    editor.chain().focus().run();
+  };
+
   const currentColor =
     (editor.getAttributes("textStyle").color as string | undefined) ?? "";
   const currentFont =
     (editor.getAttributes("textStyle").fontFamily as string | undefined) ?? "";
+  const currentFontId =
+    BUBBLE_FONT_OPTIONS.find((font) => font.fontBody === currentFont)?.id ??
+    "default";
 
   const menu = (
     <div
       role="toolbar"
       aria-label="Text formatting"
-      className="fixed z-50 -translate-x-1/2 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg"
+      className="fixed z-50 flex w-max min-w-0 -translate-x-1/2 flex-col rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg"
       style={{ top: coords.top, left: coords.left }}
-      onMouseDown={(e) => e.preventDefault()}
     >
       <div className="flex items-center gap-0.5">
         <MenuButton
@@ -170,14 +233,34 @@ export function EditorBubbleMenu({
             <MenuButton
               label="Bullet list"
               active={editor.isActive("bulletList")}
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              onClick={toggleBulletList}
             >
               <List className="size-4" />
             </MenuButton>
             <MenuButton
               label="Numbered list"
               active={editor.isActive("orderedList")}
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              onClick={toggleOrderedList}
+            >
+              <ListOrdered className="size-4" />
+            </MenuButton>
+          </>
+        )}
+
+        {bulletsStylePath && (
+          <>
+            <div className="mx-0.5 h-6 w-px bg-slate-200" aria-hidden />
+            <MenuButton
+              label="Bullet list"
+              active={resumeListStyle === "unordered"}
+              onClick={() => setResumeListStyle("unordered")}
+            >
+              <List className="size-4" />
+            </MenuButton>
+            <MenuButton
+              label="Numbered list"
+              active={resumeListStyle === "ordered"}
+              onClick={() => setResumeListStyle("ordered")}
             >
               <ListOrdered className="size-4" />
             </MenuButton>
@@ -195,28 +278,40 @@ export function EditorBubbleMenu({
         </MenuButton>
 
         <Select
-          value={currentFont || "default"}
+          value={currentFontId}
+          onOpenChange={(open) => {
+            selectOpenRef.current = open;
+            if (!open) {
+              editor.chain().focus().run();
+            }
+          }}
           onValueChange={(value) => {
             if (value === "default") {
               editor.chain().focus().unsetFontFamily().run();
               return;
             }
-            editor.chain().focus().setFontFamily(value).run();
+            const font = BUBBLE_FONT_OPTIONS.find((option) => option.id === value);
+            if (font) {
+              editor.chain().focus().setFontFamily(font.fontBody).run();
+            }
           }}
         >
           <SelectTrigger
             className="h-8 w-[110px] border-0 bg-transparent px-2 text-xs shadow-none"
             aria-label="Font family"
+            onMouseDown={() => {
+              selectOpenRef.current = true;
+            }}
           >
             <Type className="mr-1 size-3.5 shrink-0 text-slate-500" />
             <SelectValue placeholder="Font" />
           </SelectTrigger>
-          <SelectContent align="center">
+          <SelectContent align="center" className="z-100">
             <SelectItem value="default">Default</SelectItem>
             {BUBBLE_FONT_OPTIONS.map((font) => (
               <SelectItem
                 key={font.id}
-                value={font.fontBody}
+                value={font.id}
                 style={{ fontFamily: font.fontBody }}
               >
                 {font.label}
@@ -268,11 +363,12 @@ export function EditorBubbleMenu({
       )}
 
       {showColors && (
-        <div className="mt-1.5 border-t border-slate-100 pt-1.5">
-          <div className="flex flex-wrap items-center gap-1.5 px-0.5">
+        <div className="mt-1.5 w-full border-t border-slate-100 pt-1.5">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 px-0.5">
             <button
               type="button"
               title="Reset color"
+              onMouseDown={(e) => e.preventDefault()}
               onClick={() => editor.chain().focus().unsetColor().run()}
               className={cn(
                 "flex size-6 items-center justify-center rounded-full border border-slate-200 bg-white text-[10px] font-bold text-slate-500",
@@ -286,6 +382,7 @@ export function EditorBubbleMenu({
                 key={color.id}
                 type="button"
                 title={color.label}
+                onMouseDown={(e) => e.preventDefault()}
                 onClick={() =>
                   editor.chain().focus().setColor(color.value).run()
                 }
@@ -300,6 +397,7 @@ export function EditorBubbleMenu({
             <label
               className="relative flex size-6 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed border-slate-300 bg-slate-50"
               title="Custom color"
+              onMouseDown={(e) => e.preventDefault()}
             >
               <span className="text-[10px] text-slate-500">+</span>
               <input

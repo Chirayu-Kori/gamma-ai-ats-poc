@@ -151,12 +151,75 @@
   line-height: 1.25;
 }
 
-/* Education degree + field: flow inline on the left; GPA aligns in grid right column */
-.resume-theme-base .resume-entry-degree-line > div,
+.resume-theme-base .resume-entry-date-range {
+  justify-self: end;
+  width: 100%;
+  max-width: 11rem;
+  text-align: right;
+}
+
+.resume-theme-base .resume-entry-date-range .ProseMirror {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  text-align: right;
+}
+
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-primary {
+  min-width: 0;
+  flex: 1 1 0%;
+}
+
+.resume-theme-base .resume-entry-subtitle-row > div {
+  display: block;
+  min-width: 0;
+}
+
+.resume-theme-base .resume-entry-subtitle-row > div:first-child {
+  flex: 1 1 0%;
+}
+
+.resume-theme-base .resume-entry-subtitle-row > div:last-child:not(:only-child) {
+  flex: 0 1 auto;
+  max-width: 45%;
+}
+
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-meta,
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-meta .ProseMirror {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: right;
+}
+
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-primary .ProseMirror em,
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-meta .ProseMirror em {
+  font-style: italic;
+}
+
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-primary .ProseMirror strong,
+.resume-theme-base .resume-entry-subtitle-row .resume-entry-meta .ProseMirror strong {
+  font-weight: 600;
+}
+
+/* Education degree line — single breakable field */
+.resume-theme-base .resume-entry-degree-line {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
 .resume-theme-base .resume-entry-degree-line .ProseMirror,
 .resume-theme-base .resume-entry-degree-line p {
   display: inline;
   margin: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .resume-theme-base h2 {
@@ -165,15 +228,37 @@
 }
 
 .resume-theme-base ul.list-disc,
-.resume-theme-base .resume ul {
+.resume-theme-base .resume ul:not(.list-none):not(.resume-contact):not(.resume-contact-inline):not(.resume-contact-bar):not(.resume-contact-chips):not(.resume-contact-sidebar) {
   list-style-type: disc;
   margin-left: 1.25rem;
 }
 
 .resume-theme-base ol.list-decimal,
-.resume-theme-base .resume ol {
+.resume-theme-base .resume ol:not(.list-none) {
   list-style-type: decimal;
   margin-left: 1.25rem;
+}
+
+.resume-theme-base .ProseMirror ul:not([data-type="taskList"]) {
+  list-style-type: disc;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+  padding-left: 0.25rem;
+}
+
+.resume-theme-base .ProseMirror ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  margin-left: 1.25rem;
+  padding-left: 0.25rem;
+}
+
+.resume-theme-base .ProseMirror li {
+  display: list-item;
+}
+
+.resume-theme-base .ProseMirror li p {
+  margin: 0;
 }
 
 /* Sidebar / main columns shrink correctly */

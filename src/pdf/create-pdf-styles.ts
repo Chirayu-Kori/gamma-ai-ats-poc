@@ -2,7 +2,7 @@ import { StyleSheet } from "@react-pdf/renderer";
 
 import { TEMPLATES } from "@/components/templates/registry";
 import { mergeThemeDefaults } from "@/lib/resume-theme";
-import { mapPdfFontFamily } from "./pdf-utils";
+import { mapPdfFontFamily, mixAccentBorder, mixAccentColor } from "./pdf-utils";
 
 export function createPdfStyles(theme: Record<string, string>, templateId: string) {
   const t = mergeThemeDefaults(theme);
@@ -15,12 +15,19 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
   const isExecutive = templateId === "executive";
   const isClassic = templateId === "classic";
   const isModern = templateId === "modern";
+  const isCreative = templateId === "creative" || layout === "sidebar-right";
+  const isStripe = layout === "stripe";
+  const isBandHeader = layout === "band-header";
+  const pagePaddingHorizontal =
+    isStripe || isBandHeader || isCreative ? 0 : 44;
+  const pagePaddingTop = isBandHeader || isCreative ? 0 : isStripe ? 0 : 40;
+  const pagePaddingBottom = isCreative ? 0 : 40;
 
   const base = StyleSheet.create({
     page: {
-      paddingTop: layout === "band-header" ? 0 : 40,
-      paddingBottom: 40,
-      paddingHorizontal: layout === "stripe" ? 0 : layout === "band-header" ? 0 : 44,
+      paddingTop: pagePaddingTop,
+      paddingBottom: pagePaddingBottom,
+      paddingHorizontal: pagePaddingHorizontal,
       fontFamily: bodyFont,
       fontSize: 10,
       color: t.textColor,
@@ -134,6 +141,13 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
       textAlign: "center",
       lineHeight: 1.55,
     },
+    contactLeft: {
+      fontSize: 9,
+      color: mutedText,
+      textAlign: "left",
+      lineHeight: 1.55,
+      marginTop: 4,
+    },
     contactOnAccent: {
       fontSize: 9,
       color: "#e2e8f0",
@@ -166,6 +180,63 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
       backgroundColor: t.accent,
       width: "100%",
     },
+    creativeHeader: {
+      paddingHorizontal: 36,
+      paddingTop: 28,
+      paddingBottom: 10,
+    },
+    creativeBodyColumns: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      gap: 18,
+      paddingHorizontal: 36,
+      paddingBottom: 28,
+    },
+    creativeMainColumn: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0,
+      minWidth: 0,
+    },
+    creativeSidebarColumn: {
+      width: 210,
+      flexGrow: 0,
+      flexShrink: 0,
+    },
+    creativeSidebarAsidePanel: {
+      position: "absolute",
+      right: 36,
+      width: 210,
+      top: 28,
+      bottom: 28,
+      backgroundColor: mixAccentColor(t.accent, 0.08),
+      borderWidth: 1,
+      borderColor: mixAccentBorder(t.accent, 0.2),
+      borderStyle: "solid",
+      borderRadius: 10,
+    },
+    creativeSidebarContent: {
+      width: 210,
+      paddingVertical: 18,
+      paddingHorizontal: 18,
+    },
+    creativeSidebarSectionGap: {
+      marginBottom: 14,
+    },
+    creativeSidebarSectionTitle: {
+      fontFamily: headingFont,
+      fontSize: 7,
+      fontWeight: 700,
+      color: t.accent,
+      textTransform: "uppercase",
+      letterSpacing: 0.8,
+      lineHeight: 1.35,
+      marginBottom: 6,
+    },
+    sectionSidebarInner: {
+      marginTop: 0,
+      marginBottom: 0,
+    },
     sidebarDark: {
       width: "32%",
       backgroundColor: t.sidebarColor || t.accent,
@@ -182,11 +253,12 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
       paddingHorizontal: 18,
     },
     sidebarRight: {
-      width: "30%",
+      width: "32%",
+      maxWidth: 210,
       backgroundColor: "#f1f5f9",
-      paddingVertical: 12,
-      paddingHorizontal: 14,
-      borderRadius: 6,
+      paddingVertical: 16,
+      paddingHorizontal: 16,
+      borderRadius: 8,
     },
     mainColumn: {
       flex: 1,
@@ -248,6 +320,10 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
     section: {
       marginTop: 14,
       marginBottom: 2,
+    },
+    sectionCompact: {
+      marginTop: 10,
+      marginBottom: 0,
     },
     sectionTitleWrap: {
       marginBottom: 10,
@@ -371,6 +447,69 @@ export function createPdfStyles(theme: Record<string, string>, templateId: strin
       color: t.textColor,
       lineHeight: 1.5,
       marginBottom: 8,
+    },
+    skillRow: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      width: "100%",
+      marginBottom: 6,
+    },
+    skillRowCategory: {
+      width: 128,
+      flexShrink: 0,
+      paddingRight: 12,
+    },
+    skillRowItems: {
+      flexGrow: 1,
+      flexShrink: 1,
+      flexBasis: 0,
+    },
+    skillCategoryRow: {
+      fontSize: 10,
+      fontWeight: 700,
+      color: t.headingColor,
+      lineHeight: 1.45,
+    },
+    skillItemsRow: {
+      fontSize: 9.5,
+      color: t.textColor,
+      lineHeight: 1.5,
+    },
+    skillGroupStacked: {
+      marginBottom: 8,
+    },
+    skillPillGroup: {
+      marginBottom: 10,
+    },
+    skillPillCategory: {
+      fontSize: 7.5,
+      fontWeight: 700,
+      letterSpacing: 0.6,
+      textTransform: "uppercase",
+      color: t.accent,
+      marginBottom: 5,
+    },
+    skillPillWrap: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 4,
+      width: "100%",
+    },
+    skillPill: {
+      maxWidth: "100%",
+      alignSelf: "flex-start",
+      paddingVertical: 2,
+      paddingHorizontal: 7,
+      borderRadius: 50,
+      backgroundColor: mixAccentColor(t.accent, 0.12),
+      borderWidth: 1,
+      borderColor: mixAccentBorder(t.accent, 0.22),
+      borderStyle: "solid",
+    },
+    skillPillText: {
+      fontSize: 7.5,
+      lineHeight: 1.35,
+      color: t.textColor,
     },
   });
 

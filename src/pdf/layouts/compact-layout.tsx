@@ -6,7 +6,7 @@ import type { PdfStyles } from "../create-pdf-styles";
 import { PdfContactInline } from "../pdf-contact";
 import { PdfSectionsList } from "../pdf-sections";
 import type { ResumePdfProps } from "../types";
-import { getPageSizePt } from "../pdf-utils";
+import { formatPdfInlineText, getPageSizePt } from "../pdf-utils";
 
 export function CompactPdfLayout({
   resume,
@@ -15,16 +15,14 @@ export function CompactPdfLayout({
 }: ResumePdfProps & { styles: PdfStyles }) {
   const pageSize = getPageSizePt(theme);
   const contact = (resume.contact ?? {}) as ContactInfo;
+  const name = formatPdfInlineText(resume.name);
+  const headline = formatPdfInlineText(resume.headline);
 
   return (
     <Page size={pageSize} style={styles.page} wrap>
       <View style={styles.compactHeaderRow}>
-        {resume.name?.trim() ? (
-          <Text style={styles.nameLeft}>{resume.name.trim()}</Text>
-        ) : null}
-        {resume.headline?.trim() ? (
-          <Text style={styles.headlineLeft}>{resume.headline.trim()}</Text>
-        ) : null}
+        {name ? <Text style={styles.nameLeft}>{name}</Text> : null}
+        {headline ? <Text style={styles.headlineLeft}>{headline}</Text> : null}
       </View>
       <PdfContactInline contact={contact} order={resume.contactOrder} styles={styles} />
       <PdfSectionsList resume={resume} styles={styles} compactTitles />

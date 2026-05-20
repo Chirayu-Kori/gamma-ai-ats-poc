@@ -37,12 +37,14 @@ export function CreativeTemplate() {
           path="name"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="font-heading block text-4xl font-black"
         />
         <EditableText
           path="headline"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="mt-1 block text-lg opacity-75"
         />
         <ResumeContactChips

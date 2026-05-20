@@ -5,16 +5,19 @@ import { cn } from "@/lib/utils";
 import { useResumeStore } from "@/stores/resumeStore";
 
 import { EditableText } from "./EditableText";
+import { EditableDateRange } from "./editable-date-range";
 import { BulletList } from "./BulletList";
 
 const rowHeader =
-  "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4";
-const rowSubtitle = "flex min-w-0 flex-wrap items-baseline gap-x-3";
+  "grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,11rem)] items-baseline gap-x-4";
+const rowSubtitle =
+  "resume-entry-subtitle-row flex min-w-0 items-baseline justify-between gap-x-4";
 const primaryClass = "resume-entry-primary min-w-0 leading-snug";
-const metaClass =
-  "resume-entry-meta inline-block w-max max-w-none shrink-0 leading-tight";
-const dateGroupClass =
-  "text-muted-foreground flex shrink-0 items-baseline gap-1 text-sm font-medium leading-tight";
+const subtitleTitleClass = cn(primaryClass, "min-w-0 flex-1 text-sm italic");
+const subtitleLocationClass =
+  "resume-entry-meta text-muted-foreground min-w-0 max-w-[45%] shrink-0 text-right text-sm italic leading-tight";
+const dateRangeClass =
+  "text-muted-foreground resume-entry-meta min-w-0 text-sm font-medium leading-tight";
 
 export function ExperienceBlock({ index }: { index: number }) {
   const exp = useResumeStore((s) => s.resume?.experience?.[index]);
@@ -31,23 +34,12 @@ export function ExperienceBlock({ index }: { index: number }) {
           className={cn(primaryClass, "text-base font-bold")}
           editorClassName="whitespace-normal leading-snug py-0"
         />
-        <div className={dateGroupClass}>
-          <EditableText
-            path={`experience.${index}.start`}
-            mode="inline"
-            className={metaClass}
-            editorClassName="whitespace-nowrap py-0 leading-tight"
-          />
-          <span aria-hidden className="text-muted-foreground/60 shrink-0">
-            –
-          </span>
-          <EditableText
-            path={`experience.${index}.end`}
-            mode="inline"
-            className={metaClass}
-            editorClassName="whitespace-nowrap py-0 leading-tight"
-          />
-        </div>
+        <EditableDateRange
+          startPath={`experience.${index}.start`}
+          endPath={`experience.${index}.end`}
+          className={dateRangeClass}
+          placeholder="Month YYYY – Present"
+        />
       </div>
 
       {showSubtitleRow ? (
@@ -56,17 +48,15 @@ export function ExperienceBlock({ index }: { index: number }) {
             path={`experience.${index}.title`}
             mode="inline"
             inlineWrap
-            className={cn(primaryClass, "text-sm italic")}
+            className={subtitleTitleClass}
             editorClassName="whitespace-normal leading-snug py-0"
           />
           <EditableText
             path={`experience.${index}.location`}
             mode="inline"
-            className={cn(
-              metaClass,
-              "text-muted-foreground text-sm italic",
-            )}
-            editorClassName="whitespace-nowrap py-0 leading-tight"
+            inlineWrap
+            className={subtitleLocationClass}
+            editorClassName="whitespace-normal break-words text-right leading-tight py-0"
           />
         </div>
       ) : null}

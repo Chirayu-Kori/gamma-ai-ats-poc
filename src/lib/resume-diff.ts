@@ -1,4 +1,5 @@
 import type { Resume } from "@/lib/types/resume";
+import { certificationsPlainText } from "@/lib/certifications-content";
 
 export type ChangeKind = "added" | "improved" | "missing";
 
@@ -349,11 +350,11 @@ export function computeResumeDiff(
   );
   if (projects) all.push(projects);
 
-  const certs = optionalSectionChange(
+  const certs = scalarChange(
     "certifications",
     "Certifications",
-    original?.certifications ?? undefined,
-    upgraded?.certifications ?? undefined,
+    certificationsPlainText(original?.certifications),
+    certificationsPlainText(upgraded?.certifications),
   );
   if (certs) all.push(certs);
 

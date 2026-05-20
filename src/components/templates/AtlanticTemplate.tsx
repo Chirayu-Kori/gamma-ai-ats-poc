@@ -37,12 +37,14 @@ export function AtlanticTemplate() {
             path="name"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="font-heading block text-xl leading-tight font-bold"
           />
           <EditableText
             path="headline"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="mt-1 block text-xs opacity-75"
           />
         </div>

@@ -3,30 +3,35 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, type LucideIcon } from "lucide-react";
+import type { IconType } from "react-icons";
 
 import { EditableText } from "./EditableText";
 import type { ContactKey } from "@/lib/types/resume";
 import { cn } from "@/lib/utils";
 
 export type ContactItemLayout = "inline" | "bar" | "sidebar" | "chips";
+export type ContactIconComponent = LucideIcon | IconType;
 
 type SortableContactItemProps = {
   id: ContactKey;
-  icon: LucideIcon;
+  icon: ContactIconComponent;
   label: string;
   layout: ContactItemLayout;
   showSeparator?: boolean;
   onAccent?: boolean;
+  brandIcon?: boolean;
 };
 
 function ContactIcon({
   icon: Icon,
   className,
   onAccent,
+  brandIcon = false,
 }: {
-  icon: LucideIcon;
+  icon: ContactIconComponent;
   className?: string;
   onAccent?: boolean;
+  brandIcon?: boolean;
 }) {
   return (
     <Icon
@@ -35,7 +40,7 @@ function ContactIcon({
         onAccent && "text-white/90",
         className,
       )}
-      strokeWidth={2}
+      {...(!brandIcon ? { strokeWidth: 2 } : {})}
       aria-hidden
     />
   );
@@ -48,6 +53,7 @@ export function SortableContactItem({
   layout,
   showSeparator = false,
   onAccent = false,
+  brandIcon = false,
 }: SortableContactItemProps) {
   const {
     attributes,
@@ -98,14 +104,19 @@ export function SortableContactItem({
         </div>
         <div className="min-w-0">
             <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-medium tracking-wide opacity-70 uppercase">
-              <ContactIcon icon={Icon} className="size-3" onAccent={onAccent} />
+              <ContactIcon
+                icon={Icon}
+                className="size-3"
+                onAccent={onAccent}
+                brandIcon={brandIcon}
+              />
               <span>{label}</span>
             </div>
             <EditableText
               path={`contact.${id}`}
               mode="inline"
               inlineWrap
-              className="resume-contact-value block text-sm break-words"
+              className="resume-contact-value block text-sm wrap-break-words"
               editorClassName="whitespace-normal break-words"
             />
         </div>
@@ -126,12 +137,18 @@ export function SortableContactItem({
         <div className="pointer-events-none absolute top-1/2 right-full z-20 -translate-y-1/2 pr-0.5 print:hidden">
           <div className="pointer-events-auto">{grip}</div>
         </div>
-        <ContactIcon icon={Icon} className="size-3" onAccent={onAccent} />
+        <ContactIcon
+          icon={Icon}
+          className="size-3"
+          onAccent={onAccent}
+          brandIcon={brandIcon}
+        />
         <EditableText
           path={`contact.${id}`}
           mode="inline"
-          className="resume-contact-value min-w-0 text-sm leading-none"
-          editorClassName="whitespace-nowrap py-0 leading-none"
+          inlineWrap
+          className="resume-contact-value min-w-0 text-sm leading-snug"
+          editorClassName="whitespace-normal break-words py-0 leading-snug"
         />
       </li>
     );
@@ -146,6 +163,9 @@ export function SortableContactItem({
         isDragging && "rounded-md bg-accent/30",
       )}
     >
+      <div className="pointer-events-none absolute top-1/2 right-full z-20 -translate-y-1/2 pr-0.5 print:hidden">
+        <div className="pointer-events-auto">{grip}</div>
+      </div>
       {showSeparator ? (
         <span
           className={cn(
@@ -157,8 +177,7 @@ export function SortableContactItem({
           •
         </span>
       ) : null}
-      {grip}
-      <ContactIcon icon={Icon} onAccent={onAccent} />
+      <ContactIcon icon={Icon} onAccent={onAccent} brandIcon={brandIcon} />
       <EditableText
         path={`contact.${id}`}
         mode="inline"

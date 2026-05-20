@@ -79,14 +79,15 @@ export function SkillsRow({
           {indicesToRender.map((itemIndex) => (
             <span
               key={itemIndex}
-              className="creative-skill-pill-wrap group/pill relative inline-flex shrink-0"
+              className="creative-skill-pill-wrap group/pill relative inline-flex max-w-full"
             >
-              <span className="creative-skill-pill inline-flex min-h-6 items-center whitespace-nowrap">
+              <span className="creative-skill-pill inline-flex min-h-6 max-w-full min-w-0 items-center">
                 <RichTextField
                   mode="inline"
+                  inlineWrap
                   content={items[itemIndex] ?? ""}
-                  className="creative-skill-pill-editor min-w-11 shrink-0 text-xs leading-tight"
-                  editorClassName="min-w-11 py-0 text-xs leading-tight whitespace-nowrap"
+                  className="creative-skill-pill-editor w-fit max-w-full min-w-11 text-xs leading-tight"
+                  editorClassName="min-w-11 py-0 text-xs leading-tight whitespace-normal break-words"
                   placeholder="Skill"
                   onUpdate={({ text }) => updateItem(itemIndex, text)}
                 />

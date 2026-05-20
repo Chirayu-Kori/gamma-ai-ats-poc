@@ -30,12 +30,14 @@ export function StripeTemplate() {
               path="name"
               mode="inline"
               inlineWrap
+              inlineMultiline
               className="font-heading block text-3xl font-black"
             />
             <EditableText
-              path="headline"
-              mode="inline"
-              inlineWrap
+          path="headline"
+          mode="inline"
+          inlineWrap
+          inlineMultiline
               className="mt-1 block text-base opacity-70"
             />
             <ResumeContactInline

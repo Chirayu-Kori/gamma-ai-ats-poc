@@ -37,12 +37,14 @@ export function ModernTemplate() {
             path="name"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="block text-2xl leading-tight font-black"
           />
           <EditableText
             path="headline"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="mt-1 block text-sm opacity-85"
           />
         </div>

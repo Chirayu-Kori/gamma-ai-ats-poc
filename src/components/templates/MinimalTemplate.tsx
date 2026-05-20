@@ -41,12 +41,14 @@ export function MinimalTemplate() {
           path="name"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="font-heading block text-3xl font-black tracking-tight"
         />
         <EditableText
           path="headline"
           mode="inline"
           inlineWrap
+          inlineMultiline
           className="text-muted-foreground mt-1 block text-lg"
         />
         <ResumeContactBar contact={resume.contact || ({} as ContactInfo)} />

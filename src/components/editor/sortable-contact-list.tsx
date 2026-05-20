@@ -17,15 +17,14 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
-  Code2,
   Globe,
-  Link2,
   Mail,
   MapPin,
   Phone,
-  type LucideIcon,
 } from "lucide-react";
 import { useMemo } from "react";
+import { FaGithub } from "react-icons/fa";
+import { RxLinkedinLogo } from "react-icons/rx";
 
 import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
 import {
@@ -39,18 +38,19 @@ import { cn } from "@/lib/utils";
 
 import {
   SortableContactItem,
+  type ContactIconComponent,
   type ContactItemLayout,
 } from "./sortable-contact-item";
 
 const CONTACT_META: Record<
   ContactKey,
-  { icon: LucideIcon; label: string }
+  { icon: ContactIconComponent; label: string; brandIcon?: boolean }
 > = {
   email: { icon: Mail, label: "Email" },
   phone: { icon: Phone, label: "Phone" },
   location: { icon: MapPin, label: "Location" },
-  linkedin: { icon: Link2, label: "LinkedIn" },
-  github: { icon: Code2, label: "GitHub" },
+  linkedin: { icon: RxLinkedinLogo, label: "LinkedIn", brandIcon: true },
+  github: { icon: FaGithub, label: "GitHub", brandIcon: true },
   website: { icon: Globe, label: "Website" },
 };
 
@@ -60,7 +60,7 @@ const LAYOUT_CLASS: Record<ContactItemLayout, string> = {
   bar: "resume-contact resume-contact-bar text-muted-foreground mt-3 flex list-none flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm",
   sidebar: "resume-contact resume-contact-sidebar list-none space-y-3 p-0",
   chips:
-    "resume-contact resume-contact-chips flex min-w-0 w-full list-none flex-wrap items-center gap-y-2 p-0",
+    "resume-contact resume-contact-chips flex min-w-0 w-full list-none flex-wrap items-center gap-x-3 gap-y-2 p-0",
 };
 
 type SortableContactListProps = {
@@ -141,6 +141,7 @@ export function SortableContactList({
                 layout={layout}
                 showSeparator={layout === "bar" && index > 0}
                 onAccent={onAccent}
+                brandIcon={meta.brandIcon}
               />
             );
           })}

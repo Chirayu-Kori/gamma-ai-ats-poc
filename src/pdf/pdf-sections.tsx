@@ -10,13 +10,18 @@ import type {
   SkillGroup,
 } from "@/lib/types/resume";
 
+import {
+  hasCertificationsContent,
+  normalizeCertificationsField,
+} from "@/lib/certifications-content";
+
 import type { PdfStyles } from "./create-pdf-styles";
+import { formatDegreeLine } from "@/lib/degree-line";
 import { getPdfSections } from "./section-utils";
+import { PdfRichText } from "./pdf-rich-text";
 import {
   formatDateRange,
-  joinParts,
-  splitParagraphs,
-  stripHtmlToText,
+  stripInlineHtml,
 } from "./pdf-utils";
 
 export function PdfSectionsList({
@@ -25,12 +30,14 @@ export function PdfSectionsList({
   excludeTypes,
   includeTypes,
   compactTitles = false,
+  skillsPills = false,
 }: {
   resume: Partial<Resume>;
   styles: PdfStyles;
   excludeTypes?: ResumeSectionType[];
   includeTypes?: ResumeSectionType[];
   compactTitles?: boolean;
+  skillsPills?: boolean;
 }) {
   const sections = getPdfSections(resume, { excludeTypes, includeTypes });
   return (
@@ -42,6 +49,7 @@ export function PdfSectionsList({
           resume={resume}
           styles={styles}
           compactTitle={compactTitles}
+          skillsPills={skillsPills}
         />
       ))}
     </>
@@ -53,48 +61,49 @@ export function PdfSection({
   resume,
   styles,
   compactTitle = false,
+  skillsPills = false,
+  sidebarAside = false,
 }: {
   section: ResumeSectionConfig;
   resume: Partial<Resume>;
   styles: PdfStyles;
   compactTitle?: boolean;
+  skillsPills?: boolean;
+  sidebarAside?: boolean;
 }) {
   const title = section.title?.trim();
-  const content = renderSectionContent(section, resume, styles);
+  const content = renderSectionContent(section, resume, styles, {
+    skillsStacked: compactTitle && !skillsPills,
+    skillsPills,
+  });
   if (!content) return null;
 
-  const titleTextStyle = compactTitle
-    ? styles.sectionTitleCompact
-    : styles.sectionTitleText;
+  const titleTextStyle = sidebarAside
+    ? styles.creativeSidebarSectionTitle
+    : compactTitle
+      ? styles.sectionTitleCompact
+      : styles.sectionTitleText;
+
+  const sectionStyle = sidebarAside
+    ? styles.sectionSidebarInner
+    : compactTitle
+      ? styles.sectionCompact
+      : styles.section;
 
   return (
-    <View style={styles.section} wrap>
+    <View style={sectionStyle} wrap>
       {title ? (
-        <View style={styles.sectionTitleWrap}>
+        sidebarAside ? (
           <Text style={titleTextStyle}>{title}</Text>
-          <View style={styles.sectionTitleRule} />
-        </View>
+        ) : (
+          <View style={styles.sectionTitleWrap}>
+            <Text style={titleTextStyle}>{title}</Text>
+            <View style={styles.sectionTitleRule} />
+          </View>
+        )
       ) : null}
-      <View>{content}</View>
+      <View wrap>{content}</View>
     </View>
-  );
-}
-
-function PdfParagraphs({ text, styles }: { text: string; styles: PdfStyles }) {
-  const paragraphs = splitParagraphs(stripHtmlToText(text));
-  if (!paragraphs.length) return null;
-
-  return (
-    <>
-      {paragraphs.map((paragraph, index) => (
-        <Text
-          key={`p-${index}`}
-          style={index === 0 ? styles.bodyText : styles.bodyTextSpaced}
-        >
-          {paragraph}
-        </Text>
-      ))}
-    </>
   );
 }
 
@@ -130,11 +139,12 @@ function renderSectionContent(
   section: ResumeSectionConfig,
   resume: Partial<Resume>,
   styles: PdfStyles,
+  options?: { skillsStacked?: boolean; skillsPills?: boolean },
 ) {
   switch (section.type) {
     case "summary":
       return resume.summary?.trim() ? (
-        <PdfParagraphs text={resume.summary} styles={styles} />
+        <PdfRichText html={resume.summary} styles={styles} />
       ) : null;
     case "experience":
       return (resume.experience ?? []).map((exp, i) => (
@@ -146,23 +156,30 @@ function renderSectionContent(
       ));
     case "skills":
       return (resume.skills ?? []).map((group, i) => (
-        <SkillGroupBlock key={group.id ?? `skill-${i}`} group={group} styles={styles} />
+        <SkillGroupBlock
+          key={group.id ?? `skill-${i}`}
+          group={group}
+          styles={styles}
+          stacked={options?.skillsStacked}
+          pills={options?.skillsPills}
+        />
       ));
     case "projects":
       return (resume.projects ?? []).map((project, i) => (
         <ProjectBlock key={project.id ?? `proj-${i}`} project={project} styles={styles} />
       ));
     case "certifications":
-      return (resume.certifications ?? [])
-        .filter((c) => c?.trim())
-        .map((cert, i) => (
-          <View key={`cert-${i}`} style={styles.subsection}>
-            <Text style={styles.bullet}>• {cert.trim()}</Text>
-          </View>
-        ));
+      return hasCertificationsContent(resume.certifications)
+        ? (
+            <PdfRichText
+              html={normalizeCertificationsField(resume.certifications)}
+              styles={styles}
+            />
+          )
+        : null;
     case "custom": {
       const text = section.custom_content ?? "";
-      return text ? <PdfParagraphs text={text} styles={styles} /> : null;
+      return text ? <PdfRichText html={text} styles={styles} /> : null;
     }
     default:
       return null;
@@ -175,34 +192,45 @@ function ExperienceBlock({ exp, styles }: { exp: Experience; styles: PdfStyles }
 
   return (
     <View style={styles.subsection} wrap={false}>
-      <PdfRow left={exp.company || "Company"} right={dates} styles={styles} />
+      <PdfRow
+        left={stripInlineHtml(exp.company || "Company")}
+        right={dates}
+        styles={styles}
+      />
       {exp.title?.trim() || location ? (
         <PdfRow
-          left={exp.title?.trim() || "Role"}
-          right={location}
+          left={stripInlineHtml(exp.title?.trim() || "Role")}
+          right={location ? stripInlineHtml(location) : undefined}
           styles={styles}
           variant="subtitle"
         />
       ) : null}
-      {(exp.bullets ?? []).map((bullet, i) =>
-        bullet.text?.trim() ? (
+      {(exp.bullets ?? []).map((bullet, i) => {
+        const text = stripInlineHtml(bullet.text ?? "");
+        return text ? (
           <Text key={bullet.id ?? `b-${i}`} style={styles.bullet}>
-            • {bullet.text.trim()}
+            {exp.bulletsStyle === "ordered" ? `${i + 1}.` : "•"} {text}
           </Text>
-        ) : null,
-      )}
+        ) : null;
+      })}
     </View>
   );
 }
 
 function EducationBlock({ edu, styles }: { edu: Education; styles: PdfStyles }) {
   const dates = formatDateRange(edu.start, edu.end);
-  const degreeLine = joinParts([edu.degree, edu.field], ", ");
+  const degreeLine = formatDegreeLine(edu.degree, edu.field);
 
   return (
     <View style={styles.subsection} wrap={false}>
-      <PdfRow left={edu.institution || "Institution"} right={dates} styles={styles} />
-      {degreeLine ? <Text style={styles.rowSubtitle}>{degreeLine}</Text> : null}
+      <PdfRow
+        left={stripInlineHtml(edu.institution || "Institution")}
+        right={dates}
+        styles={styles}
+      />
+      {degreeLine ? (
+        <Text style={styles.rowSubtitle}>{stripInlineHtml(degreeLine)}</Text>
+      ) : null}
       {edu.gpa?.trim() ? (
         <Text style={styles.bodyText}>GPA: {edu.gpa.trim()}</Text>
       ) : null}
@@ -217,17 +245,67 @@ function EducationBlock({ edu, styles }: { edu: Education; styles: PdfStyles }) 
   );
 }
 
-function SkillGroupBlock({ group, styles }: { group: SkillGroup; styles: PdfStyles }) {
-  const items = (group.items ?? []).filter((item) => item?.trim());
-  if (!group.category?.trim() && !items.length) return null;
+function SkillGroupBlock({
+  group,
+  styles,
+  stacked = false,
+  pills = false,
+}: {
+  group: SkillGroup;
+  styles: PdfStyles;
+  stacked?: boolean;
+  pills?: boolean;
+}) {
+  const category = stripInlineHtml(group.category ?? "").trim();
+  const items = (group.items ?? [])
+    .map((item) => stripInlineHtml(item).trim())
+    .filter(Boolean);
+
+  if (!category && !items.length) return null;
+
+  if (pills) {
+    return (
+      <View style={styles.skillPillGroup}>
+        {category ? (
+          <Text style={styles.skillPillCategory}>{category}</Text>
+        ) : null}
+        {items.length ? (
+          <View style={styles.skillPillWrap}>
+            {items.map((item, i) => (
+              <View key={`pill-${i}`} style={styles.skillPill}>
+                <Text style={styles.skillPillText}>{item}</Text>
+              </View>
+            ))}
+          </View>
+        ) : null}
+      </View>
+    );
+  }
+
+  if (stacked) {
+    return (
+      <View style={styles.skillGroupStacked} wrap={false}>
+        {category ? (
+          <Text style={styles.skillCategory}>{category}</Text>
+        ) : null}
+        {items.length ? (
+          <Text style={styles.skillItems}>{items.join(", ")}</Text>
+        ) : null}
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.subsection} wrap={false}>
-      {group.category?.trim() ? (
-        <Text style={styles.skillCategory}>{group.category.trim()}</Text>
+    <View style={styles.skillRow} wrap={false}>
+      {category ? (
+        <View style={styles.skillRowCategory}>
+          <Text style={styles.skillCategoryRow}>{category}</Text>
+        </View>
       ) : null}
       {items.length ? (
-        <Text style={styles.skillItems}>{items.join(", ")}</Text>
+        <View style={styles.skillRowItems}>
+          <Text style={styles.skillItemsRow}>{items.join(", ")}</Text>
+        </View>
       ) : null}
     </View>
   );
@@ -238,21 +316,24 @@ function ProjectBlock({ project, styles }: { project: Project; styles: PdfStyles
 
   return (
     <View style={styles.subsection} wrap={false}>
-      <Text style={styles.blockTitle}>{project.name || "Project"}</Text>
+      <Text style={styles.blockTitle}>
+        {stripInlineHtml(project.name || "Project")}
+      </Text>
       {project.description?.trim() ? (
-        <PdfParagraphs text={project.description} styles={styles} />
+        <PdfRichText html={project.description} styles={styles} />
       ) : null}
       {tech ? <Text style={styles.rowSubtitle}>{tech}</Text> : null}
       {project.url?.trim() ? (
         <Text style={styles.bodyText}>{project.url.trim()}</Text>
       ) : null}
-      {(project.bullets ?? []).map((bullet, i) =>
-        bullet.text?.trim() ? (
+      {(project.bullets ?? []).map((bullet, i) => {
+        const text = stripInlineHtml(bullet.text ?? "");
+        return text ? (
           <Text key={bullet.id ?? `pb-${i}`} style={styles.bullet}>
-            • {bullet.text.trim()}
+            {project.bulletsStyle === "ordered" ? `${i + 1}.` : "•"} {text}
           </Text>
-        ) : null,
-      )}
+        ) : null;
+      })}
     </View>
   );
 }

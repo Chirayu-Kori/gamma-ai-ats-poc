@@ -6,7 +6,7 @@ import type { PdfStyles } from "../create-pdf-styles";
 import { PdfContactInline } from "../pdf-contact";
 import { PdfSectionsList } from "../pdf-sections";
 import type { ResumePdfProps } from "../types";
-import { getPageSizePt } from "../pdf-utils";
+import { formatPdfInlineText, getPageSizePt } from "../pdf-utils";
 
 export function BandHeaderPdfLayout({
   resume,
@@ -15,16 +15,14 @@ export function BandHeaderPdfLayout({
 }: ResumePdfProps & { styles: PdfStyles }) {
   const pageSize = getPageSizePt(theme);
   const contact = (resume.contact ?? {}) as ContactInfo;
+  const name = formatPdfInlineText(resume.name);
+  const headline = formatPdfInlineText(resume.headline);
 
   return (
     <Page size={pageSize} style={styles.page} wrap>
       <View style={styles.headerBand}>
-        {resume.name?.trim() ? (
-          <Text style={styles.nameOnAccent}>{resume.name.trim()}</Text>
-        ) : null}
-        {resume.headline?.trim() ? (
-          <Text style={styles.headlineOnAccent}>{resume.headline.trim()}</Text>
-        ) : null}
+        {name ? <Text style={styles.nameOnAccent}>{name}</Text> : null}
+        {headline ? <Text style={styles.headlineOnAccent}>{headline}</Text> : null}
         <PdfContactInline
           contact={contact}
           order={resume.contactOrder}

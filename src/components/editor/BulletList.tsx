@@ -14,7 +14,12 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { ListPlus } from "lucide-react";
+
+import { useDebouncedAutosave } from "@/hooks/useDebouncedAutosave";
 import { useResumeStore } from "../../stores/resumeStore";
+import { Button } from "@/components/ui/button";
+
 import { SortableBullet } from "./SortableBullet";
 
 interface BulletListProps {
@@ -34,6 +39,17 @@ export function BulletList({
 
   const reorderExperienceBullets = useResumeStore((s) => s.reorderBullets);
   const reorderProjectBullets = useResumeStore((s) => s.reorderProjectBullets);
+  const addBullet = useResumeStore((s) => s.addBullet);
+  const removeBullet = useResumeStore((s) => s.removeBullet);
+  const moveBulletToTop = useResumeStore((s) => s.moveBulletToTop);
+  const triggerAutosave = useDebouncedAutosave();
+
+  const parent =
+    section === "experience"
+      ? resume?.experience?.[expIdx]
+      : resume?.projects?.[expIdx];
+  const listStyle =
+    parent?.bulletsStyle === "ordered" ? "ordered" : "unordered";
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -42,7 +58,10 @@ export function BulletList({
     }),
   );
 
-  if (!bullets || bullets.length === 0) return null;
+  const runAndSave = (action: () => void) => {
+    action();
+    triggerAutosave();
+  };
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -52,8 +71,28 @@ export function BulletList({
       } else {
         reorderProjectBullets(expIdx, String(active.id), String(over.id));
       }
+      triggerAutosave();
     }
   };
+
+  if (!bullets || bullets.length === 0) {
+    return (
+      <div className="mt-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 gap-1.5 text-xs text-slate-600"
+          onClick={() =>
+            runAndSave(() => addBullet(section, expIdx, -1))
+          }
+        >
+          <ListPlus className="size-3.5" />
+          Add bullet
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <DndContext
@@ -67,7 +106,7 @@ export function BulletList({
         items={bullets.map((b) => b.id!)}
         strategy={verticalListSortingStrategy}
       >
-        <ul className="mt-2 list-none space-y-1 text-sm">
+        <ul className="mt-2 list-none space-y-1 overflow-visible text-sm">
           {bullets.map((b, i) => (
             <SortableBullet
               key={b.id}
@@ -75,6 +114,15 @@ export function BulletList({
               expIdx={expIdx}
               bulletIdx={i}
               section={section}
+              listStyle={listStyle}
+              isFirst={i === 0}
+              onAddBelow={() =>
+                runAndSave(() => addBullet(section, expIdx, i))
+              }
+              onMoveToTop={() =>
+                runAndSave(() => moveBulletToTop(section, expIdx, b.id!))
+              }
+              onDelete={() => runAndSave(() => removeBullet(section, expIdx, i))}
             />
           ))}
         </ul>

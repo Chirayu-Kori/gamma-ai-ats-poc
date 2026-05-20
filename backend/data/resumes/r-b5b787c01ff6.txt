@@ -1,0 +1,820 @@
+{
+  "id": "r-b5b787c01ff6",
+  "label": "Aakash Sharma",
+  "resume": {
+    "name": "Aakash Sharma",
+    "headline": "Senior DevOps Engineer | Cloud Infrastructure | Kubernetes | CI/CD | Platform Engineering | Docker",
+    "contact": {
+      "email": "aakash.sharma@gmail.com",
+      "phone": "+91-9755537766",
+      "location": "Indore, India",
+      "linkedin": "linkedin.com/in/aakashsharma",
+      "github": "github.com/aakashsharma",
+      "website": null
+    },
+    "contact_order": [
+      "email",
+      "phone",
+      "location",
+      "github",
+      "linkedin",
+      "website"
+    ],
+    "summary": "<p>Results-driven Senior DevOps Engineer with <strong>8+ years</strong> of experience designing, automating, and optimizing mission-critical cloud infrastructure and deployment pipelines. Proven expertise in <strong>Kubernetes, Docker, Terraform, AWS, Azure, GCP, CI/CD automation, Infrastructure as Code (IaC), observability, and security best practices. Strong background in scaling distributed systems, improving deployment reliability, reducing infrastructure costs</strong>, and enabling high-availability environments. Skilled in collaborating with engineering, security, and product teams to deliver resilient and scalable infrastructure solutions in fast-paced Agile environments.</p>",
+    "experience": [
+      {
+        "id": "exp-c3807d53-90dd-4abf-a590-29a516af8858",
+        "company": "Arch Info Tech",
+        "title": "<em>Senior DevOps Engineer</em>",
+        "start": "Mar 2018",
+        "end": "Dec 2020",
+        "location": "<em>Indore, India</em>",
+        "bullets": [
+          {
+            "text": "Automated infrastructure provisioning using Terraform and Infrastructure as Code practices.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-078794b4-f0d1-4bad-a526-c28948e92c37"
+          },
+          {
+            "text": "Architected and maintained scalable Kubernetes-based infrastructure for microservices applications.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a2eed4df-02f6-4729-b240-41ee51fbc4a3"
+          },
+          {
+            "text": "Built and optimized CI/CD pipelines using Jenkins, GitHub Actions, and GitLab CI.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a1f4a344-b8a4-42c4-ae26-85f71e6a5cdb"
+          }
+        ]
+      },
+      {
+        "id": "exp-e8a34cc4-7d9f-4133-91fc-4fd5d6a305d9",
+        "company": "Initech Solutions",
+        "title": "DevOps Engineer",
+        "start": "Jan 2021",
+        "end": "May 2023",
+        "location": "Pune, India",
+        "bullets": [
+          {
+            "text": "Managed cloud infrastructure on AWS/Azure/GCP.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-23174df6-5f84-4b45-8ec4-73d379b38789"
+          },
+          {
+            "text": "Automated deployments and configuration management using Ansible and Terraform.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-8668d465-ef81-4124-ad6a-f69941d20f6e"
+          },
+          {
+            "text": "Automated manual operational tasks saving 20+ engineering hours weekly.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-899cbbde-499e-43ec-9692-f09ac983104f"
+          },
+          {
+            "text": "Improved application deployment success rate through enhanced CI/CD validation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-7e3d856a-b902-4c7a-9a61-3dcc2bf8b4eb"
+          },
+          {
+            "text": "Implemented centralized logging and monitoring for improved troubleshooting.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ecf564a0-57ea-4d88-8042-118bc903ea30"
+          }
+        ]
+      },
+      {
+        "id": "exp-a8ae39e4-e088-4cdc-8690-1c17bd87eed3",
+        "company": "SysTech Corporation",
+        "title": "System Engineer / Cloud Engineer",
+        "start": "Jun 2015",
+        "end": "Feb 2018",
+        "location": "Chennai, India",
+        "bullets": [
+          {
+            "text": "Maintained Linux servers and cloud-based environments.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-6f880990-2055-4b35-9a7d-4b47a457b5ad"
+          },
+          {
+            "text": "Assisted in infrastructure automation and deployment activities.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-6d66f595-4b92-4c45-93c6-6981e7787399"
+          },
+          {
+            "text": "Participated in troubleshooting production incidents.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a0584f25-6f3b-4025-85dc-ed613cfaca63"
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-8d2eb19a-560e-497b-a885-d194bea789db",
+        "institution": "RGPV Bhopal",
+        "degree": "Bachelor of Technology (B.Tech) in Computer Science",
+        "field": null,
+        "start": null,
+        "end": "2015",
+        "gpa": null,
+        "highlights": []
+      },
+      {
+        "id": "edu-69aba78f-32f3-44cc-84f9-2e3cde7615b0",
+        "institution": "St. Arnold's Higher Secondary School, Indore",
+        "degree": "Class 12th (HSC)",
+        "field": "Science (PCM)",
+        "start": "2010",
+        "end": "2011",
+        "gpa": "88.4%",
+        "highlights": []
+      },
+      {
+        "id": "edu-4a176c2c-bdbf-4663-8ed4-9e2f3239b3b8",
+        "institution": "St. Arnold's Higher Secondary School, Indore",
+        "degree": "Class 10th (SSC)",
+        "field": "General Science",
+        "start": "2008",
+        "end": "2009",
+        "gpa": "91.2%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-bff275c1-be43-4699-a81b-182ef8df6c03",
+        "category": "Monitoring & Observability",
+        "items": [
+          "Prometheus",
+          "Grafana",
+          "ELK Stack",
+          "Loki",
+          "Datadog",
+          "New Relic"
+        ]
+      },
+      {
+        "id": "skill-290c0223-7b92-4e68-9bf8-1e4b4e8d0b83",
+        "category": "Cloud Platforms",
+        "items": [
+          "AWS (EC2, EKS, ECS, Lambda, S3, RDS, IAM, CloudWatch)",
+          "Microsoft Azure",
+          "Google Cloud Platform (GCP)"
+        ]
+      },
+      {
+        "id": "skill-469ab766-6fca-4f69-b8ea-8c7e8c3e0675",
+        "category": "DevOps & Automation",
+        "items": [
+          "Kubernetes",
+          "Docker",
+          "Terraform",
+          "Ansible",
+          "Helm",
+          "ArgoCD",
+          "Jenkins",
+          "GitHub Actions",
+          "GitLab CI/CD"
+        ]
+      },
+      {
+        "id": "skill-7bb8c822-3242-4807-ab5a-4d42eadde01b",
+        "category": "Programming & Scripting",
+        "items": [
+          "Bash",
+          "Python",
+          "Go",
+          "YAML"
+        ]
+      },
+      {
+        "id": "skill-d9669d45-cb19-4b26-a4ec-d964483b89fc",
+        "category": "Security & Reliability",
+        "items": [
+          "DevSecOps",
+          "IAM",
+          "Secrets Management",
+          "SRE Practices",
+          "Incident Management",
+          "Disaster Recovery"
+        ]
+      },
+      {
+        "id": "skill-a26204a5-322e-4a63-876d-e1f67f8b0a73",
+        "category": "Operating Systems &amp; Networking",
+        "items": [
+          "Linux",
+          "TCP/IP",
+          "DNS",
+          "NGINX",
+          "Load Balancing"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "id": "proj-53a4b309-a87f-4023-8ad9-f7495fd11e9c",
+        "name": "Kubernetes Platform Modernization",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Kubernetes",
+          "ArgoCD"
+        ],
+        "bullets": [
+          {
+            "text": "Designed and deployed highly available Kubernetes infrastructure.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-42c60af0-64c3-48ce-a5e3-70be4213961d"
+          },
+          {
+            "text": "Implemented GitOps workflows using ArgoCD.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-e34653fe-980d-43ec-b5da-ece60ef4aea2"
+          },
+          {
+            "text": "Automated cluster provisioning and scaling.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-5e2092e1-19d1-4eb7-b1fa-f400a5c6ea87"
+          }
+        ]
+      },
+      {
+        "id": "proj-d73855c7-4488-4f43-9d7a-abb01a57fab4",
+        "name": "CI/CD Automation Framework",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Jenkins",
+          "GitHub Actions",
+          "GitLab CI/CD"
+        ],
+        "bullets": [
+          {
+            "text": "Built enterprise-grade CI/CD pipelines.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ae26108f-6c5a-4c01-869f-5337e5f63d92"
+          },
+          {
+            "text": "Integrated automated testing, security scanning, and deployment approvals.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-d46c7181-0479-4aa7-999b-2458f23d74b8"
+          },
+          {
+            "text": "Reduced release cycles from weekly to daily deployments.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-43e320c4-4cb2-4f67-bc90-c0c846b01509"
+          }
+        ]
+      },
+      {
+        "id": "proj-38561d90-ddca-4f4b-b025-9bd9cfe5fb35",
+        "name": "Cloud Cost Optimization Initiative",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "AWS",
+          "Azure",
+          "GCP"
+        ],
+        "bullets": [
+          {
+            "text": "Implemented autoscaling and rightsizing strategies.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-5f5693ec-f67a-483a-b011-6aa19ede3b69"
+          },
+          {
+            "text": "Reduced monthly cloud expenses significantly while improving performance.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ffc0e1c6-172b-48bf-b283-5cd85e96c919"
+          }
+        ]
+      }
+    ],
+    "certifications": "<ul><li><p>AWS Certified DevOps Engineer – Professional</p></li><li><p>Certified Kubernetes Administrator (CKA)</p></li><li><p>Terraform Associate Certification</p></li><li><p>Microsoft Azure Administrator Associate</p></li><li><p>Google Professional Cloud DevOps Engineer</p></li></ul><p></p>",
+    "sections": [
+      {
+        "id": "sec-summary",
+        "type": "summary",
+        "title": "Summary",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-experience",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-education",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-skills",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      },
+      {
+        "id": "sec-projects",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 4,
+        "custom_content": null
+      },
+      {
+        "id": "sec-certifications",
+        "type": "certifications",
+        "title": "Certifications",
+        "visible": true,
+        "order": 5,
+        "custom_content": null
+      }
+    ]
+  },
+  "original_resume": {
+    "name": "Aakash Sharma",
+    "headline": "Senior DevOps Engineer | Cloud Infrastructure | Kubernetes | CI/CD | Platform Engineering",
+    "contact": {
+      "email": "aakash.sharma@gmail.com",
+      "phone": "+91-9755537766",
+      "location": "Indore, India",
+      "linkedin": "linkedin.com/in/aakashsharma",
+      "github": "github.com/aakashsharma",
+      "website": null
+    },
+    "contact_order": [
+      "email",
+      "phone",
+      "location",
+      "linkedin",
+      "github",
+      "website"
+    ],
+    "summary": "Results-driven Senior DevOps Engineer with 8+ years of experience designing, automating, and optimizing mission-critical cloud infrastructure and deployment pipelines. Proven expertise in Kubernetes, Docker, Terraform, AWS, Azure, GCP, CI/CD automation, Infrastructure as Code (IaC), observability, and security best practices. Strong background in scaling distributed systems, improving deployment reliability, reducing infrastructure costs, and enabling high-availability environments. Skilled in collaborating with engineering, security, and product teams to deliver resilient and scalable infrastructure solutions in fast-paced Agile environments.",
+    "experience": [
+      {
+        "id": "exp-c3807d53-90dd-4abf-a590-29a516af8858",
+        "company": "Arch Info Tech",
+        "title": "Senior DevOps Engineer",
+        "start": "Mar 2018",
+        "end": "Present",
+        "location": "Indore, India",
+        "bullets": [
+          {
+            "text": "Architected and maintained scalable Kubernetes-based infrastructure for microservices applications.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a2eed4df-02f6-4729-b240-41ee51fbc4a3"
+          },
+          {
+            "text": "Built and optimized CI/CD pipelines using Jenkins, GitHub Actions, and GitLab CI.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a1f4a344-b8a4-42c4-ae26-85f71e6a5cdb"
+          },
+          {
+            "text": "Automated infrastructure provisioning using Terraform and Infrastructure as Code practices.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-078794b4-f0d1-4bad-a526-c28948e92c37"
+          },
+          {
+            "text": "Implemented monitoring and alerting systems using Prometheus, Grafana, and ELK Stack.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-c9716aaa-913b-4702-97e4-a9a159682cb5"
+          },
+          {
+            "text": "Collaborated with development and security teams to improve deployment reliability and compliance.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-25d046c5-354a-4545-b884-eaa52e3c3df9"
+          },
+          {
+            "text": "Led cloud migration and containerization initiatives.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-233eba26-792f-4593-aafd-6e7cc6dd2f8f"
+          },
+          {
+            "text": "Reduced deployment time by 70% through automation and optimized CI/CD workflows.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-875d3014-14b1-464d-b1b4-0dda825ede41"
+          },
+          {
+            "text": "Improved system uptime to 99.95% by implementing proactive monitoring and auto-healing mechanisms.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-d048c0cb-f94d-4d89-a8a7-42d61eb1ce05"
+          },
+          {
+            "text": "Reduced cloud infrastructure costs by 30% through resource optimization and autoscaling strategies.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-1965ff23-aa04-4af0-8fd3-9c7e0174f735"
+          },
+          {
+            "text": "Successfully managed Kubernetes clusters supporting millions of daily requests.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-b424c2a0-d873-424b-a0b4-ef6cbf900238"
+          }
+        ]
+      },
+      {
+        "id": "exp-e8a34cc4-7d9f-4133-91fc-4fd5d6a305d9",
+        "company": "Initech Solutions",
+        "title": "DevOps Engineer",
+        "start": "Jan 2021",
+        "end": "May 2023",
+        "location": "Pune, India",
+        "bullets": [
+          {
+            "text": "Managed cloud infrastructure on AWS/Azure/GCP.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-23174df6-5f84-4b45-8ec4-73d379b38789"
+          },
+          {
+            "text": "Automated deployments and configuration management using Ansible and Terraform.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-8668d465-ef81-4124-ad6a-f69941d20f6e"
+          },
+          {
+            "text": "Developed containerized environments using Docker and Kubernetes.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-fd46b54f-e7de-4945-84a9-8372c66ead33"
+          },
+          {
+            "text": "Created monitoring dashboards and incident response workflows.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-1aba74a2-a0c2-438c-b0cb-175c12a25e53"
+          },
+          {
+            "text": "Supported release management and production deployments.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-997bcf24-be19-4787-aef6-a8adf4d5c17a"
+          },
+          {
+            "text": "Automated manual operational tasks saving 20+ engineering hours weekly.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-899cbbde-499e-43ec-9692-f09ac983104f"
+          },
+          {
+            "text": "Improved application deployment success rate through enhanced CI/CD validation.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-7e3d856a-b902-4c7a-9a61-3dcc2bf8b4eb"
+          },
+          {
+            "text": "Implemented centralized logging and monitoring for improved troubleshooting.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ecf564a0-57ea-4d88-8042-118bc903ea30"
+          }
+        ]
+      },
+      {
+        "id": "exp-a8ae39e4-e088-4cdc-8690-1c17bd87eed3",
+        "company": "SysTech Corporation",
+        "title": "System Engineer / Cloud Engineer",
+        "start": "Jun 2015",
+        "end": "Feb 2018",
+        "location": "Chennai, India",
+        "bullets": [
+          {
+            "text": "Maintained Linux servers and cloud-based environments.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-6f880990-2055-4b35-9a7d-4b47a457b5ad"
+          },
+          {
+            "text": "Assisted in infrastructure automation and deployment activities.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-6d66f595-4b92-4c45-93c6-6981e7787399"
+          },
+          {
+            "text": "Supported networking, backup, and disaster recovery operations.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-c43d72c4-85e5-4694-887c-0ecac28d8081"
+          },
+          {
+            "text": "Participated in troubleshooting production incidents.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-a0584f25-6f3b-4025-85dc-ed613cfaca63"
+          }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-8d2eb19a-560e-497b-a885-d194bea789db",
+        "institution": "RGPV Bhopal",
+        "degree": "Bachelor of Technology (B.Tech) in Computer Science",
+        "field": null,
+        "start": null,
+        "end": "2015",
+        "gpa": null,
+        "highlights": []
+      },
+      {
+        "id": "edu-2060eb06-6276-4194-b93c-11108e19b72d",
+        "institution": "St. Arnold's Higher Secondary School, Indore",
+        "degree": "Class 12th (HSC)",
+        "field": "Science (PCM)",
+        "start": "2010",
+        "end": "2011",
+        "gpa": "88.4%",
+        "highlights": []
+      },
+      {
+        "id": "edu-eb7064ff-9c21-4a82-85af-d48ea2939650",
+        "institution": "St. Arnold's Higher Secondary School, Indore",
+        "degree": "Class 10th (SSC)",
+        "field": "General Science",
+        "start": "2008",
+        "end": "2009",
+        "gpa": "91.2%",
+        "highlights": []
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-290c0223-7b92-4e68-9bf8-1e4b4e8d0b83",
+        "category": "Cloud Platforms",
+        "items": [
+          "AWS (EC2, EKS, ECS, Lambda, S3, RDS, IAM, CloudWatch)",
+          "Microsoft Azure",
+          "Google Cloud Platform (GCP)"
+        ]
+      },
+      {
+        "id": "skill-469ab766-6fca-4f69-b8ea-8c7e8c3e0675",
+        "category": "DevOps & Automation",
+        "items": [
+          "Kubernetes",
+          "Docker",
+          "Terraform",
+          "Ansible",
+          "Helm",
+          "ArgoCD",
+          "Jenkins",
+          "GitHub Actions",
+          "GitLab CI/CD"
+        ]
+      },
+      {
+        "id": "skill-bff275c1-be43-4699-a81b-182ef8df6c03",
+        "category": "Monitoring & Observability",
+        "items": [
+          "Prometheus",
+          "Grafana",
+          "ELK Stack",
+          "Loki",
+          "Datadog",
+          "New Relic"
+        ]
+      },
+      {
+        "id": "skill-7bb8c822-3242-4807-ab5a-4d42eadde01b",
+        "category": "Programming & Scripting",
+        "items": [
+          "Bash",
+          "Python",
+          "Go",
+          "YAML"
+        ]
+      },
+      {
+        "id": "skill-d9669d45-cb19-4b26-a4ec-d964483b89fc",
+        "category": "Security & Reliability",
+        "items": [
+          "DevSecOps",
+          "IAM",
+          "Secrets Management",
+          "SRE Practices",
+          "Incident Management",
+          "Disaster Recovery"
+        ]
+      },
+      {
+        "id": "skill-a26204a5-322e-4a63-876d-e1f67f8b0a73",
+        "category": "Operating Systems & Networking",
+        "items": [
+          "Linux",
+          "TCP/IP",
+          "DNS",
+          "NGINX",
+          "Load Balancing"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "id": "proj-53a4b309-a87f-4023-8ad9-f7495fd11e9c",
+        "name": "Kubernetes Platform Modernization",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Kubernetes",
+          "ArgoCD"
+        ],
+        "bullets": [
+          {
+            "text": "Designed and deployed highly available Kubernetes infrastructure.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-42c60af0-64c3-48ce-a5e3-70be4213961d"
+          },
+          {
+            "text": "Implemented GitOps workflows using ArgoCD.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-e34653fe-980d-43ec-b5da-ece60ef4aea2"
+          },
+          {
+            "text": "Automated cluster provisioning and scaling.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-5e2092e1-19d1-4eb7-b1fa-f400a5c6ea87"
+          }
+        ]
+      },
+      {
+        "id": "proj-d73855c7-4488-4f43-9d7a-abb01a57fab4",
+        "name": "CI/CD Automation Framework",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "Jenkins",
+          "GitHub Actions",
+          "GitLab CI/CD"
+        ],
+        "bullets": [
+          {
+            "text": "Built enterprise-grade CI/CD pipelines.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ae26108f-6c5a-4c01-869f-5337e5f63d92"
+          },
+          {
+            "text": "Integrated automated testing, security scanning, and deployment approvals.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-d46c7181-0479-4aa7-999b-2458f23d74b8"
+          },
+          {
+            "text": "Reduced release cycles from weekly to daily deployments.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-43e320c4-4cb2-4f67-bc90-c0c846b01509"
+          }
+        ]
+      },
+      {
+        "id": "proj-38561d90-ddca-4f4b-b025-9bd9cfe5fb35",
+        "name": "Cloud Cost Optimization Initiative",
+        "description": "",
+        "url": null,
+        "tech_stack": [
+          "AWS",
+          "Azure",
+          "GCP"
+        ],
+        "bullets": [
+          {
+            "text": "Implemented autoscaling and rightsizing strategies.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-5f5693ec-f67a-483a-b011-6aa19ede3b69"
+          },
+          {
+            "text": "Reduced monthly cloud expenses significantly while improving performance.",
+            "impact_score": null,
+            "keywords": [],
+            "id": "bullet-ffc0e1c6-172b-48bf-b283-5cd85e96c919"
+          }
+        ]
+      }
+    ],
+    "certifications": "<ul><li><p>AWS Certified DevOps Engineer – Professional</p></li><li><p>Certified Kubernetes Administrator (CKA)</p></li><li><p>Terraform Associate Certification</p></li><li><p>Microsoft Azure Administrator Associate</p></li><li><p>Google Professional Cloud DevOps Engineer</p></li></ul>",
+    "sections": [
+      {
+        "id": "sec-summary",
+        "type": "summary",
+        "title": "Summary",
+        "visible": true,
+        "order": 0,
+        "custom_content": null
+      },
+      {
+        "id": "sec-experience",
+        "type": "experience",
+        "title": "Experience",
+        "visible": true,
+        "order": 1,
+        "custom_content": null
+      },
+      {
+        "id": "sec-education",
+        "type": "education",
+        "title": "Education",
+        "visible": true,
+        "order": 2,
+        "custom_content": null
+      },
+      {
+        "id": "sec-skills",
+        "type": "skills",
+        "title": "Skills",
+        "visible": true,
+        "order": 3,
+        "custom_content": null
+      },
+      {
+        "id": "sec-projects",
+        "type": "projects",
+        "title": "Projects",
+        "visible": true,
+        "order": 4,
+        "custom_content": null
+      },
+      {
+        "id": "sec-certifications",
+        "type": "certifications",
+        "title": "Certifications",
+        "visible": true,
+        "order": 5,
+        "custom_content": null
+      },
+      {
+        "id": "additional-info",
+        "type": "custom",
+        "title": "Additional Information",
+        "visible": true,
+        "order": 6,
+        "custom_content": "<ul><li>Strong understanding of Agile/Scrum methodologies</li><li>Experience with high-availability and distributed systems</li><li>Excellent troubleshooting and incident management skills</li><li>Strong communication and leadership abilities</li><li>Available for remote and hybrid work opportunities</li></ul>"
+      }
+    ]
+  },
+  "theme": {
+    "accent": "#059669",
+    "textColor": "#1e293b",
+    "headingColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "sidebarColor": "#059669",
+    "fontHeading": "\"Inter\", sans-serif",
+    "fontBody": "\"Inter\", sans-serif",
+    "pageLayout": "sidebar-left",
+    "pageFormat": "A4",
+    "pageWidth": "210",
+    "pageHeight": "297",
+    "pageUnit": "mm",
+    "iconColor": "#059669"
+  },
+  "template_id": "modern",
+  "source_text": "# YOUR NAME\n\nSenior DevOps Engineer | Cloud Infrastructure | Kubernetes | CI/CD | Platform Engineering\n\n📍 City, Country\n📧 [your.email@example.com](mailto:your.email@example.com) | 📞 +91-XXXXXXXXXX\n🔗 LinkedIn: linkedin.com/in/yourprofile\n🔗 GitHub: github.com/yourprofile\n\n---\n\n# PROFESSIONAL SUMMARY\n\nResults-driven Senior DevOps Engineer with 8+ years of experience designing, automating, and optimizing mission-critical cloud infrastructure and deployment pipelines. Proven expertise in Kubernetes, Docker, Terraform, AWS, Azure, GCP, CI/CD automation, Infrastructure as Code (IaC), observability, and security best practices. Strong background in scaling distributed systems, improving deployment reliability, reducing infrastructure costs, and enabling high-availability environments.\n\nSkilled in collaborating with engineering, security, and product teams to deliver resilient and scalable infrastructure solutions in fast-paced Agile environments.\n\n---\n\n# CORE SKILLS\n\n## Cloud Platforms\n\n* AWS (EC2, EKS, ECS, Lambda, S3, RDS, IAM, CloudWatch)\n* Microsoft Azure\n* Google Cloud Platform (GCP)\n\n## DevOps & Automation\n\n* Kubernetes\n* Docker\n* Terraform\n* Ansible\n* Helm\n* ArgoCD\n* Jenkins\n* GitHub Actions\n* GitLab CI/CD\n\n## Monitoring & Observability\n\n* Prometheus\n* Grafana\n* ELK Stack\n* Loki\n* Datadog\n* New Relic\n\n## Programming & Scripting\n\n* Bash\n* Python\n* Go\n* YAML\n\n## Security & Reliability\n\n* DevSecOps\n* IAM\n* Secrets Management\n* SRE Practices\n* Incident Management\n* Disaster Recovery\n\n## Operating Systems & Networking\n\n* Linux\n* TCP/IP\n* DNS\n* NGINX\n* Load Balancing\n\n---\n\n# PROFESSIONAL EXPERIENCE\n\n## Senior DevOps Engineer\n\nCOMPANY NAME — Location\nMonth YYYY – Present\n\n### Key Responsibilities\n\n* Architected and maintained scalable Kubernetes-based infrastructure for microservices applications.\n* Built and optimized CI/CD pipelines using Jenkins, GitHub Actions, and GitLab CI.\n* Automated infrastructure provisioning using Terraform and Infrastructure as Code practices.\n* Implemented monitoring and alerting systems using Prometheus, Grafana, and ELK Stack.\n* Collaborated with development and security teams to improve deployment reliability and compliance.\n* Led cloud migration and containerization initiatives.\n\n### Achievements\n\n* Reduced deployment time by 70% through automation and optimized CI/CD workflows.\n* Improved system uptime to 99.95% by implementing proactive monitoring and auto-healing mechanisms.\n* Reduced cloud infrastructure costs by 30% through resource optimization and autoscaling strategies.\n* Successfully managed Kubernetes clusters supporting millions of daily requests.\n\n---\n\n## DevOps Engineer\n\nCOMPANY NAME — Location\nMonth YYYY – Month YYYY\n\n### Key Responsibilities\n\n* Managed cloud infrastructure on AWS/Azure/GCP.\n* Automated deployments and configuration management using Ansible and Terraform.\n* Developed containerized environments using Docker and Kubernetes.\n* Created monitoring dashboards and incident response workflows.\n* Supported release management and production deployments.\n\n### Achievements\n\n* Automated manual operational tasks saving 20+ engineering hours weekly.\n* Improved application deployment success rate through enhanced CI/CD validation.\n* Implemented centralized logging and monitoring for improved troubleshooting.\n\n---\n\n## System Engineer / Cloud Engineer\n\nCOMPANY NAME — Location\nMonth YYYY – Month YYYY\n\n### Responsibilities\n\n* Maintained Linux servers and cloud-based environments.\n* Assisted in infrastructure automation and deployment activities.\n* Supported networking, backup, and disaster recovery operations.\n* Participated in troubleshooting production incidents.\n\n---\n\n# PROJECTS\n\n## Kubernetes Platform Modernization\n\n* Designed and deployed highly available Kubernetes infrastructure.\n* Implemented GitOps workflows using ArgoCD.\n* Automated cluster provisioning and scaling.\n\n## CI/CD Automation Framework\n\n* Built enterprise-grade CI/CD pipelines.\n* Integrated automated testing, security scanning, and deployment approvals.\n* Reduced release cycles from weekly to daily deployments.\n\n## Cloud Cost Optimization Initiative\n\n* Implemented autoscaling and rightsizing strategies.\n* Reduced monthly cloud expenses significantly while improving performance.\n\n---\n\n# EDUCATION\n\nBachelor of Technology (B.Tech) / Master’s Degree\nUniversity Name — Year\n\n---\n\n# CERTIFICATIONS\n\n* AWS Certified DevOps Engineer – Professional\n* Certified Kubernetes Administrator (CKA)\n* Terraform Associate Certification\n* Microsoft Azure Administrator Associate\n* Google Professional Cloud DevOps Engineer\n\n---\n\n# TOOLS & TECHNOLOGIES\n\nKubernetes | Docker | Terraform | AWS | Azure | GCP | Jenkins | GitHub Actions | GitLab CI/CD | ArgoCD | Helm | Ansible | Linux | Python | Bash | Prometheus | Grafana | ELK Stack | NGINX | Datadog | Splunk\n\n---\n\n# ADDITIONAL INFORMATION\n\n* Strong understanding of Agile/Scrum methodologies\n* Experience with high-availability and distributed systems\n* Excellent troubleshooting and incident management skills\n* Strong communication and leadership abilities\n* Available for remote and hybrid work opportunities",
+  "jd_text": null,
+  "created_at": "2026-05-20T10:29:01.562939+00:00",
+  "updated_at": "2026-05-20T13:46:44.748525+00:00"
+}

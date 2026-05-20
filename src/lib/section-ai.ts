@@ -1,4 +1,5 @@
 import type { Resume, ResumeSectionConfig } from "@/lib/types/resume";
+import { certificationsPlainText, hasCertificationsContent } from "@/lib/certifications-content";
 import { findSectionIndex } from "@/lib/resume-sections";
 
 function stripHtml(text: string): string {
@@ -92,9 +93,12 @@ export function buildResumeContextText(
     }
   }
 
-  if (resume.certifications?.length && editingType !== "certifications") {
-    const certs = resume.certifications.filter(Boolean).slice(0, 12);
-    if (certs.length) lines.push(`Certifications: ${certs.join("; ")}`);
+  if (
+    hasCertificationsContent(resume.certifications) &&
+    editingType !== "certifications"
+  ) {
+    const text = certificationsPlainText(resume.certifications).slice(0, 500);
+    if (text) lines.push(`Certifications: ${text}`);
   }
 
   if (options?.editingSectionType) {
@@ -268,11 +272,13 @@ export function getSectionFieldSnapshots(
       });
 
     case "certifications":
-      return (resume.certifications ?? []).map((cert, i) => ({
-        path: `certifications.${i}`,
-        label: `Certification ${i + 1}`,
-        content: cert ?? "",
-      }));
+      return [
+        {
+          path: "certifications",
+          label: "Certifications",
+          content: resume.certifications ?? "",
+        },
+      ];
 
     case "custom":
       if (sectionIndex < 0) return [];

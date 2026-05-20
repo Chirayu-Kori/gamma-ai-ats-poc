@@ -10,6 +10,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
+import HardBreak from "@tiptap/extension-hard-break";
 import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { FontFamily } from "@tiptap/extension-font-family";
@@ -20,6 +21,19 @@ import { cn } from "@/lib/utils";
 
 const InlineDocument = Document.extend({
   content: "text*",
+});
+
+const InlineMultilineDocument = Document.extend({
+  content: "inline*",
+});
+
+const MultilineHardBreak = HardBreak.extend({
+  addKeyboardShortcuts() {
+    return {
+      Enter: () => this.editor.commands.setHardBreak(),
+      "Shift-Enter": () => this.editor.commands.setHardBreak(),
+    };
+  },
 });
 
 export type RichTextFieldProps = {
@@ -38,6 +52,8 @@ export type RichTextFieldProps = {
   onFieldApply?: (html: string) => void;
   /** Allow inline text to wrap (section titles, contact fields) */
   inlineWrap?: boolean;
+  /** Allow Enter / Shift+Enter line breaks within inline fields (e.g. name) */
+  inlineMultiline?: boolean;
 };
 
 const textStyleExtensions = [
@@ -46,10 +62,14 @@ const textStyleExtensions = [
   FontFamily.configure({ types: ["textStyle"] }),
 ];
 
-function buildExtensions(mode: "inline" | "block", placeholder?: string) {
+function buildExtensions(
+  mode: "inline" | "block",
+  placeholder?: string,
+  inlineMultiline?: boolean,
+) {
   if (mode === "inline") {
-    return [
-      InlineDocument,
+    const extensions = [
+      inlineMultiline ? InlineMultilineDocument : InlineDocument,
       Text,
       ...textStyleExtensions,
       Bold,
@@ -58,6 +78,12 @@ function buildExtensions(mode: "inline" | "block", placeholder?: string) {
       Strike,
       History,
     ];
+
+    if (inlineMultiline) {
+      extensions.push(MultilineHardBreak.configure({ keepMarks: true }));
+    }
+
+    return extensions;
   }
 
   return [
@@ -95,10 +121,11 @@ export function RichTextField({
   fieldPath,
   onFieldApply,
   inlineWrap = false,
+  inlineMultiline = false,
 }: RichTextFieldProps) {
   const extensions = useMemo(
-    () => buildExtensions(mode, placeholder),
-    [mode, placeholder],
+    () => buildExtensions(mode, placeholder, inlineMultiline),
+    [inlineMultiline, mode, placeholder],
   );
 
   const baseEditorClass =
@@ -135,7 +162,11 @@ export function RichTextField({
 
     if (!looksLikeHtml) {
       if (incoming !== editor.getText()) {
-        editor.commands.setContent(incoming, { emitUpdate: false });
+        const nextContent =
+          inlineMultiline && incoming.includes("\n")
+            ? incoming.replace(/\n/g, "<br>")
+            : incoming;
+        editor.commands.setContent(nextContent, { emitUpdate: false });
       }
       return;
     }
@@ -147,12 +178,16 @@ export function RichTextField({
     if (normalizedIncoming !== normalizedCurrent) {
       editor.commands.setContent(normalizedIncoming, { emitUpdate: false });
     }
-  }, [content, editor, forceSync, mode, syncContent]);
+  }, [content, editor, forceSync, inlineMultiline, mode, syncContent]);
 
   return (
     <div
       className={cn(
-        mode === "inline" ? "inline-block max-w-full" : "w-full min-w-0",
+        mode === "inline"
+          ? inlineWrap
+            ? "block w-full min-w-0"
+            : "inline-block max-w-full"
+          : "w-full min-w-0",
         className,
       )}
     >

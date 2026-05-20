@@ -1,4 +1,5 @@
 import { createId } from "./ensure-resume-ids";
+import { hasCertificationsContent } from "./certifications-content";
 import type {
   Resume,
   ResumeSectionConfig,
@@ -113,7 +114,7 @@ export function hasSectionContent(
     case "projects":
       return (resume.projects?.length ?? 0) > 0;
     case "certifications":
-      return (resume.certifications?.length ?? 0) > 0;
+      return hasCertificationsContent(resume.certifications);
     case "custom":
       return false;
     default:

@@ -8,7 +8,6 @@ import { SortableEducationList } from "./sortable-education-list";
 import { SortableSkillsList } from "./sortable-skills-list";
 import type { SkillsRowVariant } from "./skills-row";
 import { ProjectsList } from "./projects-list";
-import { CertificationsList } from "./certifications-list";
 import type { ResumeSectionConfig } from "@/lib/types/resume";
 
 type ResumeSectionContentProps = {
@@ -43,7 +42,14 @@ export function ResumeSectionContent({
     case "projects":
       return <ProjectsList />;
     case "certifications":
-      return <CertificationsList />;
+      return (
+        <EditableText
+          path="certifications"
+          mode="block"
+          className="text-sm leading-relaxed"
+          placeholder="List certifications, licenses, or credentials..."
+        />
+      );
     case "custom":
       if (sectionIndex < 0) return null;
       return (

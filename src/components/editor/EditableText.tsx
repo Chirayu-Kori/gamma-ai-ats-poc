@@ -21,6 +21,7 @@ interface EditableTextProps {
   editorClassName?: string;
   placeholder?: string;
   inlineWrap?: boolean;
+  inlineMultiline?: boolean;
 }
 
 export function EditableText({
@@ -30,6 +31,7 @@ export function EditableText({
   editorClassName,
   placeholder,
   inlineWrap,
+  inlineMultiline,
 }: EditableTextProps) {
   const resume = useResumeStore((s) => s.resume);
   const status = useResumeStore((s) => s.status);
@@ -54,6 +56,7 @@ export function EditableText({
       className={className}
       editorClassName={editorClassName ?? className}
       inlineWrap={inlineWrap}
+      inlineMultiline={inlineMultiline}
       placeholder={placeholder}
       onFieldApply={(html) => {
         if (status === "streaming") return;

@@ -7,7 +7,7 @@ import { PdfContactSidebar } from "../pdf-contact";
 import { PdfSection, PdfSectionsList } from "../pdf-sections";
 import { findPdfSection } from "../section-utils";
 import type { ResumePdfProps } from "../types";
-import { getPageSizePt } from "../pdf-utils";
+import { formatPdfInlineText, getPageSizePt } from "../pdf-utils";
 
 export function SidebarLeftPdfLayout({
   resume,
@@ -19,17 +19,15 @@ export function SidebarLeftPdfLayout({
   const contact = (resume.contact ?? {}) as ContactInfo;
   const isModern = templateId === "modern";
   const skillsSection = findPdfSection(resume, "skills");
+  const name = formatPdfInlineText(resume.name);
+  const headline = formatPdfInlineText(resume.headline);
 
   return (
     <Page size={pageSize} style={styles.page} wrap>
       <View style={styles.pageRow}>
         <View style={isModern ? styles.sidebarDark : styles.sidebarLight}>
-          {resume.name?.trim() ? (
-            <Text style={styles.nameSidebar}>{resume.name.trim()}</Text>
-          ) : null}
-          {resume.headline?.trim() ? (
-            <Text style={styles.headlineSidebar}>{resume.headline.trim()}</Text>
-          ) : null}
+          {name ? <Text style={styles.nameSidebar}>{name}</Text> : null}
+          {headline ? <Text style={styles.headlineSidebar}>{headline}</Text> : null}
           <PdfContactSidebar
             contact={contact}
             order={resume.contactOrder}

@@ -28,12 +28,14 @@ export function CompactTemplate() {
             path="name"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="font-heading min-w-0 text-xl font-bold"
           />
           <EditableText
             path="headline"
             mode="inline"
             inlineWrap
+            inlineMultiline
             className="min-w-0 text-xs font-medium tracking-wide uppercase opacity-70"
           />
         </div>

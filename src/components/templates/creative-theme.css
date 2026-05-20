@@ -35,18 +35,22 @@
 .creative-theme .creative-chip {
   display: flex;
   width: 100%;
+  min-width: 0;
+  min-height: auto;
+  flex-wrap: wrap;
   align-items: center;
-  align-content: center;
-  justify-content: space-between;
-  min-height: 2.75rem;
-  padding-inline: 0.75rem;
-  gap: 0;
+  align-content: flex-start;
+  justify-content: flex-start;
+  gap: 0.625rem 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--color-accent) 12%, var(--color-bg));
   color: var(--color-text);
 }
 
 .creative-theme .resume-contact-chips > li {
   align-items: center;
+  max-width: 100%;
 }
 
 .creative-theme .resume-contact-chips .resume-contact-value {
@@ -66,19 +70,26 @@
 .creative-theme .resume-contact-chips .resume-contact-value .ProseMirror p {
   display: inline;
   margin: 0;
-  white-space: nowrap;
-  overflow-wrap: normal;
+  white-space: normal;
+  overflow-wrap: anywhere;
   word-break: normal;
   padding: 0;
-  line-height: 1.25;
+  line-height: 1.35;
 }
 
 .creative-theme .creative-skills-category {
   color: var(--color-accent);
 }
 
+.creative-theme .creative-skills-pills {
+  min-width: 0;
+}
+
 .creative-theme .creative-skill-pill-wrap {
   position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  width: max-content;
   margin-top: 0.2rem;
   margin-right: 0.35rem;
 }
@@ -86,10 +97,10 @@
 .creative-theme .creative-skill-pill:not(.creative-skill-pill-add) {
   display: inline-flex;
   align-items: center;
-  width: max-content;
-  max-width: none;
-  flex-shrink: 0;
-  white-space: nowrap;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
   border-radius: 9999px;
   padding: 0.2rem 0.65rem;
   font-size: 0.75rem;
@@ -102,11 +113,10 @@
 
 .creative-theme .creative-skill-pill-editor,
 .creative-theme .creative-skill-pill-editor > div {
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
   min-width: 2.75rem;
-  width: max-content;
-  max-width: none;
 }
 
 .creative-theme .creative-skill-pill .ProseMirror,
@@ -115,9 +125,9 @@
   margin: 0;
   min-width: 2.75rem;
   width: auto;
-  max-width: none;
-  white-space: nowrap;
-  overflow-wrap: normal;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
   word-break: normal;
   padding: 0 !important;
   line-height: 1.25;

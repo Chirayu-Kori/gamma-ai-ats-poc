@@ -6,7 +6,7 @@ import type { PdfStyles } from "../create-pdf-styles";
 import { PdfContactInline } from "../pdf-contact";
 import { PdfSectionsList } from "../pdf-sections";
 import type { ResumePdfProps } from "../types";
-import { getPageSizePt } from "../pdf-utils";
+import { formatPdfInlineText, getPageSizePt } from "../pdf-utils";
 
 export function StripePdfLayout({
   resume,
@@ -15,6 +15,8 @@ export function StripePdfLayout({
 }: ResumePdfProps & { styles: PdfStyles }) {
   const pageSize = getPageSizePt(theme);
   const contact = (resume.contact ?? {}) as ContactInfo;
+  const name = formatPdfInlineText(resume.name);
+  const headline = formatPdfInlineText(resume.headline);
 
   return (
     <Page size={pageSize} style={styles.page} wrap>
@@ -22,11 +24,9 @@ export function StripePdfLayout({
         <View style={styles.stripeBar} />
         <View style={styles.stripeContent}>
           <View style={styles.headerLeft}>
-            {resume.name?.trim() ? (
-              <Text style={styles.nameAlignLeft}>{resume.name.trim()}</Text>
-            ) : null}
-            {resume.headline?.trim() ? (
-              <Text style={styles.headlineAlignLeft}>{resume.headline.trim()}</Text>
+            {name ? <Text style={styles.nameAlignLeft}>{name}</Text> : null}
+            {headline ? (
+              <Text style={styles.headlineAlignLeft}>{headline}</Text>
             ) : null}
             <PdfContactInline
               contact={contact}

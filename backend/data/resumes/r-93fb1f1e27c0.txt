@@ -12,6 +12,14 @@
       "github": "https://github.com/AryanGupta1211/",
       "website": null
     },
+    "contact_order": [
+      "email",
+      "location",
+      "phone",
+      "github",
+      "linkedin",
+      "website"
+    ],
     "summary": "Developed and deployed robust Python backend services for AI/ML solutions, engineering RESTful APIs and database integrations to power RAG-based chatbots. Prototyped Generative AI applications, including advanced chatbots, and built an ML-based recommendation engine to enhance user experience.",
     "experience": [
       {
@@ -85,6 +93,7 @@
     ],
     "skills": [
       {
+        "id": "skill-52ece8af-cd78-4435-99f3-8912494c57db",
         "category": "Technical",
         "items": [
           "Python",
@@ -120,6 +129,7 @@
         ]
       },
       {
+        "id": "skill-fc6667af-9052-44b6-827f-539c6bad0606",
         "category": "Soft",
         "items": [
           "Problem-solving",
@@ -134,6 +144,7 @@
         ]
       },
       {
+        "id": "skill-ffa5dbbe-293a-49ee-aabb-ed67527fc0ae",
         "category": "Other",
         "items": [
           "100 Days of Code: Complete Python Bootcamp",
@@ -146,6 +157,7 @@
     ],
     "projects": [
       {
+        "id": "proj-efc8f270-1b9a-4382-b0d5-1b3a242734b2",
         "name": "CareerxIQ.ai (AI-powered HRMS)",
         "description": "Led end-to-end backend development of an AI-driven HRMS platform, implementing modules for automated Resume Parsing, AI Interviewing, and context-aware JD generation.",
         "url": null,
@@ -182,6 +194,7 @@
         ]
       },
       {
+        "id": "proj-dfb6b6a7-7b52-4f27-aeef-c697563313a2",
         "name": "Document Intelligence Portal",
         "description": "Developed a production-ready RAG platform with advanced backend modules and a robust LLMOps pipeline.",
         "url": null,
@@ -226,6 +239,7 @@
         ]
       },
       {
+        "id": "proj-c8e4d3f7-0413-495c-9cc3-76c81d4bdbc3",
         "name": "Agentic Research Assistant",
         "description": "Architected and implemented an agentic research assistant with advanced multi-agent orchestration, real-time knowledge retrieval, and human-in-the-loop feedback for autonomous report generation.",
         "url": null,
@@ -335,6 +349,7 @@
       "github": "https://github.com/AryanGupta1211/",
       "website": null
     },
+    "contact_order": null,
     "summary": "AI/ML Engineer with 1.5+ years of experience (including projects) in building and deploying production-grade Generative AI, LLM, and Deep Learning solutions. Strong proficiency in Python backend development, designing and implementing robust RESTful APIs with FastAPI, and managing database interactions (MySQL, SQL Server). Expertise extends to containerized cloud deployments on AWS, Git for version control, and contributing to high-performance, scalable backend services.",
     "experience": [
       {
@@ -408,6 +423,7 @@
     ],
     "skills": [
       {
+        "id": null,
         "category": "Technical",
         "items": [
           "Python",
@@ -443,6 +459,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Soft",
         "items": [
           "Problem-solving",
@@ -457,6 +474,7 @@
         ]
       },
       {
+        "id": null,
         "category": "Other",
         "items": [
           "100 Days of Code: Complete Python Bootcamp",
@@ -469,6 +487,7 @@
     ],
     "projects": [
       {
+        "id": null,
         "name": "CareerxIQ.ai (AI-powered HRMS)",
         "description": "",
         "url": null,
@@ -511,6 +530,7 @@
         ]
       },
       {
+        "id": null,
         "name": "Document Intelligence Portal",
         "description": "",
         "url": null,
@@ -555,6 +575,7 @@
         ]
       },
       {
+        "id": null,
         "name": "Agentic Research Assistant",
         "description": "",
         "url": null,
@@ -611,11 +632,16 @@
     "backgroundColor": "#ffffff",
     "sidebarColor": "#2563eb",
     "fontHeading": "\"Inter\", sans-serif",
-    "fontBody": "\"Inter\", sans-serif"
+    "fontBody": "\"Inter\", sans-serif",
+    "pageLayout": "single",
+    "pageFormat": "Legal",
+    "pageWidth": "8.5",
+    "pageHeight": "14",
+    "pageUnit": "in"
   },
   "template_id": "minimal",
   "source_text": null,
   "jd_text": null,
   "created_at": "2026-05-19T08:33:18.310564+00:00",
-  "updated_at": "2026-05-19T08:36:14.652094+00:00"
+  "updated_at": "2026-05-20T08:25:05.713283+00:00"
 }
