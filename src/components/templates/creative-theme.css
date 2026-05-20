@@ -7,6 +7,8 @@
     var(--color-accent),
     color-mix(in srgb, var(--color-accent) 60%, #ffffff)
   );
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
 }
 
 .creative-theme .creative-section-title {

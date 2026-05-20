@@ -4,6 +4,8 @@
   background: var(--color-sidebar);
   color: white;
   overflow-x: visible;
+  border-top-left-radius: var(--radius-sm);
+  border-bottom-left-radius: var(--radius-sm);
 }
 
 .modern-theme .modern-sidebar-heading {

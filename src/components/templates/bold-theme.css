@@ -2,6 +2,8 @@
 
 .bold-theme .bold-header {
   background: var(--color-accent);
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
 }
 
 .bold-theme h2 {
